@@ -34,7 +34,8 @@ public class TestBot1 extends DefaultBWListener {
 
     
     public void onEnd() {
-    	FileOutputStream qtable;
+    	mybot.end();
+    	/*FileOutputStream qtable;
 		try {
 			qtable = new FileOutputStream("path.out");
 			ObjectOutputStream oos = new ObjectOutputStream(qtable);
@@ -43,17 +44,17 @@ public class TestBot1 extends DefaultBWListener {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
     }
     
     private double[][] loadQTable() {
 		try {
-			FileInputStream fin = new FileInputStream("path.out");
+			FileInputStream fin = new FileInputStream("inputTable.txt");
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			mybot.q = (double[][]) ois.readObject();
 			ois.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			System.out.println("File nao abriu");
 			e.printStackTrace();
 		}
 		
@@ -89,7 +90,8 @@ public class TestBot1 extends DefaultBWListener {
     private void init() {
 		//loadMatchs();
 		match++;
-		mybot.init((double[][]) loadQTable());
+		//mybot.init((double[][]) mybot.loadQTable());
+		mybot.init();
 	}
     
     private Object getState(Unit myUnit){
@@ -126,14 +128,27 @@ public class TestBot1 extends DefaultBWListener {
 					contnumberOfEnemyUnitsThatCanBeAttacked++;
 			}
 			actionToPerform = mybot.step1(myUnit.getHitPoints(),contHpLife,contnumberOfEnemyUnitsThatCanBeAttacked,contnumberOfEnemyUnitsThatCanAttackMe);
-			if(actionToPerform.equals(Actions.ATTACK)){
+			//actionToPerform.toString().equals(Actions.ATTACK.getName())
+			//if(actionToPerform.equals(Actions.ATTACK.getName())){
+			if(actionToPerform.toString().equals(Actions.ATTACK.getName())){
 				attckOrExploreOrFleeMark = attack(myUnit);
-			}else if(actionToPerform.equals(Actions.EXPLORE)){
+			}else if(actionToPerform.toString().equals(Actions.EXPLORE.getName())){
 				attckOrExploreOrFleeMark = explore(myUnit);
 			}else{
 				attckOrExploreOrFleeMark = flee(myUnit);
 			}
-			mybot.step2(attckOrExploreOrFleeMark);
+			contHpLife = 0.d;
+			contnumberOfEnemyUnitsThatCanBeAttacked = 0;
+			contnumberOfEnemyUnitsThatCanAttackMe = 0;
+			attckOrExploreOrFleeMark = 0;
+			for (Unit enemyUnit : enemy.getUnits()) {
+				contHpLife+=enemyUnit.getHitPoints();
+				if(myUnit.isInWeaponRange(enemyUnit))
+					contnumberOfEnemyUnitsThatCanAttackMe++;
+				if(enemyUnit.isInWeaponRange(myUnit))
+					contnumberOfEnemyUnitsThatCanBeAttacked++;
+			}
+			mybot.step2(actionToPerform,attckOrExploreOrFleeMark,myUnit.getHitPoints(),contHpLife,contnumberOfEnemyUnitsThatCanBeAttacked,contnumberOfEnemyUnitsThatCanAttackMe);
 			
 		}
 		

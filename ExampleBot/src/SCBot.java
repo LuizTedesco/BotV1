@@ -1,3 +1,8 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
@@ -42,15 +47,13 @@ public class SCBot implements Serializable{
 	private	double hpFromNearbyEnemies;  
 	private int numberOfEnemyUnitsThatCanBeAttacked;
 	private int numberOfEnemyUnitsThatCanAttackMe; 
-	private int steps;
 	
 	
 	//public Rn()
 	public SCBot()
 	{
 		states = creatStates();
-		creatStates2();
-		//QTable<QTableItem> atck = new QTable<>(states,actions);
+		//creatStates2();
 		//QTable<QTableItem> builder = new QTable<>(states,actions);
 		q = new double[states.size()][3];
 		for (int i = 0; i < states.size(); i++) {
@@ -101,29 +104,31 @@ public class SCBot implements Serializable{
 		
 		// esse cara nao tem um index
 		UnitState stateQDeveriaSer  = new UnitState(hp,hpFromNearbyEnemies,contnumberOfEnemyUnitsThatCanBeAttacked,contnumberOfEnemyUnitsThatCanAttackMe,0);
+
+		// update STATE
+		this.hp = hp;
+		this.hpFromNearbyEnemies = hpFromNearbyEnemies;
+		this.numberOfEnemyUnitsThatCanBeAttacked = contnumberOfEnemyUnitsThatCanBeAttacked;
+		this.numberOfEnemyUnitsThatCanAttackMe = contnumberOfEnemyUnitsThatCanAttackMe;
 		
 		Action action = getNextAction(stateQDeveriaSer);
 		return action;
-		
-		// updateState e a reward, dependem da ação já executada
-		// como fazer?
-		// preciso desviar para o BOT AGORA
-		//updateState(action);
-		//double reward = getReward();
-		//updateQ(state,action,reward);
-		// TODO
 	}
 	
-public void step2(double attckOrExploreOrFleeMark) {
+	public void step2(Action actionToPerform, double attckOrExploreOrFleeMark, int hp, double contHpLife, int contnumberOfEnemyUnitsThatCanBeAttacked, int contnumberOfEnemyUnitsThatCanAttackMe) {
 		
-		// updateState e a reward, dependem da ação já executada
-		// como fazer?
-		// preciso desviar para o BOT AGORA
-		updateState(attckOrExploreOrFleeMark);
-		//double reward = getReward(); // nao tem esse agora certo? minha recompensa vem 
-		//updateQ(state,action,reward);
-		// TODO
-		
+		///////////////////FEITO EM STEP1
+		//updateState(attckOrExploreOrFleeMark);
+	
+		//reward preDefined?
+		//double reward = getReward(); // nao tem esse agora certo? minha recompensa vem
+	
+		UnitState pState =  new UnitState(hp, contHpLife, contnumberOfEnemyUnitsThatCanBeAttacked, contnumberOfEnemyUnitsThatCanAttackMe,0);
+		for (UnitState stt : states) {
+			if(stt.getHp()==pState.getHp() && stt.getHpFromNearbyEnemies()==pState.getHpFromNearbyEnemies() && stt.getNumberOfEnemyUnitsThatCanAttackMe()==pState.getNumberOfEnemyUnitsThatCanAttackMe() && stt.getNumberOfEnemyUnitsThatCanBeAttacked()==pState.getNumberOfEnemyUnitsThatCanBeAttacked())
+				updateQ(stt,actionToPerform,attckOrExploreOrFleeMark);
+			break;
+		}
 	}
 	
 	private void updateQ(State state, Action action, double reward) {
@@ -131,64 +136,53 @@ public void step2(double attckOrExploreOrFleeMark) {
 	}
 
 	private double computeQ(State state, Action action, double reward) {
-		// TODO Auto-generated method stub
-		return 0;
+		// get current q value
+		double cq = q[index(state)][actions.indexOf(action)];
+		// compute the right side of the equation
+		double value = reward + (GAMA * getMax(state)) - cq;
+		// compute new q value
+		double newq = cq + ALPHA * value;
+
+		return newq;
 	}
 
-	private synchronized void updateState(Double value) {
-		
-	}
-
-	/*public Action Run() {
-		State state = getState();
-		Action action;
-			action = getNextAction(state);
-			if(action!= null)
-			{
-				//updateState() ?
-				//double reward = getReward();
-				//updateQ(state,action,reward);
-				state = getState();
+	protected double getMax(State pState) {
+		double max = 0;
+		// search for the Q v for each state
+		for (Action action : actions) {
+			double value = q[index(pState)][actions.indexOf(action)];
+			if (value > max) {
+				max = value;
 			}
-		//actions.add(ATTACK);
-		//actions.add(FLEE);
-		//actions.add(EXPLORE);
-		//MDP mdp = new MDPModel(transitionFunction, rewardFunction, states, actions, agents);
-			return action;
-	}*/
+		}
+
+		return max;
+	}
 
 	private Action getNextAction(UnitState pState) {
 		if(pState == null)
 			return null;
 		// nao tem index, tem q procurar em STATES
 		
-		
-		pState.getHp();
-		pState.getHpFromNearbyEnemies();
-		pState.getNumberOfEnemyUnitsThatCanBeAttacked();
-		pState.getNumberOfEnemyUnitsThatCanAttackMe();
-
-		
 		int stateIndex = 0;
+		Boolean flag = true;
 		for (UnitState stt : states) {
-			
+			if(stt.getHp()==pState.getHp() && stt.getHpFromNearbyEnemies()==pState.getHpFromNearbyEnemies() && stt.getNumberOfEnemyUnitsThatCanAttackMe()==pState.getNumberOfEnemyUnitsThatCanAttackMe() && stt.getNumberOfEnemyUnitsThatCanBeAttacked()==pState.getNumberOfEnemyUnitsThatCanBeAttacked()){
+				stateIndex = stt.getIndex();
+				double value0 = q[stateIndex][0]; // atck
+				double value1 = q[stateIndex][1]; // explore
+				double value2 = q[stateIndex][2]; // flee
+				double max = Math.max(value0, Math.max(value1, value2));
+				if(max == value1)
+					return EXPLORE;
+				else if(max == value2)
+					return FLEE;
+				else if(max == value0)
+					return ATTACK;
+			}
+				
 		}
-		
-		
-		
-		
-		double value0 = q[index(pState)][0];
-		double value1 = q[index(pState)][1];
-		double value2 = q[index(pState)][2];
-		double max = Math.max(value0, Math.max(value1, value2));
-		if(max == value0)
-			return ATTACK;
-		else if(max == value1)
-			return EXPLORE;
-		else if(max == value2)
-			return FLEE;
-		else
-			return EXPLORE;
+		return EXPLORE;
 	}
 
 	private int index(State state) {
@@ -204,6 +198,14 @@ public void step2(double attckOrExploreOrFleeMark) {
 		}
 		return null;
 	}
+	
+	
+	void init() {
+		hp = 0;
+		hpFromNearbyEnemies = 0;
+		numberOfEnemyUnitsThatCanBeAttacked = 0;
+		numberOfEnemyUnitsThatCanAttackMe = 0;
+	}
 
 	void init(double[][] tabela) {
 		hp = 0;
@@ -211,8 +213,34 @@ public void step2(double attckOrExploreOrFleeMark) {
 		numberOfEnemyUnitsThatCanBeAttacked = 0;
 		numberOfEnemyUnitsThatCanAttackMe = 0;
 		q = tabela;
-		
 	}
+
+	public void loadQTable() {
+		try {
+			FileInputStream fin = new FileInputStream("inputTable.txt");
+			ObjectInputStream ois = new ObjectInputStream(fin);
+			q = (double[][]) ois.readObject();
+			ois.close();
+		} catch (Exception e) {
+			System.out.println("File nao abriu");
+			e.printStackTrace();
+		}
+	}
+
+	public void end() {
+		FileOutputStream qtable;
+		try {
+			qtable = new FileOutputStream("path.out");
+			ObjectOutputStream oos = new ObjectOutputStream(qtable);
+	    	oos.writeObject(q);
+	    	oos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 }
 
 
@@ -237,19 +265,19 @@ class UnitState extends State{
 	public UnitState(double hp2, double hpFromNearbyEnemies2, int numberOfEnemyUnitsThatCanBeAttacked2,
 			int numberOfEnemyUnitsThatCanAttackMe2) {
 		index = count++;
-		this.hp = Range.castToRange(hp2);
-		this.hpFromNearbyEnemies = Range.castToRange(hpFromNearbyEnemies2);
-		this.numberOfEnemyUnitsThatCanBeAttacked = Range.castToRange(numberOfEnemyUnitsThatCanBeAttacked2);
-		this.numberOfEnemyUnitsThatCanAttackMe = Range.castToRange(numberOfEnemyUnitsThatCanAttackMe2);
+		this.hp = Range.castToRangeHealth(hp2);
+		this.hpFromNearbyEnemies = Range.castToRangeHealth(hpFromNearbyEnemies2);
+		this.numberOfEnemyUnitsThatCanBeAttacked = Range.castToRangeNumber(numberOfEnemyUnitsThatCanBeAttacked2);
+		this.numberOfEnemyUnitsThatCanAttackMe = Range.castToRangeNumber(numberOfEnemyUnitsThatCanAttackMe2);
 		setName(index+ "");
 	}
 
 	public UnitState(int hp2, Double hpFromNearbyEnemies2, int contnumberOfEnemyUnitsThatCanBeAttacked,
 			int contnumberOfEnemyUnitsThatCanAttackMe, int i) {
-		this.hp = Range.castToRange(hp2);
-		this.hpFromNearbyEnemies = Range.castToRange(hpFromNearbyEnemies2);
-		this.numberOfEnemyUnitsThatCanBeAttacked = Range.castToRange(contnumberOfEnemyUnitsThatCanBeAttacked);
-		this.numberOfEnemyUnitsThatCanAttackMe = Range.castToRange(contnumberOfEnemyUnitsThatCanAttackMe);
+		this.hp = Range.castToRangeHealth(hp2);
+		this.hpFromNearbyEnemies = Range.castToRangeHealth(hpFromNearbyEnemies2);
+		this.numberOfEnemyUnitsThatCanBeAttacked = Range.castToRangeNumber(contnumberOfEnemyUnitsThatCanBeAttacked);
+		this.numberOfEnemyUnitsThatCanAttackMe = Range.castToRangeNumber(contnumberOfEnemyUnitsThatCanAttackMe);
 	}
 	
 	public boolean in(double hp2, double hpFromNearbyEnemies2, int numberOfEnemyUnitsThatCanBeAttacked2,
@@ -308,28 +336,42 @@ class Range {
 		this.max = max;
 	}
 	
-	public static Range castToRange(int value) {
+	public static Range castToRangeNumber(int value) {
 		Range temp = new Range();
 		if(value == 0)
 			return temp.zero;
-		else if(value >=1 && value <= 2)
+		else if(value <= 2)
 			return temp.small;
-		else if(value >2 && value <= 3)
+		else if(value <= 3)
 			return temp.medium;
-		else if(value >3 && value <= 50)
+		else if(value <= 50)
 			return temp.large;
 		return null;
 	}
 	
-	public static Range castToRange(double value) {
+	public static Range castToRangeHealth(int value) {
 		Range temp = new Range();
-		if(value > 0 && value <= 25)
+		if(value >= 0 && value <= 25)
 			return temp.low;
-		else if(value >25 && value <= 50)
+		else if(value <= 50)
 			return temp.mediumLow;
-		else if(value >51 && value <= 75)
+		else if(value <= 75)
 			return temp.mediumHigh;
-		else if(value >75 && value <= 100)
+		else if(value <= 100)
+			return temp.high;
+		return temp;
+	}
+	
+	
+	public static Range castToRangeHealth(double value) {
+		Range temp = new Range();
+		if(value >= 0 && value <= 25)
+			return temp.low;
+		else if(value <= 50)
+			return temp.mediumLow;
+		else if(value <= 75)
+			return temp.mediumHigh;
+		else if(value <= 100)
 			return temp.high;
 		return temp;
 	}
