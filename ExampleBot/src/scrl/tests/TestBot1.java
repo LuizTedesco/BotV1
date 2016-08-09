@@ -4,6 +4,13 @@ import javax.swing.text.Position;
 
 import org.jalt.model.action.Action;
 
+import bwapi.DefaultBWListener;
+import bwapi.Game;
+import bwapi.Mirror;
+import bwapi.Player;
+import bwapi.Unit;
+import bwta.BWTA;
+import bwta.BaseLocation;
 import scrl.SCRL;
 import scrl.model.Actions;
 import scrl.model.UnitState;
@@ -54,14 +61,6 @@ public class TestBot1 extends DefaultBWListener {
 		BWTA.analyze();
 		System.out.println("Map data ready");
 
-		int i = 0;
-		for (BaseLocation baseLocation : BWTA.getBaseLocations()) {
-			System.out.println("Base location #" + (++i) + ". Printing location's region polygon:");
-			for (Position position : baseLocation.getRegion().getPolygon().getPoints()) {
-				System.out.print(position + ", ");
-			}
-			System.out.println();
-		}
 	}
 
 	private void init() {
@@ -141,14 +140,10 @@ public class TestBot1 extends DefaultBWListener {
 
 	private void attack(Unit myUnit) {
 		System.out.println("attack");
-		int enemyHpT0, enemyHpT1;
 		for (Unit enemyUnit : enemy.getUnits()) {
 			if (myUnit.isInWeaponRange(enemyUnit)) {
 				myUnit.stop();
-				enemyHpT0 = enemyUnit.getHitPoints();
 				myUnit.attack(enemyUnit.getPosition());
-				enemyHpT1 = enemyUnit.getHitPoints();
-				return enemyHpT0 - enemyHpT1;
 			}
 		}
 	}
