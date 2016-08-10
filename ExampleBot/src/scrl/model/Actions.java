@@ -1,6 +1,6 @@
 package scrl.model;
 public enum Actions {
-	ATTACK("attack", 0), FLEE("flee", 1), EXPLORE("explore", 2);
+	ATTACK("attack", 0), EXPLORE("explore", 1),FLEE("flee", 2);
 
 	private final int value;
 	private final String name;

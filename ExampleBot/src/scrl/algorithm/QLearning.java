@@ -9,9 +9,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jalt.model.action.Action;
-import org.jalt.model.state.State;
-
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
@@ -19,40 +16,49 @@ import scrl.model.UnitState;
 public class QLearning {
 	private static final double GAMA = 0.8;
 	private static final double ALPHA = 0.9;
-
 	// q[][0] = atck
 	// q[][1] = explore
 	// q[][2] = flee
-	protected Map<UnitState, Map<Action, Double>> q;
+	
+	protected Map<UnitState, Map<Actions, Double>> q;
 	private SCMDP model;
 
-	private Collection<State> states;
-	private Collection<Action> actions;
+	private Collection<UnitState> states;
+	private Collection<Actions> actions;
 
 	public QLearning(SCMDP model) {
-		this.model = model;
+		this.setModel(model);
 		this.states = model.getStates();
 		this.actions = model.getActions();
-		// creatStates2();
-		// QTable<QTableItem> builder = new QTable<>(states,actions);
 		q = new HashMap<>(states.size());
 		for (UnitState state : states) {
-			for (Action action : actions) {
-				Map<Action, Double> actionValues = new HashMap<>();
-				actionValues.put(action, 0);
+			for (Actions action : actions) {
+				Map<Actions, Double> actionValues = new HashMap<>();
+				actionValues.put(action, (double) 0);
 				q.put(state, actionValues);
 			}
 		}
 	}
+	
 
-	public void updateQ(State state, Actions action) {
-		double reward = model.getRewardFunction().getValue(state, action);
-		q[state.hashCode()][actions.indexOf(action)] = computeQ(state, action, reward);
+	public Map<UnitState, Map<Actions, Double>> getQ() {
+		return q;
+	}
+	
+	public void updateQ(UnitState state, Actions action) {
+		double reward = scrl.model.RewardFunction.getValue(state, action);
+		//double reward = model.getRewardFunction().getValue(state, action);
+		double newQValue= computeQ(state, action, reward);
+		Map<Actions, Double> computedActionValue = new HashMap<>();
+		computedActionValue.put(action, newQValue);
+		q.put(state, computedActionValue);
+		//q[state.hashCode()][actions.indexOf(action)] = computeQ(state, action, reward);
 	}
 
-	private double computeQ(State state, Action action, double reward) {
+	private double computeQ(UnitState state, Actions action, double reward) {
 		// get current q value
-		double cq = q[index(state)][action.hashCode()];
+		double cq = q.get(state).get(action);
+		//double cq = q[index(state)][action.hashCode()];
 		// compute the right side of the equation
 		double value = reward + (GAMA * getMax(state)) - cq;
 		// compute new q value
@@ -61,11 +67,11 @@ public class QLearning {
 		return newq;
 	}
 
-	protected double getMax(State pState) {
+	protected double getMax(UnitState pState) {
 		double max = 0;
 		// search for the Q v for each state
-		for (Action action : actions) {
-			double value = q[index(pState)][actions.indexOf(action)];
+		for (Actions action : actions) {
+			double value = q.get(pState).get(action);
 			if (value > max) {
 				max = value;
 			}
@@ -74,12 +80,13 @@ public class QLearning {
 		return max;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void read() {
 		try {
 			// FileInputStream fin = new FileInputStream("marineTable.txt");
 			FileInputStream fin = new FileInputStream("Table.txt");
 			ObjectInputStream ois = new ObjectInputStream(fin);
-			q = (double[][]) ois.readObject();
+			q = (Map<UnitState, Map<Actions, Double>>) ois.readObject();
 			ois.close();
 		} catch (Exception e) {
 			System.out.println("File nao abriu");
@@ -101,6 +108,16 @@ public class QLearning {
 			System.out.println("Nao conseguiu escrever no arquivo na hora de fechar");
 			e.printStackTrace();
 		}
+	}
+
+
+	public SCMDP getModel() {
+		return model;
+	}
+
+
+	public void setModel(SCMDP model) {
+		this.model = model;
 	}
 
 }

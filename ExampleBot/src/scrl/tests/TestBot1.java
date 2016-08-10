@@ -1,23 +1,18 @@
 package scrl.tests;
 
-import javax.swing.text.Position;
-
-import org.jalt.model.action.Action;
-
 import bwapi.DefaultBWListener;
 import bwapi.Game;
 import bwapi.Mirror;
 import bwapi.Player;
 import bwapi.Unit;
 import bwta.BWTA;
-import bwta.BaseLocation;
 import scrl.SCRL;
 import scrl.model.Actions;
 import scrl.model.UnitState;
 
 public class TestBot1 extends DefaultBWListener {
-	private static int victories;
-	private static int defeats;
+	private int victories;
+	private int defeats;
 
 	private Mirror mirror = new Mirror();
 	private Game game;
@@ -41,9 +36,9 @@ public class TestBot1 extends DefaultBWListener {
 	public void onEnd(boolean isWinner) {
 		rl.end(isWinner);
 		if (isWinner)
-			victories++;
+			setVictories(getVictories() + 1);
 		else
-			defeats++;
+			setDefeats(getDefeats() + 1);
 	}
 
 	@Override
@@ -90,7 +85,6 @@ public class TestBot1 extends DefaultBWListener {
 		double contHpLife = 0.d;
 		int contnumberOfEnemyUnitsThatCanBeAttacked = 0;
 		int contnumberOfEnemyUnitsThatCanAttackMe = 0;
-		double attckOrExploreOrFleeMark = 0;
 
 		for (Unit myUnit : self.getUnits()) {
 			for (Unit enemyUnit : enemy.getUnits()) {
@@ -100,25 +94,17 @@ public class TestBot1 extends DefaultBWListener {
 				if (enemyUnit.isInWeaponRange(myUnit))
 					contnumberOfEnemyUnitsThatCanBeAttacked++;
 			}
+			UnitState state = new UnitState(myUnit.getHitPoints(), contHpLife, contnumberOfEnemyUnitsThatCanBeAttacked, contnumberOfEnemyUnitsThatCanAttackMe);
+			Actions actionToPerform = rl.getNextAction(state);
 
-			UnitState state = new UnitState(myUnit.getHitPoints(), contHpLife, contnumberOfEnemyUnitsThatCanBeAttacked, contnumberOfEnemyUnitsThatCanAttackMe,
-					0);
-			Action actionToPerform = rl.getNextAction(state);
-
-			executeAction(myUnit);
+			executeAction(actionToPerform, myUnit);
 
 			rl.updateState(actionToPerform, state);
 		}
-		// game.setTextSize(10);
 		game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
-		// draw my units on screen
-		game.drawTextScreen(10, 25, units.toString());
 	}
 
 	private void executeAction(Actions actionToPerform, Unit myUnit) {
-		double attckOrExploreOrFleeMark;
-		// actionToPerform.toString().equals(Actions.ATTACK.getName())
-		// if(actionToPerform.equals(Actions.ATTACK.getName())){
 		if (actionToPerform.equals(Actions.ATTACK)) {
 			attack(myUnit);
 		} else if (actionToPerform.equals(Actions.EXPLORE)) {
@@ -130,12 +116,14 @@ public class TestBot1 extends DefaultBWListener {
 
 	private void flee(Unit myUnit) {
 		System.out.println("flee");
-		myUnit.move(new Position(-myUnit.getPoint().getX(), -myUnit.getPoint().getY()));
+		//myUnit.move(new Position(-myUnit.getPoint().getX(), -myUnit.getPoint().getY()));
+		myUnit.move(new bwapi.Position(-myUnit.getPosition().getX(), -myUnit.getPosition().getY()));
 	}
 
 	private void explore(Unit myUnit) {
 		System.out.println("explore");
-		myUnit.move(new Position(3 * myUnit.getPoint().getX(), 2 * myUnit.getPoint().getY()));
+		myUnit.move(new bwapi.Position(3* myUnit.getPosition().getX(), 2* myUnit.getPosition().getY()));
+		//myUnit.move(new Position(3 * myUnit.getPoint().getX(), 2 * myUnit.getPoint().getY()));
 	}
 
 	private void attack(Unit myUnit) {
@@ -150,5 +138,21 @@ public class TestBot1 extends DefaultBWListener {
 
 	public static void main(String[] args) {
 		new TestBot1().run();
+	}
+
+	public int getVictories() {
+		return victories;
+	}
+
+	public void setVictories(int victories) {
+		this.victories = victories;
+	}
+
+	public int getDefeats() {
+		return defeats;
+	}
+
+	public void setDefeats(int defeats) {
+		this.defeats = defeats;
 	}
 }

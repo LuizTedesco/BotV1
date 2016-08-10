@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 import static scrl.model.Actions.*;
 import scrl.model.range.RangeHP;
 import scrl.model.range.RangeUnits;
@@ -29,5 +30,13 @@ public class SCMDP {
 			}
 		}
 		return sts;
+	}
+
+	public Set<UnitState> getStates() {
+		return states;
+	}
+
+	public List<Actions> getActions() {
+		return actions;
 	}
 }
