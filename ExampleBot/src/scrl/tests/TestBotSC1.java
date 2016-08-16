@@ -10,9 +10,7 @@ import scrl.SCRL;
 import scrl.model.Actions;
 import scrl.model.UnitState;
 
-public class TestBot1 extends DefaultBWListener {
-	private int victories;
-	private int defeats;
+public class TestBotSC1 extends DefaultBWListener {
 
 	private Mirror mirror = new Mirror();
 	private Game game;
@@ -20,7 +18,7 @@ public class TestBot1 extends DefaultBWListener {
 	private Player enemy;
 	SCRL rl = new SCRL();
 
-	private int match;
+	private int match = 0;
 
 	public void run() {
 		mirror.getModule().setEventListener(this);
@@ -29,16 +27,12 @@ public class TestBot1 extends DefaultBWListener {
 
 	@Override
 	public void onUnitCreate(Unit unit) {
-		System.out.println("New unit discovered " + unit.getType());
+		//System.out.println("New unit discovered " + unit.getType());
 	}
 
 	@Override
 	public void onEnd(boolean isWinner) {
 		rl.end(isWinner);
-		if (isWinner)
-			setVictories(getVictories() + 1);
-		else
-			setDefeats(getDefeats() + 1);
 	}
 
 	@Override
@@ -46,20 +40,19 @@ public class TestBot1 extends DefaultBWListener {
 		game = mirror.getGame();
 		self = game.self();
 		enemy = game.enemy();
-		game.setLocalSpeed(15);
+		game.setLocalSpeed(0);
 		init();
 
 		// Use BWTA to analyze map
 		// This may take a few minutes if the map is processed first time!
-		System.out.println("Analyzing map...");
+		//System.out.println("Analyzing map...");
 		BWTA.readMap();
 		BWTA.analyze();
-		System.out.println("Map data ready");
+		//System.out.println("Map data ready");
 
 	}
 
 	private void init() {
-		// loadMatchs();
 		match++;
 		rl.init(match);
 	}
@@ -115,19 +108,19 @@ public class TestBot1 extends DefaultBWListener {
 	}
 
 	private void flee(Unit myUnit) {
-		System.out.println("flee");
+		System.out.println("FLEE");
 		//myUnit.move(new Position(-myUnit.getPoint().getX(), -myUnit.getPoint().getY()));
 		myUnit.move(new bwapi.Position(-myUnit.getPosition().getX(), -myUnit.getPosition().getY()));
 	}
 
 	private void explore(Unit myUnit) {
-		System.out.println("explore");
+		System.out.println("EXPLORE");
 		myUnit.move(new bwapi.Position(3* myUnit.getPosition().getX(), 2* myUnit.getPosition().getY()));
 		//myUnit.move(new Position(3 * myUnit.getPoint().getX(), 2 * myUnit.getPoint().getY()));
 	}
 
 	private void attack(Unit myUnit) {
-		System.out.println("attack");
+		System.out.println("ATTACK");
 		for (Unit enemyUnit : enemy.getUnits()) {
 			if (myUnit.isInWeaponRange(enemyUnit)) {
 				myUnit.stop();
@@ -137,22 +130,6 @@ public class TestBot1 extends DefaultBWListener {
 	}
 
 	public static void main(String[] args) {
-		new TestBot1().run();
-	}
-
-	public int getVictories() {
-		return victories;
-	}
-
-	public void setVictories(int victories) {
-		this.victories = victories;
-	}
-
-	public int getDefeats() {
-		return defeats;
-	}
-
-	public void setDefeats(int defeats) {
-		this.defeats = defeats;
+		new TestBotSC1().run();
 	}
 }

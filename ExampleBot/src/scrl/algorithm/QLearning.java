@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,8 @@ import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
 
-public class QLearning {
+public class QLearning implements Serializable{
+	private static final long serialVersionUID = -6943736143750359469L;
 	private static final double GAMA = 0.8;
 	private static final double ALPHA = 0.9;
 	// q[][0] = atck
@@ -32,8 +34,8 @@ public class QLearning {
 		this.actions = model.getActions();
 		q = new HashMap<>(states.size());
 		for (UnitState state : states) {
+			Map<Actions, Double> actionValues = new HashMap<>();
 			for (Actions action : actions) {
-				Map<Actions, Double> actionValues = new HashMap<>();
 				actionValues.put(action, (double) 0);
 				q.put(state, actionValues);
 			}
@@ -81,31 +83,30 @@ public class QLearning {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void read() {
+	public void deserialize() {
+		//System.out.println("Deserialize");
 		try {
-			// FileInputStream fin = new FileInputStream("marineTable.txt");
-			FileInputStream fin = new FileInputStream("Table.txt");
-			ObjectInputStream ois = new ObjectInputStream(fin);
+			FileInputStream fis = new FileInputStream("marineTable.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
 			q = (Map<UnitState, Map<Actions, Double>>) ois.readObject();
 			ois.close();
 		} catch (Exception e) {
-			System.out.println("File nao abriu");
+			//System.out.println("File nao abriu");
 			e.printStackTrace();
 		}
 	}
 
-	public void write() {
-		FileOutputStream qtable;
-		System.out.println(" pra ver se entra aqui");
+	public void serialize() {
+		//System.out.println("Serialize");
 		try {
-			System.out.println(" pra ver se entra aqui no Try");
+			//System.out.println(" pra ver se entra aqui no Try");
 			// qtable = new FileOutputStream("marineTable.txt");
-			qtable = new FileOutputStream("Table.txt");
-			ObjectOutputStream oos = new ObjectOutputStream(qtable);
+			FileOutputStream fos = new FileOutputStream("marineTable.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(q);
-			oos.close();
+			fos.close();
 		} catch (IOException e) {
-			System.out.println("Nao conseguiu escrever no arquivo na hora de fechar");
+			//System.out.println("Nao conseguiu escrever no arquivo na hora de fechar");
 			e.printStackTrace();
 		}
 	}

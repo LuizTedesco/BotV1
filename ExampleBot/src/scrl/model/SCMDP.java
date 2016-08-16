@@ -29,9 +29,10 @@ public class SCMDP {
 				}
 			}
 		}
+		//System.out.println(sts.size());
 		return sts;
 	}
-
+	
 	public Set<UnitState> getStates() {
 		return states;
 	}

@@ -21,9 +21,8 @@ public class SCRL implements Serializable {
 	}
 
 	public void init(int matchNumber) {
-		if (matchNumber != 1) {
-			learning.read();
-		}
+		if(matchNumber!=1)
+			learning.deserialize();
 	}
 
 	public void updateState(Actions action, UnitState state) {
@@ -34,20 +33,18 @@ public class SCRL implements Serializable {
 	public Actions getNextAction(UnitState pState) {
 		if (pState == null)
 			return null;
-
-		for (UnitState stt : model.getStates()) {
-			double value0 = learning.getQ().get(stt).get(Actions.ATTACK); // atck
-			double value1 = learning.getQ().get(stt).get(Actions.EXPLORE); // atck
-			double value2 = learning.getQ().get(stt).get(Actions.FLEE); // atck
-			double max = Math.max(value0, Math.max(value1, value2));
-			if (max == value1)
-				return Actions.EXPLORE;
-			else if (max == value2)
-				return Actions.FLEE;
-			else if (max == value0)
-				return Actions.ATTACK;
-		}
-		return Actions.EXPLORE;
+		
+		double value0 = learning.getQ().get(pState).get(Actions.ATTACK); // atck
+		double value1 = learning.getQ().get(pState).get(Actions.EXPLORE); // atck
+		double value2 = learning.getQ().get(pState).get(Actions.FLEE); // atck
+		double max = Math.max(value0, Math.max(value1, value2));
+		if (max == value1)
+			return Actions.EXPLORE;
+		else if (max == value2)
+			return Actions.FLEE;
+		else if (max == value0)
+			return Actions.ATTACK;
+	return Actions.EXPLORE;
 	}
 
 	public UnitState getCurrent() {
@@ -59,7 +56,6 @@ public class SCRL implements Serializable {
 	}
 
 	public void end(boolean isWinner) {
-		// TODO Auto-generated method stub
-		
+		learning.serialize();
 	}
 }

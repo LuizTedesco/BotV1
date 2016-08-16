@@ -1,12 +1,13 @@
 package scrl.model;
 
-import org.jalt.model.state.State;
+
+import java.io.Serializable;
 
 import scrl.model.range.RangeHP;
 import scrl.model.range.RangeUnits;
 
-public class UnitState extends State {
-	private static final long serialVersionUID = -6400941644498389166L;
+public class UnitState implements Serializable{
+	private static final long serialVersionUID = 7588180712283449263L;
 	private RangeHP hp; // low medium high
 	private RangeHP hpFromNearbyEnemies; // low medium high
 	private RangeUnits numberOfEnemyUnitsThatCanBeAttacked; // zero small medium
@@ -31,11 +32,6 @@ public class UnitState extends State {
 	public boolean in(double hp2, double hpFromNearbyEnemies2, int numberOfEnemyUnitsThatCanBeAttacked2, int numberOfEnemyUnitsThatCanAttackMe2) {
 		return hp.in(hp2) && hpFromNearbyEnemies.in(hpFromNearbyEnemies2) && numberOfEnemyUnitsThatCanBeAttacked.in(numberOfEnemyUnitsThatCanBeAttacked2)
 				&& numberOfEnemyUnitsThatCanAttackMe.in(numberOfEnemyUnitsThatCanAttackMe2);
-	}
-
-	@Override
-	public String toString() {
-		return getName();
 	}
 
 	public RangeHP getHp() {
