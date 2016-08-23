@@ -27,8 +27,8 @@ public enum RangeUnits implements Range {
 		return min <= v && v < max;
 	}
 
-	@Override
-	public String toString() {
-		return "[min=" + min + ", max=" + max + "]";
-	}
+	//@Override
+	//	public String toString() {
+	//return "[min=" + min + ", max=" + max + "]";
+	//}
 }

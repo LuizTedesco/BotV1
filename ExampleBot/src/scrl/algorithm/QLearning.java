@@ -18,31 +18,48 @@ public class QLearning implements Serializable{
 	private static final long serialVersionUID = -6943736143750359469L;
 	private static final double GAMA = 0.8;
 	private static final double ALPHA = 0.9;
-	// q[][0] = atck
-	// q[][1] = explore
-	// q[][2] = flee
+
+	
 	
 	protected Map<UnitState, Map<Actions, Double>> q;
 	private SCMDP model;
 
 	private Collection<UnitState> states;
+	//private Map<String, UnitState> states;
 	private Collection<Actions> actions;
 
 	public QLearning(SCMDP model) {
 		this.setModel(model);
 		this.states = model.getStates();
+		//this.states = model.getStatesMap();
 		this.actions = model.getActions();
 		q = new HashMap<>(states.size());
+		
 		for (UnitState state : states) {
 			Map<Actions, Double> actionValues = new HashMap<>();
-			for (Actions action : actions) {
+			for (Actions action : actions)
 				actionValues.put(action, (double) 0);
-				q.put(state, actionValues);
-			}
+		q.put(state, actionValues);
 		}
+		
+		/*for(Entry<String, UnitState> entry: states.entrySet())
+		{
+			//entry.getKey()
+			//entry.getValue()
+			Map<Actions, Double> actionValues = new HashMap<>();
+			for (Actions action : actions) 
+				actionValues.put(action, (double) 0);
+		q.put(entry.getValue(), actionValues);
+		}*/
 	}
 	
-
+	/*@Override
+	public int hashCode(){
+		final int prime = 13;
+		int result = 1;
+		return result;
+	}*/
+	
 	public Map<UnitState, Map<Actions, Double>> getQ() {
 		return q;
 	}
