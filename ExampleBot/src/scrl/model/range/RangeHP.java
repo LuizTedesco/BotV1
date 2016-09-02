@@ -11,7 +11,7 @@ public enum RangeHP implements Range{
 	}
 
 	public static RangeHP get(double value) {
-		if (value >= 0 && value <= 25)
+		if (value > 0 && value <= 25)
 			return LOW;
 		else if (value <= 50)
 			return MEDIUM_LOW;

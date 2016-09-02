@@ -1,38 +1,48 @@
 package scrl.tests;
 
+import java.util.Random;
+
 import bwapi.DefaultBWListener;
 import bwapi.Game;
 import bwapi.Mirror;
 import bwapi.Player;
 import bwapi.Unit;
 import bwta.BWTA;
+import scrl.RLUnitThread;
 import scrl.SCRL;
 import scrl.model.Actions;
-import scrl.model.UnitState;
 
 public class TestBotSC1 extends DefaultBWListener {
 
+	public static final int MAX_GAMES = 100;
+	private static final boolean DEBUG = true;
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
 	private Player enemy;
-	SCRL rl = new SCRL();
+	private SCRL rl;
+	private Random rand = new Random();
 
-	private int match = 0;
+	private static int match = 0;
 
 	public void run() {
 		mirror.getModule().setEventListener(this);
 		mirror.startGame();
 	}
 
-	@Override
+/*	@Override
 	public void onUnitCreate(Unit unit) {
-		//System.out.println("New unit discovered " + unit.getType());
-	}
+		log("New unit discovered " + unit.getType());
+	}*/
 
 	@Override
 	public void onEnd(boolean isWinner) {
 		rl.end(isWinner);
+		log(match + "");
+		match++;
+		if (match == 500)
+			System.exit(0);
+
 	}
 
 	@Override
@@ -40,21 +50,35 @@ public class TestBotSC1 extends DefaultBWListener {
 		game = mirror.getGame();
 		self = game.self();
 		enemy = game.enemy();
-		game.setLocalSpeed(0);
-		init();
+		game.setLocalSpeed(20);
+		//init();
+		
+		rl = new SCRL();
+		rl.init(match);
+
+		for (Unit myUnit : self.getUnits()) {
+			new RLUnitThread(rl, myUnit, this, enemy).start();
+		}
+		
+		
 
 		// Use BWTA to analyze map
 		// This may take a few minutes if the map is processed first time!
-		//System.out.println("Analyzing map...");
+		// log("Analyzing map...");
 		BWTA.readMap();
 		BWTA.analyze();
-		//System.out.println("Map data ready");
+		// log("Map data ready");
 
 	}
 
+	@SuppressWarnings("unused")
 	private void init() {
-		match++;
+		rl = new SCRL();
 		rl.init(match);
+
+		for (Unit myUnit : self.getUnits()) {
+			new RLUnitThread(rl, myUnit, this, enemy).start();
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -75,29 +99,12 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	@Override
 	public void onFrame() {
-		double contHpLife = 0.d;
-		int contnumberOfEnemyUnitsThatCanBeAttacked = 0;
-		int contnumberOfEnemyUnitsThatCanAttackMe = 0;
-
-		for (Unit myUnit : self.getUnits()) {
-			for (Unit enemyUnit : enemy.getUnits()) {
-				contHpLife += enemyUnit.getHitPoints();
-				if (myUnit.isInWeaponRange(enemyUnit))
-					contnumberOfEnemyUnitsThatCanAttackMe++;
-				if (enemyUnit.isInWeaponRange(myUnit))
-					contnumberOfEnemyUnitsThatCanBeAttacked++;
-			}
-			UnitState state = new UnitState(myUnit.getHitPoints(), contHpLife, contnumberOfEnemyUnitsThatCanBeAttacked, contnumberOfEnemyUnitsThatCanAttackMe);
-			Actions actionToPerform = rl.getNextAction(state);
-
-			executeAction(actionToPerform, myUnit);
-
-			rl.updateState(actionToPerform, state);
-		}
-		game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
+		game.drawTextScreen(10, 10, "Frame");
+		//game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
 	}
 
-	private void executeAction(Actions actionToPerform, Unit myUnit) {
+	public void executeAction(Actions actionToPerform, Unit myUnit) {
+		System.out.println("ActionToPerform "+ actionToPerform);
 		if (actionToPerform.equals(Actions.ATTACK)) {
 			attack(myUnit);
 		} else if (actionToPerform.equals(Actions.EXPLORE)) {
@@ -108,25 +115,34 @@ public class TestBotSC1 extends DefaultBWListener {
 	}
 
 	private void flee(Unit myUnit) {
-		System.out.println("FLEE");
-		//myUnit.move(new Position(-myUnit.getPoint().getX(), -myUnit.getPoint().getY()));
-		myUnit.move(new bwapi.Position(-myUnit.getPosition().getX(), -myUnit.getPosition().getY()));
+		log("FLEE  +UnitID = " + myUnit.getID());
+		int v = rand.nextInt(50);
+		// myUnit.move(new Position(-myUnit.getPoint().getX(),
+		// -myUnit.getPoint().getY()));
+		myUnit.move(new bwapi.Position(myUnit.getPosition().getX() - v, myUnit.getPosition().getY() - v));
 	}
 
 	private void explore(Unit myUnit) {
-		System.out.println("EXPLORE");
-		myUnit.move(new bwapi.Position(3* myUnit.getPosition().getX(), 2* myUnit.getPosition().getY()));
-		//myUnit.move(new Position(3 * myUnit.getPoint().getX(), 2 * myUnit.getPoint().getY()));
+		log("EXPLORE  +UnitID = " + myUnit.getID());
+		myUnit.move(new bwapi.Position(3 * myUnit.getPosition().getX(), 2 * myUnit.getPosition().getY()));
+		// myUnit.move(new Position(3 * myUnit.getPoint().getX(), 2 *
+		// myUnit.getPoint().getY()));
 	}
 
 	private void attack(Unit myUnit) {
-		System.out.println("ATTACK");
+		log("ATTACK  +UnitID = " + myUnit.getID());
 		for (Unit enemyUnit : enemy.getUnits()) {
 			if (myUnit.isInWeaponRange(enemyUnit)) {
 				myUnit.stop();
 				myUnit.attack(enemyUnit.getPosition());
+				break;
 			}
 		}
+	}
+
+	private void log(String msg) {
+		if (DEBUG)
+			System.out.println(msg);
 	}
 
 	public static void main(String[] args) {

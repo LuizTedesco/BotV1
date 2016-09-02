@@ -2,9 +2,11 @@ package scrl.model;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import scrl.model.range.RangeHP;
 import scrl.model.range.RangeUnits;
+
 
 public class UnitState implements Serializable{
 	private static final long serialVersionUID = 7588180712283449263L;
@@ -49,4 +51,33 @@ public class UnitState implements Serializable{
 	public RangeUnits getNumberOfEnemyUnitsThatCanAttackMe() {
 		return numberOfEnemyUnitsThatCanAttackMe;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+				builder.append(hp).append(hpFromNearbyEnemies).append(numberOfEnemyUnitsThatCanBeAttacked).append(numberOfEnemyUnitsThatCanAttackMe);
+				return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o == this) return true;
+		if(!(o instanceof UnitState)) return false;
+		
+		UnitState unit = (UnitState) o;
+		return hp == unit.hp &&
+				Objects.equals(hpFromNearbyEnemies, unit.hpFromNearbyEnemies) &&
+				Objects.equals(numberOfEnemyUnitsThatCanBeAttacked, unit.numberOfEnemyUnitsThatCanBeAttacked) &&
+				Objects.equals(numberOfEnemyUnitsThatCanAttackMe, unit.numberOfEnemyUnitsThatCanAttackMe);
+	}
+	
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(hp,hpFromNearbyEnemies,numberOfEnemyUnitsThatCanBeAttacked,numberOfEnemyUnitsThatCanAttackMe);
+	}
+	
+	
+	
 }

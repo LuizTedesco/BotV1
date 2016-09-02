@@ -1,9 +1,9 @@
 package scrl;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import scrl.algorithm.QLearning;
+import scrl.algorithm.QTable;
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
@@ -14,7 +14,7 @@ public class SCRL implements Serializable {
 
 	private SCMDP model;
 	private QLearning learning;
-	private UnitState current;
+	private UnitState current; // eu to usando esse cara?
 
 	public SCRL() {
 		model = new SCMDP();
@@ -22,44 +22,25 @@ public class SCRL implements Serializable {
 	}
 
 	public void init(int matchNumber) {
-		learning.deserialize();
+		if(matchNumber!=0)
+			learning.deserialize();
+		//TODO remover Epsilon dinamico
+		//learning.getQTable().setEpsilon(1 - (matchNumber / (TestBotSC1.MAX_GAMES * 1d)));
 	}
 
 	public void updateState(Actions action, UnitState state) {
+		System.out.println("updateState");
 		learning.updateQ(state, action);
 		setCurrent(state);
 	}
 
 	public Actions getNextAction(UnitState pState) {
-		if (pState == null)
-			return null;
+		System.out.println("get next action");
 		
-		Map<UnitState, Map<Actions, Double>> table = learning.getQ();
-		System.out.println(table);
-		
-		//String hashVal = pState.getHp().toString() + pState.getHpFromNearbyEnemies().toString() + pState.getNumberOfEnemyUnitsThatCanBeAttacked().toString() + pState.getNumberOfEnemyUnitsThatCanAttackMe().toString();
-		
-		
-		//		if(table.get(hashVal) == null) //////// pState nao tá hasheado, entao, como achar ele na tabela?
-		//	System.out.println("table.pstate == NULO AQUi");
-		//else{
-		//System.out.println("table.pstate == NAO NULO AQUi");
-		//			System.out.println(table.get(hashVal));
-		//}
-		
-		double value0 = learning.getQ().get(pState).get(Actions.ATTACK); // atck
-		//double value0 = learning.getQ().get(pState).get(Actions.ATTACK); // atck
-		double value1 = learning.getQ().get(pState).get(Actions.EXPLORE); // atck
-		double value2 = learning.getQ().get(pState).get(Actions.FLEE); // atck
-		double max = Math.max(value0, Math.max(value1, value2));
-		if (max == value1)
-			return Actions.EXPLORE;
-		else if (max == value2)
-			return Actions.FLEE;
-		else if (max == value0)
-			return Actions.ATTACK;
-	return Actions.EXPLORE;
-	
+		QTable table = learning.getQTable();
+		//System.out.println(table);
+		//System.out.println(pState);
+		return table.getMaxAction(pState);
 	}
 
 	public UnitState getCurrent() {
