@@ -1,11 +1,16 @@
 package scrl.tests;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 import bwapi.DefaultBWListener;
 import bwapi.Game;
 import bwapi.Mirror;
 import bwapi.Player;
+import bwapi.Position;
 import bwapi.Unit;
 import bwta.BWTA;
 import scrl.RLUnitThread;
@@ -21,7 +26,9 @@ public class TestBotSC1 extends DefaultBWListener {
 	private Player self;
 	private Player enemy;
 	private SCRL rl;
-	private Random rand = new Random();
+	static File outFile = new File("teste1.txt");
+	private int initCounter = 1;
+
 
 	private static int match = 0;
 
@@ -37,8 +44,19 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	@Override
 	public void onEnd(boolean isWinner) {
+		try {
+			TestBotSC1.log("Entrou na função onEnd");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		rl.end(isWinner);
-		log(match + "");
+		try {
+			log(match + "");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		match++;
 		if (match == 500)
 			System.exit(0);
@@ -47,38 +65,56 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	@Override
 	public void onStart() {
+		try {
+			TestBotSC1.log("Entrou na função onStart");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		game = mirror.getGame();
 		self = game.self();
 		enemy = game.enemy();
 		game.setLocalSpeed(20);
-		//init();
+		init();
 		
-		rl = new SCRL();
-		rl.init(match);
+		//rl = new SCRL();
+		//rl.init(match);
 
-		for (Unit myUnit : self.getUnits()) {
-			new RLUnitThread(rl, myUnit, this, enemy).start();
-		}
-		
-		
-
-		// Use BWTA to analyze map
-		// This may take a few minutes if the map is processed first time!
-		// log("Analyzing map...");
 		BWTA.readMap();
 		BWTA.analyze();
-		// log("Map data ready");
+		try {
+			log("Map data ready");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
-	@SuppressWarnings("unused")
-	private void init() {
+
+	private void init(){
+		try {
+			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função init");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		rl = new SCRL();
 		rl.init(match);
 
 		for (Unit myUnit : self.getUnits()) {
+			
+			
 			new RLUnitThread(rl, myUnit, this, enemy).start();
+			try {
+				log(Thread.currentThread().getId()+" thread Created on init" + initCounter);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
+		initCounter++;
 	}
 
 	@SuppressWarnings("unused")
@@ -99,12 +135,17 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	@Override
 	public void onFrame() {
-		game.drawTextScreen(10, 10, "Frame");
 		//game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
 	}
 
-	public void executeAction(Actions actionToPerform, Unit myUnit) {
-		System.out.println("ActionToPerform "+ actionToPerform);
+	public void executeAction(Actions actionToPerform, Unit myUnit) throws IOException{
+		try {
+			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função executeAction");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println("ActionToPerform "+ actionToPerform);
 		if (actionToPerform.equals(Actions.ATTACK)) {
 			attack(myUnit);
 		} else if (actionToPerform.equals(Actions.EXPLORE)) {
@@ -114,23 +155,49 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 	}
 
-	private void flee(Unit myUnit) {
-		log("FLEE  +UnitID = " + myUnit.getID());
-		int v = rand.nextInt(50);
-		// myUnit.move(new Position(-myUnit.getPoint().getX(),
+	private void flee(Unit myUnit) throws IOException {
+		log(Thread.currentThread().getId()+" Entrou na funcao Action: FLEE");
+		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
+		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
+		log(Thread.currentThread().getId()+" position = " + myUnit.getPosition());
+		//log("HPFromEnemies = " + myUnit.getID());
+		//log("NumerOfEnemiesThatCanAttackMe = " + myUnit.getID());
+		//log("NumerOfEnemiesThatICanAttack = " + myUnit.getID());
+		myUnit.move(getToSafePlace(myUnit,enemy));
 		// -myUnit.getPoint().getY()));
-		myUnit.move(new bwapi.Position(myUnit.getPosition().getX() - v, myUnit.getPosition().getY() - v));
+		//myUnit.move(new bwapi.Position(-1*myUnit.getPosition().getX(), -1*myUnit.getPosition().getY()));
 	}
 
-	private void explore(Unit myUnit) {
-		log("EXPLORE  +UnitID = " + myUnit.getID());
-		myUnit.move(new bwapi.Position(3 * myUnit.getPosition().getX(), 2 * myUnit.getPosition().getY()));
+	private void explore(Unit myUnit) throws IOException {
+		log(Thread.currentThread().getId()+" Entrou na funcao Action: EXPLORE");
+		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
+		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
+		log(Thread.currentThread().getId()+" position = " + myUnit.getPosition());
+		Random generator = new Random();
+		myUnit.move(new bwapi.Position(myUnit.getPosition().getX() + (generator.nextInt(30)-31), myUnit.getPosition().getY() +(generator.nextInt(30)-31)));
+		//myUnit.move(new bwapi.Position(3 * myUnit.getPosition().getX(), 2 * myUnit.getPosition().getY()));
 		// myUnit.move(new Position(3 * myUnit.getPoint().getX(), 2 *
 		// myUnit.getPoint().getY()));
 	}
 
-	private void attack(Unit myUnit) {
-		log("ATTACK  +UnitID = " + myUnit.getID());
+	private  Position getToSafePlace(Unit myUnit, Player enemies) {
+		
+		int posX = 0;
+		int posy = 0;
+		for (Unit enemyUnit : enemies.getUnits()) {
+			posX += enemyUnit.getPosition().getX();
+			posy += enemyUnit.getPosition().getY();
+		}
+		return new bwapi.Position(-posX,-posy);
+		
+		
+	}
+
+	private void attack(Unit myUnit) throws IOException {
+		log(Thread.currentThread().getId()+" entrou na funcao ACTION: Attack");
+		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
+		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
+		log(Thread.currentThread().getId()+" position = " + myUnit.getPosition());
 		for (Unit enemyUnit : enemy.getUnits()) {
 			if (myUnit.isInWeaponRange(enemyUnit)) {
 				myUnit.stop();
@@ -140,9 +207,18 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 	}
 
-	private void log(String msg) {
-		if (DEBUG)
-			System.out.println(msg);
+	public static void log(String msg) throws IOException {
+		if (DEBUG){
+			if(!outFile.isFile())
+				outFile.createNewFile();
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outFile,true));
+			writer.append(msg);
+			writer.newLine();
+			writer.flush();
+			writer.close();
+		}
+			
+			
 	}
 
 	public static void main(String[] args) {

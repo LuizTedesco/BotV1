@@ -1,0 +1,1950 @@
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init1
+11 Entrou na função getNextAction
+11 Entrou na função getNextAction
+1 thread Created on init1
+12 Entrou na função getNextAction
+12 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.0, FLEE=0.0, ATTACK=0.0}
+{EXPLORE=0.0, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+EXPLORE
+11 Entrou na função executeAction
+12 Entrou na função executeAction
+11 Entrou na funcao Action: EXPLORE
+12 Entrou na funcao Action: EXPLORE
+11 UnitID = 1
+11 HP = 40
+12 UnitID = 2
+12 HP = 40
+11 position = [484, 269]
+12 position = [471, 362]
+11 getCurrentState
+11 contnumberOfEnemyUnitsThatCanAttackMe: 0
+12 getCurrentState
+11 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+12 contnumberOfEnemyUnitsThatCanAttackMe: 0
+12 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+11 Entrou na função updateState
+12 Entrou na função updateState
+12 Entrou na função updateQ
+11 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+11 Entrou na função getValue
+12 Entrou na função getValue
+12 Entrou na função computeQ
+11 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.0, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.0, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.0, 0.0, 0.0]
+q.get stado VALUES[0.0, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.0, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.0, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.0, 0.0, 0.0]
+q.get stado VALUES[0.0, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.0, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.0, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.0, 0.0, 0.0]
+q.get stado VALUES[0.0, 0.0, 0.0]
+cq:0.0
+cq:0.0
+value:0.2
+value:0.2
+newQ:0.18000000000000002
+newQ:0.18000000000000002
+Entrou na função onEnd
+0
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init2
+13 Entrou na função getNextAction
+13 Entrou na função getNextAction
+1 thread Created on init2
+14 Entrou na função getNextAction
+14 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.18000000000000002, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.18000000000000002, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+13 Entrou na função executeAction
+13 Entrou na funcao Action: EXPLORE
+14 Entrou na função executeAction
+14 Entrou na funcao Action: EXPLORE
+13 UnitID = 1
+14 UnitID = 2
+13 HP = 40
+13 position = [484, 269]
+14 HP = 40
+13 getCurrentState
+14 position = [471, 362]
+14 getCurrentState
+13 contnumberOfEnemyUnitsThatCanAttackMe: 0
+13 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+14 contnumberOfEnemyUnitsThatCanAttackMe: 0
+14 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+13 Entrou na função updateState
+14 Entrou na função updateState
+14 Entrou na função updateQ
+13 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+14 Entrou na função getValue
+13 Entrou na função getValue
+14 Entrou na função computeQ
+13 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.18000000000000002, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.18000000000000002, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.18000000000000002, 0.0, 0.0]
+q.get stado VALUES[0.18000000000000002, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.18000000000000002, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.18000000000000002, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.18000000000000002, 0.0, 0.0]
+q.get stado VALUES[0.18000000000000002, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.18000000000000002, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.18000000000000002, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.18000000000000002, 0.0, 0.0]
+q.get stado VALUES[0.18000000000000002, 0.0, 0.0]
+cq:0.18000000000000002
+cq:0.18000000000000002
+value:0.164
+value:0.164
+newQ:0.3276
+newQ:0.3276
+Entrou na função onEnd
+1
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init3
+15 Entrou na função getNextAction
+15 Entrou na função getNextAction
+1 thread Created on init3
+16 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+16 Entrou na função getNextAction
+{EXPLORE=0.3276, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+EXPLORE
+{EXPLORE=0.3276, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+15 Entrou na função executeAction
+15 Entrou na funcao Action: EXPLORE
+16 Entrou na função executeAction
+15 UnitID = 0
+16 Entrou na funcao Action: EXPLORE
+15 HP = 40
+16 UnitID = 1
+16 HP = 40
+15 position = [471, 362]
+16 position = [484, 269]
+15 getCurrentState
+16 getCurrentState
+15 contnumberOfEnemyUnitsThatCanAttackMe: 0
+15 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+16 contnumberOfEnemyUnitsThatCanAttackMe: 0
+16 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+15 Entrou na função updateState
+16 Entrou na função updateState
+16 Entrou na função updateQ
+15 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+16 Entrou na função getValue
+15 Entrou na função getValue
+16 Entrou na função computeQ
+15 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.3276, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.3276, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.3276, 0.0, 0.0]
+q.get stado VALUES[0.3276, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.3276, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.3276, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.3276, 0.0, 0.0]
+q.get stado VALUES[0.3276, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.3276, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.3276, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.3276, 0.0, 0.0]
+q.get stado VALUES[0.3276, 0.0, 0.0]
+cq:0.3276
+cq:0.3276
+value:0.13448000000000004
+value:0.13448000000000004
+newQ:0.44863200000000003
+newQ:0.44863200000000003
+Entrou na função onEnd
+2
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init4
+17 Entrou na função getNextAction
+17 Entrou na função getNextAction
+1 thread Created on init4
+18 Entrou na função getNextAction
+18 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.44863200000000003, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.44863200000000003, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+17 Entrou na função executeAction
+17 Entrou na funcao Action: EXPLORE
+18 Entrou na função executeAction
+18 Entrou na funcao Action: EXPLORE
+17 UnitID = 1
+18 UnitID = 2
+17 HP = 40
+18 HP = 40
+17 position = [484, 269]
+17 getCurrentState
+18 position = [471, 362]
+18 getCurrentState
+17 contnumberOfEnemyUnitsThatCanAttackMe: 0
+18 contnumberOfEnemyUnitsThatCanAttackMe: 0
+17 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+18 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+17 Entrou na função updateState
+17 Entrou na função updateQ
+18 Entrou na função updateState
+Print state: MEDIUM_LOWHIGHZEROZERO
+18 Entrou na função updateQ
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+17 Entrou na função getValue
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+17 Entrou na função computeQ
+18 Entrou na função getValue
+action ATTACK
+18 Entrou na função computeQ
+estado MEDIUM_LOWHIGHZEROZERO
+action ATTACK
+q.get stado {EXPLORE=0.44863200000000003, FLEE=0.0, ATTACK=0.0}
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.44863200000000003, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.44863200000000003, 0.0, 0.0]
+q.get stado VALUES[0.44863200000000003, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.44863200000000003, FLEE=0.0, ATTACK=0.0}
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.44863200000000003, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.44863200000000003, 0.0, 0.0]
+q.get stado VALUES[0.44863200000000003, 0.0, 0.0]
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+action FLEE
+q.get stado {EXPLORE=0.44863200000000003, FLEE=0.0, ATTACK=0.0}
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado VALUES[0.44863200000000003, 0.0, 0.0]
+q.get stado {EXPLORE=0.44863200000000003, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.44863200000000003, 0.0, 0.0]
+cq:0.44863200000000003
+value:0.11027360000000008
+cq:0.44863200000000003
+value:0.11027360000000008
+newQ:0.5478782400000001
+newQ:0.5478782400000001
+Entrou na função onEnd
+3
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init5
+19 Entrou na função getNextAction
+19 Entrou na função getNextAction
+1 thread Created on init5
+20 Entrou na função getNextAction
+20 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.5478782400000001, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.5478782400000001, FLEE=0.0, ATTACK=0.0}
+19 Entrou na função executeAction
+EXPLORE
+19 Entrou na funcao Action: EXPLORE
+20 Entrou na função executeAction
+19 UnitID = 0
+20 Entrou na funcao Action: EXPLORE
+19 HP = 40
+20 UnitID = 2
+20 HP = 40
+19 position = [484, 269]
+20 position = [471, 362]
+19 getCurrentState
+20 getCurrentState
+19 contnumberOfEnemyUnitsThatCanAttackMe: 0
+19 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+20 contnumberOfEnemyUnitsThatCanAttackMe: 0
+20 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+19 Entrou na função updateState
+20 Entrou na função updateState
+20 Entrou na função updateQ
+19 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+20 Entrou na função getValue
+19 Entrou na função getValue
+19 Entrou na função computeQ
+20 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.5478782400000001, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.5478782400000001, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.5478782400000001, 0.0, 0.0]
+q.get stado VALUES[0.5478782400000001, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.5478782400000001, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.5478782400000001, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.5478782400000001, 0.0, 0.0]
+q.get stado VALUES[0.5478782400000001, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.5478782400000001, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.5478782400000001, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.5478782400000001, 0.0, 0.0]
+q.get stado VALUES[0.5478782400000001, 0.0, 0.0]
+cq:0.5478782400000001
+cq:0.5478782400000001
+value:0.09042435199999999
+value:0.09042435199999999
+newQ:0.6292601568
+newQ:0.6292601568
+Entrou na função onEnd
+4
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init6
+21 Entrou na função getNextAction
+21 Entrou na função getNextAction
+1 thread Created on init6
+22 Entrou na função getNextAction
+22 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.6292601568, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.6292601568, FLEE=0.0, ATTACK=0.0}
+21 Entrou na função executeAction
+EXPLORE
+21 Entrou na funcao Action: EXPLORE
+22 Entrou na função executeAction
+21 UnitID = 1
+22 Entrou na funcao Action: EXPLORE
+22 UnitID = 2
+21 HP = 40
+21 position = [484, 269]
+22 HP = 40
+21 getCurrentState
+22 position = [471, 362]
+21 contnumberOfEnemyUnitsThatCanAttackMe: 0
+22 getCurrentState
+22 contnumberOfEnemyUnitsThatCanAttackMe: 0
+21 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+22 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+21 Entrou na função updateState
+21 Entrou na função updateQ
+22 Entrou na função updateState
+22 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+21 Entrou na função getValue
+22 Entrou na função getValue
+21 Entrou na função computeQ
+22 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.6292601568, FLEE=0.0, ATTACK=0.0}
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.6292601568, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.6292601568, 0.0, 0.0]
+action EXPLORE
+q.get stado VALUES[0.6292601568, 0.0, 0.0]
+estado MEDIUM_LOWHIGHZEROZERO
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.6292601568, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.6292601568, 0.0, 0.0]
+q.get stado {EXPLORE=0.6292601568, FLEE=0.0, ATTACK=0.0}
+action FLEE
+q.get stado VALUES[0.6292601568, 0.0, 0.0]
+estado MEDIUM_LOWHIGHZEROZERO
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.6292601568, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.6292601568, 0.0, 0.0]
+q.get stado {EXPLORE=0.6292601568, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.6292601568, 0.0, 0.0]
+cq:0.6292601568
+value:0.07414796863999995
+cq:0.6292601568
+newQ:0.6959933285759999
+value:0.07414796863999995
+newQ:0.6959933285759999
+Entrou na função onEnd
+5
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init7
+23 Entrou na função getNextAction
+23 Entrou na função getNextAction
+1 thread Created on init7
+24 Entrou na função getNextAction
+24 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.6959933285759999, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+EXPLORE
+{EXPLORE=0.6959933285759999, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+23 Entrou na função executeAction
+23 Entrou na funcao Action: EXPLORE
+24 Entrou na função executeAction
+24 Entrou na funcao Action: EXPLORE
+23 UnitID = 1
+24 UnitID = 2
+23 HP = 40
+24 HP = 40
+23 position = [484, 269]
+23 getCurrentState
+24 position = [471, 362]
+24 getCurrentState
+23 contnumberOfEnemyUnitsThatCanAttackMe: 0
+23 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+24 contnumberOfEnemyUnitsThatCanAttackMe: 0
+24 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+23 Entrou na função updateState
+24 Entrou na função updateState
+23 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+24 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+23 Entrou na função getValue
+23 Entrou na função computeQ
+24 Entrou na função getValue
+24 Entrou na função computeQ
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.6959933285759999, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.6959933285759999, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.6959933285759999, 0.0, 0.0]
+action EXPLORE
+q.get stado VALUES[0.6959933285759999, 0.0, 0.0]
+estado MEDIUM_LOWHIGHZEROZERO
+action EXPLORE
+q.get stado {EXPLORE=0.6959933285759999, FLEE=0.0, ATTACK=0.0}
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.6959933285759999, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.6959933285759999, 0.0, 0.0]
+q.get stado VALUES[0.6959933285759999, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.6959933285759999, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.6959933285759999, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.6959933285759999, 0.0, 0.0]
+q.get stado VALUES[0.6959933285759999, 0.0, 0.0]
+cq:0.6959933285759999
+cq:0.6959933285759999
+value:0.06080133428480006
+value:0.06080133428480006
+newQ:0.75071452943232
+newQ:0.75071452943232
+Entrou na função onEnd
+6
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init8
+25 Entrou na função getNextAction
+25 Entrou na função getNextAction
+1 thread Created on init8
+26 Entrou na função getNextAction
+26 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.75071452943232, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+EXPLORE
+{EXPLORE=0.75071452943232, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+25 Entrou na função executeAction
+26 Entrou na função executeAction
+25 Entrou na funcao Action: EXPLORE
+26 Entrou na funcao Action: EXPLORE
+25 UnitID = 0
+26 UnitID = 2
+25 HP = 40
+25 position = [471, 362]
+26 HP = 40
+25 getCurrentState
+26 position = [484, 269]
+25 contnumberOfEnemyUnitsThatCanAttackMe: 0
+26 getCurrentState
+25 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+26 contnumberOfEnemyUnitsThatCanAttackMe: 0
+26 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+25 Entrou na função updateState
+26 Entrou na função updateState
+26 Entrou na função updateQ
+25 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+25 Entrou na função getValue
+26 Entrou na função getValue
+26 Entrou na função computeQ
+25 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.75071452943232, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.75071452943232, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.75071452943232, 0.0, 0.0]
+q.get stado VALUES[0.75071452943232, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.75071452943232, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.75071452943232, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.75071452943232, 0.0, 0.0]
+q.get stado VALUES[0.75071452943232, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.75071452943232, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.75071452943232, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.75071452943232, 0.0, 0.0]
+q.get stado VALUES[0.75071452943232, 0.0, 0.0]
+cq:0.75071452943232
+cq:0.75071452943232
+value:0.049857094113536005
+value:0.049857094113536005
+newQ:0.7955859141345024
+newQ:0.7955859141345024
+Entrou na função onEnd
+7
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init9
+27 Entrou na função getNextAction
+1 thread Created on init9
+27 Entrou na função getNextAction
+28 Entrou na função getNextAction
+28 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.7955859141345024, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.7955859141345024, FLEE=0.0, ATTACK=0.0}
+27 Entrou na função executeAction
+EXPLORE
+27 Entrou na funcao Action: EXPLORE
+28 Entrou na função executeAction
+27 UnitID = 2
+28 Entrou na funcao Action: EXPLORE
+28 UnitID = 3
+27 HP = 40
+27 position = [471, 362]
+28 HP = 40
+27 getCurrentState
+28 position = [484, 269]
+27 contnumberOfEnemyUnitsThatCanAttackMe: 0
+28 getCurrentState
+27 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+28 contnumberOfEnemyUnitsThatCanAttackMe: 0
+28 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+27 Entrou na função updateState
+27 Entrou na função updateQ
+28 Entrou na função updateState
+Print state: MEDIUM_LOWHIGHZEROZERO
+28 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+27 Entrou na função getValue
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+28 Entrou na função getValue
+27 Entrou na função computeQ
+action ATTACK
+28 Entrou na função computeQ
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.7955859141345024, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.7955859141345024, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.7955859141345024, 0.0, 0.0]
+q.get stado VALUES[0.7955859141345024, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.7955859141345024, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.7955859141345024, 0.0, 0.0]
+q.get stado {EXPLORE=0.7955859141345024, FLEE=0.0, ATTACK=0.0}
+action FLEE
+q.get stado VALUES[0.7955859141345024, 0.0, 0.0]
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.7955859141345024, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.7955859141345024, 0.0, 0.0]
+q.get stado {EXPLORE=0.7955859141345024, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.7955859141345024, 0.0, 0.0]
+cq:0.7955859141345024
+value:0.040882817173099606
+cq:0.7955859141345024
+newQ:0.832380449590292
+value:0.040882817173099606
+newQ:0.832380449590292
+Entrou na função onEnd
+8
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init10
+29 Entrou na função getNextAction
+29 Entrou na função getNextAction
+1 thread Created on init10
+30 Entrou na função getNextAction
+30 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.832380449590292, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+EXPLORE
+{EXPLORE=0.832380449590292, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+29 Entrou na função executeAction
+29 Entrou na funcao Action: EXPLORE
+30 Entrou na função executeAction
+30 Entrou na funcao Action: EXPLORE
+29 UnitID = 1
+30 UnitID = 2
+29 HP = 40
+30 HP = 40
+29 position = [484, 269]
+30 position = [471, 362]
+29 getCurrentState
+29 contnumberOfEnemyUnitsThatCanAttackMe: 0
+30 getCurrentState
+29 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+30 contnumberOfEnemyUnitsThatCanAttackMe: 0
+30 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+29 Entrou na função updateState
+30 Entrou na função updateState
+29 Entrou na função updateQ
+30 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+30 Entrou na função getValue
+29 Entrou na função getValue
+30 Entrou na função computeQ
+29 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.832380449590292, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.832380449590292, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.832380449590292, 0.0, 0.0]
+q.get stado VALUES[0.832380449590292, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.832380449590292, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.832380449590292, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.832380449590292, 0.0, 0.0]
+q.get stado VALUES[0.832380449590292, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.832380449590292, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.832380449590292, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.832380449590292, 0.0, 0.0]
+q.get stado VALUES[0.832380449590292, 0.0, 0.0]
+cq:0.832380449590292
+cq:0.832380449590292
+value:0.033523910081941555
+value:0.033523910081941555
+newQ:0.8625519686640394
+newQ:0.8625519686640394
+Entrou na função onEnd
+9
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init11
+31 Entrou na função getNextAction
+31 Entrou na função getNextAction
+1 thread Created on init11
+32 Entrou na função getNextAction
+32 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.8625519686640394, FLEE=0.0, ATTACK=0.0}
+{EXPLORE=0.8625519686640394, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+EXPLORE
+31 Entrou na função executeAction
+31 Entrou na funcao Action: EXPLORE
+32 Entrou na função executeAction
+31 UnitID = 1
+32 Entrou na funcao Action: EXPLORE
+31 HP = 40
+32 UnitID = 2
+31 position = [484, 269]
+32 HP = 40
+31 getCurrentState
+32 position = [471, 362]
+32 getCurrentState
+31 contnumberOfEnemyUnitsThatCanAttackMe: 0
+32 contnumberOfEnemyUnitsThatCanAttackMe: 0
+31 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+32 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+31 Entrou na função updateState
+31 Entrou na função updateQ
+32 Entrou na função updateState
+32 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+31 Entrou na função getValue
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+32 Entrou na função getValue
+31 Entrou na função computeQ
+32 Entrou na função computeQ
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.8625519686640394, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.8625519686640394, 0.0, 0.0]
+q.get stado {EXPLORE=0.8625519686640394, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.8625519686640394, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.8625519686640394, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.8625519686640394, 0.0, 0.0]
+q.get stado {EXPLORE=0.8625519686640394, FLEE=0.0, ATTACK=0.0}
+action FLEE
+q.get stado VALUES[0.8625519686640394, 0.0, 0.0]
+estado MEDIUM_LOWHIGHZEROZERO
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.8625519686640394, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.8625519686640394, 0.0, 0.0]
+q.get stado {EXPLORE=0.8625519686640394, FLEE=0.0, ATTACK=0.0}
+cq:0.8625519686640394
+q.get stado VALUES[0.8625519686640394, 0.0, 0.0]
+value:0.027489606267192213
+cq:0.8625519686640394
+newQ:0.8872926143045123
+value:0.027489606267192213
+newQ:0.8872926143045123
+Entrou na função onEnd
+10
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init12
+33 Entrou na função getNextAction
+33 Entrou na função getNextAction
+1 thread Created on init12
+34 Entrou na função getNextAction
+34 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.8872926143045123, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.8872926143045123, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+EXPLORE
+33 Entrou na função executeAction
+33 Entrou na funcao Action: EXPLORE
+34 Entrou na função executeAction
+34 Entrou na funcao Action: EXPLORE
+33 UnitID = 2
+33 HP = 40
+34 UnitID = 3
+34 HP = 40
+33 position = [484, 269]
+34 position = [471, 362]
+33 getCurrentState
+33 contnumberOfEnemyUnitsThatCanAttackMe: 0
+34 getCurrentState
+33 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+34 contnumberOfEnemyUnitsThatCanAttackMe: 0
+34 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+33 Entrou na função updateState
+34 Entrou na função updateState
+33 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+34 Entrou na função updateQ
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+33 Entrou na função getValue
+34 Entrou na função getValue
+33 Entrou na função computeQ
+34 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.8872926143045123, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.8872926143045123, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.8872926143045123, 0.0, 0.0]
+q.get stado VALUES[0.8872926143045123, 0.0, 0.0]
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.8872926143045123, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.8872926143045123, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.8872926143045123, 0.0, 0.0]
+action FLEE
+q.get stado VALUES[0.8872926143045123, 0.0, 0.0]
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.8872926143045123, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.8872926143045123, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.8872926143045123, 0.0, 0.0]
+q.get stado VALUES[0.8872926143045123, 0.0, 0.0]
+cq:0.8872926143045123
+value:0.022541477139097488
+cq:0.8872926143045123
+newQ:0.9075799437297001
+value:0.022541477139097488
+newQ:0.9075799437297001
+Entrou na função onEnd
+11
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init13
+35 Entrou na função getNextAction
+35 Entrou na função getNextAction
+1 thread Created on init13
+36 Entrou na função getNextAction
+36 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9075799437297001, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.9075799437297001, FLEE=0.0, ATTACK=0.0}
+35 Entrou na função executeAction
+EXPLORE
+36 Entrou na função executeAction
+35 Entrou na funcao Action: EXPLORE
+35 UnitID = 1
+36 Entrou na funcao Action: EXPLORE
+35 HP = 40
+36 UnitID = 2
+35 position = [484, 269]
+36 HP = 40
+36 position = [471, 362]
+35 getCurrentState
+35 contnumberOfEnemyUnitsThatCanAttackMe: 0
+36 getCurrentState
+35 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+36 contnumberOfEnemyUnitsThatCanAttackMe: 0
+36 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+35 Entrou na função updateState
+36 Entrou na função updateState
+36 Entrou na função updateQ
+35 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+36 Entrou na função getValue
+35 Entrou na função getValue
+36 Entrou na função computeQ
+35 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9075799437297001, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9075799437297001, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9075799437297001, 0.0, 0.0]
+q.get stado VALUES[0.9075799437297001, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9075799437297001, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9075799437297001, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9075799437297001, 0.0, 0.0]
+q.get stado VALUES[0.9075799437297001, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9075799437297001, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9075799437297001, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9075799437297001, 0.0, 0.0]
+q.get stado VALUES[0.9075799437297001, 0.0, 0.0]
+cq:0.9075799437297001
+cq:0.9075799437297001
+value:0.018484011254060073
+value:0.018484011254060073
+newQ:0.9242155538583542
+newQ:0.9242155538583542
+Entrou na função onEnd
+12
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init14
+37 Entrou na função getNextAction
+37 Entrou na função getNextAction
+1 thread Created on init14
+38 Entrou na função getNextAction
+38 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9242155538583542, FLEE=0.0, ATTACK=0.0}
+{EXPLORE=0.9242155538583542, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+37 Entrou na função executeAction
+EXPLORE
+37 Entrou na funcao Action: EXPLORE
+38 Entrou na função executeAction
+38 Entrou na funcao Action: EXPLORE
+37 UnitID = 1
+38 UnitID = 2
+37 HP = 40
+38 HP = 40
+37 position = [484, 269]
+38 position = [471, 362]
+37 getCurrentState
+38 getCurrentState
+37 contnumberOfEnemyUnitsThatCanAttackMe: 0
+37 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+38 contnumberOfEnemyUnitsThatCanAttackMe: 0
+38 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+37 Entrou na função updateState
+38 Entrou na função updateState
+38 Entrou na função updateQ
+37 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+37 Entrou na função getValue
+38 Entrou na função getValue
+37 Entrou na função computeQ
+38 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9242155538583542, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9242155538583542, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9242155538583542, 0.0, 0.0]
+q.get stado VALUES[0.9242155538583542, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9242155538583542, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9242155538583542, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9242155538583542, 0.0, 0.0]
+q.get stado VALUES[0.9242155538583542, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9242155538583542, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9242155538583542, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9242155538583542, 0.0, 0.0]
+q.get stado VALUES[0.9242155538583542, 0.0, 0.0]
+cq:0.9242155538583542
+cq:0.9242155538583542
+value:0.015156889228329251
+value:0.015156889228329251
+newQ:0.9378567541638505
+newQ:0.9378567541638505
+Entrou na função onEnd
+13
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init15
+39 Entrou na função getNextAction
+39 Entrou na função getNextAction
+1 thread Created on init15
+40 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+40 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9378567541638505, FLEE=0.0, ATTACK=0.0}
+{EXPLORE=0.9378567541638505, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+39 Entrou na função executeAction
+EXPLORE
+39 Entrou na funcao Action: EXPLORE
+40 Entrou na função executeAction
+40 Entrou na funcao Action: EXPLORE
+39 UnitID = 1
+40 UnitID = 2
+39 HP = 40
+39 position = [484, 269]
+40 HP = 40
+40 position = [471, 362]
+39 getCurrentState
+39 contnumberOfEnemyUnitsThatCanAttackMe: 0
+40 getCurrentState
+39 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+40 contnumberOfEnemyUnitsThatCanAttackMe: 0
+40 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+39 Entrou na função updateState
+40 Entrou na função updateState
+39 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+40 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+39 Entrou na função getValue
+40 Entrou na função getValue
+39 Entrou na função computeQ
+40 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9378567541638505, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9378567541638505, 0.0, 0.0]
+q.get stado {EXPLORE=0.9378567541638505, FLEE=0.0, ATTACK=0.0}
+action EXPLORE
+q.get stado VALUES[0.9378567541638505, 0.0, 0.0]
+estado MEDIUM_LOWHIGHZEROZERO
+action EXPLORE
+q.get stado {EXPLORE=0.9378567541638505, FLEE=0.0, ATTACK=0.0}
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado VALUES[0.9378567541638505, 0.0, 0.0]
+q.get stado {EXPLORE=0.9378567541638505, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9378567541638505, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9378567541638505, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9378567541638505, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9378567541638505, 0.0, 0.0]
+cq:0.9378567541638505
+q.get stado VALUES[0.9378567541638505, 0.0, 0.0]
+cq:0.9378567541638505
+value:0.012428649167229855
+newQ:0.9490425384143574
+value:0.012428649167229855
+newQ:0.9490425384143574
+Entrou na função onEnd
+14
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init16
+41 Entrou na função getNextAction
+41 Entrou na função getNextAction
+1 thread Created on init16
+42 Entrou na função getNextAction
+42 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9490425384143574, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.9490425384143574, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+41 Entrou na função executeAction
+42 Entrou na função executeAction
+41 Entrou na funcao Action: EXPLORE
+42 Entrou na funcao Action: EXPLORE
+41 UnitID = 1
+41 HP = 40
+42 UnitID = 3
+42 HP = 40
+41 position = [484, 269]
+42 position = [471, 362]
+41 getCurrentState
+41 contnumberOfEnemyUnitsThatCanAttackMe: 0
+42 getCurrentState
+41 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+42 contnumberOfEnemyUnitsThatCanAttackMe: 0
+42 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+41 Entrou na função updateState
+42 Entrou na função updateState
+42 Entrou na função updateQ
+41 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+42 Entrou na função getValue
+41 Entrou na função getValue
+41 Entrou na função computeQ
+42 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9490425384143574, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9490425384143574, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9490425384143574, 0.0, 0.0]
+q.get stado VALUES[0.9490425384143574, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9490425384143574, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9490425384143574, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9490425384143574, 0.0, 0.0]
+q.get stado VALUES[0.9490425384143574, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9490425384143574, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9490425384143574, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9490425384143574, 0.0, 0.0]
+q.get stado VALUES[0.9490425384143574, 0.0, 0.0]
+cq:0.9490425384143574
+cq:0.9490425384143574
+value:0.01019149231712857
+value:0.01019149231712857
+newQ:0.9582148814997731
+newQ:0.9582148814997731
+Entrou na função onEnd
+15
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init17
+43 Entrou na função getNextAction
+43 Entrou na função getNextAction
+1 thread Created on init17
+44 Entrou na função getNextAction
+44 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9582148814997731, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.9582148814997731, FLEE=0.0, ATTACK=0.0}
+43 Entrou na função executeAction
+EXPLORE
+44 Entrou na função executeAction
+43 Entrou na funcao Action: EXPLORE
+44 Entrou na funcao Action: EXPLORE
+43 UnitID = 1
+43 HP = 40
+44 UnitID = 2
+44 HP = 40
+43 position = [484, 269]
+44 position = [471, 362]
+43 getCurrentState
+43 contnumberOfEnemyUnitsThatCanAttackMe: 0
+44 getCurrentState
+43 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+44 contnumberOfEnemyUnitsThatCanAttackMe: 0
+44 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+43 Entrou na função updateState
+44 Entrou na função updateState
+43 Entrou na função updateQ
+44 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+44 Entrou na função getValue
+43 Entrou na função getValue
+44 Entrou na função computeQ
+43 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9582148814997731, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9582148814997731, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9582148814997731, 0.0, 0.0]
+q.get stado VALUES[0.9582148814997731, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9582148814997731, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9582148814997731, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9582148814997731, 0.0, 0.0]
+q.get stado VALUES[0.9582148814997731, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9582148814997731, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9582148814997731, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9582148814997731, 0.0, 0.0]
+q.get stado VALUES[0.9582148814997731, 0.0, 0.0]
+cq:0.9582148814997731
+cq:0.9582148814997731
+value:0.00835702370004543
+value:0.00835702370004543
+newQ:0.965736202829814
+newQ:0.965736202829814
+Entrou na função onEnd
+16
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init18
+45 Entrou na função getNextAction
+45 Entrou na função getNextAction
+1 thread Created on init18
+46 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+46 Entrou na função getNextAction
+{EXPLORE=0.965736202829814, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+EXPLORE
+{EXPLORE=0.965736202829814, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+45 Entrou na função executeAction
+46 Entrou na função executeAction
+45 Entrou na funcao Action: EXPLORE
+45 UnitID = 1
+46 Entrou na funcao Action: EXPLORE
+46 UnitID = 2
+45 HP = 40
+45 position = [484, 269]
+46 HP = 40
+46 position = [471, 362]
+45 getCurrentState
+45 contnumberOfEnemyUnitsThatCanAttackMe: 0
+46 getCurrentState
+45 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+46 contnumberOfEnemyUnitsThatCanAttackMe: 0
+46 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+45 Entrou na função updateState
+46 Entrou na função updateState
+46 Entrou na função updateQ
+45 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+45 Entrou na função getValue
+46 Entrou na função getValue
+45 Entrou na função computeQ
+46 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.965736202829814, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.965736202829814, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.965736202829814, 0.0, 0.0]
+q.get stado VALUES[0.965736202829814, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.965736202829814, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.965736202829814, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.965736202829814, 0.0, 0.0]
+q.get stado VALUES[0.965736202829814, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.965736202829814, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.965736202829814, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.965736202829814, 0.0, 0.0]
+q.get stado VALUES[0.965736202829814, 0.0, 0.0]
+cq:0.965736202829814
+cq:0.965736202829814
+value:0.006852759434037292
+value:0.006852759434037292
+newQ:0.9719036863204475
+newQ:0.9719036863204475
+Entrou na função onEnd
+17
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init19
+47 Entrou na função getNextAction
+47 Entrou na função getNextAction
+1 thread Created on init19
+48 Entrou na função getNextAction
+48 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9719036863204475, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.9719036863204475, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+47 Entrou na função executeAction
+47 Entrou na funcao Action: EXPLORE
+48 Entrou na função executeAction
+48 Entrou na funcao Action: EXPLORE
+47 UnitID = 1
+47 HP = 40
+48 UnitID = 2
+48 HP = 40
+47 position = [484, 269]
+47 getCurrentState
+48 position = [471, 362]
+48 getCurrentState
+47 contnumberOfEnemyUnitsThatCanAttackMe: 0
+47 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+48 contnumberOfEnemyUnitsThatCanAttackMe: 0
+48 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+47 Entrou na função updateState
+48 Entrou na função updateState
+47 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+48 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+47 Entrou na função getValue
+48 Entrou na função getValue
+47 Entrou na função computeQ
+action ATTACK
+48 Entrou na função computeQ
+estado MEDIUM_LOWHIGHZEROZERO
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9719036863204475, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9719036863204475, 0.0, 0.0]
+q.get stado {EXPLORE=0.9719036863204475, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9719036863204475, 0.0, 0.0]
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9719036863204475, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9719036863204475, 0.0, 0.0]
+q.get stado {EXPLORE=0.9719036863204475, FLEE=0.0, ATTACK=0.0}
+action FLEE
+q.get stado VALUES[0.9719036863204475, 0.0, 0.0]
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9719036863204475, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9719036863204475, 0.0, 0.0]
+q.get stado {EXPLORE=0.9719036863204475, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9719036863204475, 0.0, 0.0]
+cq:0.9719036863204475
+cq:0.9719036863204475
+value:0.005619262735910624
+newQ:0.9769610227827671
+value:0.005619262735910624
+newQ:0.9769610227827671
+Entrou na função onEnd
+18
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init20
+49 Entrou na função getNextAction
+49 Entrou na função getNextAction
+1 thread Created on init20
+50 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+50 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9769610227827671, FLEE=0.0, ATTACK=0.0}
+{EXPLORE=0.9769610227827671, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+EXPLORE
+49 Entrou na função executeAction
+49 Entrou na funcao Action: EXPLORE
+50 Entrou na função executeAction
+50 Entrou na funcao Action: EXPLORE
+49 UnitID = 0
+49 HP = 40
+50 UnitID = 2
+49 position = [484, 269]
+50 HP = 40
+49 getCurrentState
+50 position = [471, 362]
+50 getCurrentState
+49 contnumberOfEnemyUnitsThatCanAttackMe: 0
+49 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+50 contnumberOfEnemyUnitsThatCanAttackMe: 0
+50 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+49 Entrou na função updateState
+50 Entrou na função updateState
+50 Entrou na função updateQ
+49 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+50 Entrou na função getValue
+49 Entrou na função getValue
+50 Entrou na função computeQ
+49 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9769610227827671, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9769610227827671, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9769610227827671, 0.0, 0.0]
+q.get stado VALUES[0.9769610227827671, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9769610227827671, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9769610227827671, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9769610227827671, 0.0, 0.0]
+q.get stado VALUES[0.9769610227827671, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9769610227827671, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9769610227827671, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9769610227827671, 0.0, 0.0]
+q.get stado VALUES[0.9769610227827671, 0.0, 0.0]
+cq:0.9769610227827671
+cq:0.9769610227827671
+value:0.004607795443446583
+value:0.004607795443446583
+newQ:0.981108038681869
+newQ:0.981108038681869
+Entrou na função onEnd
+19
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init21
+51 Entrou na função getNextAction
+51 Entrou na função getNextAction
+1 thread Created on init21
+52 Entrou na função getNextAction
+52 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.981108038681869, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+{EXPLORE=0.981108038681869, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+51 Entrou na função executeAction
+51 Entrou na funcao Action: EXPLORE
+52 Entrou na função executeAction
+52 Entrou na funcao Action: EXPLORE
+51 UnitID = 1
+51 HP = 40
+52 UnitID = 2
+52 HP = 40
+51 position = [484, 269]
+51 getCurrentState
+52 position = [471, 362]
+51 contnumberOfEnemyUnitsThatCanAttackMe: 0
+52 getCurrentState
+51 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+52 contnumberOfEnemyUnitsThatCanAttackMe: 0
+52 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+51 Entrou na função updateState
+52 Entrou na função updateState
+51 Entrou na função updateQ
+52 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+51 Entrou na função getValue
+52 Entrou na função getValue
+52 Entrou na função computeQ
+51 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.981108038681869, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.981108038681869, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.981108038681869, 0.0, 0.0]
+q.get stado VALUES[0.981108038681869, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.981108038681869, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.981108038681869, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.981108038681869, 0.0, 0.0]
+q.get stado VALUES[0.981108038681869, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.981108038681869, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.981108038681869, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.981108038681869, 0.0, 0.0]
+q.get stado VALUES[0.981108038681869, 0.0, 0.0]
+cq:0.981108038681869
+cq:0.981108038681869
+value:0.0037783922636261957
+value:0.0037783922636261957
+newQ:0.9845085917191326
+newQ:0.9845085917191326
+Entrou na função onEnd
+20
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init22
+53 Entrou na função getNextAction
+53 Entrou na função getNextAction
+1 thread Created on init22
+54 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+54 Entrou na função getNextAction
+{EXPLORE=0.9845085917191326, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+EXPLORE
+{EXPLORE=0.9845085917191326, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+53 Entrou na função executeAction
+54 Entrou na função executeAction
+53 Entrou na funcao Action: EXPLORE
+54 Entrou na funcao Action: EXPLORE
+53 UnitID = 1
+53 HP = 40
+54 UnitID = 2
+53 position = [484, 269]
+54 HP = 40
+54 position = [471, 362]
+53 getCurrentState
+53 contnumberOfEnemyUnitsThatCanAttackMe: 0
+54 getCurrentState
+54 contnumberOfEnemyUnitsThatCanAttackMe: 0
+53 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+54 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+53 Entrou na função updateState
+53 Entrou na função updateQ
+54 Entrou na função updateState
+Print state: MEDIUM_LOWHIGHZEROZERO
+54 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+53 Entrou na função getValue
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+54 Entrou na função getValue
+53 Entrou na função computeQ
+action ATTACK
+54 Entrou na função computeQ
+estado MEDIUM_LOWHIGHZEROZERO
+action ATTACK
+q.get stado {EXPLORE=0.9845085917191326, FLEE=0.0, ATTACK=0.0}
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9845085917191326, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9845085917191326, 0.0, 0.0]
+action EXPLORE
+q.get stado VALUES[0.9845085917191326, 0.0, 0.0]
+estado MEDIUM_LOWHIGHZEROZERO
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9845085917191326, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9845085917191326, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9845085917191326, 0.0, 0.0]
+q.get stado VALUES[0.9845085917191326, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9845085917191326, FLEE=0.0, ATTACK=0.0}
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9845085917191326, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9845085917191326, 0.0, 0.0]
+q.get stado VALUES[0.9845085917191326, 0.0, 0.0]
+cq:0.9845085917191326
+cq:0.9845085917191326
+value:0.0030982816561734294
+value:0.0030982816561734294
+newQ:0.9872970452096888
+newQ:0.9872970452096888
+Entrou na função onEnd
+21
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init23
+55 Entrou na função getNextAction
+55 Entrou na função getNextAction
+1 thread Created on init23
+56 Entrou na função getNextAction
+56 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9872970452096888, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9872970452096888, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+55 Entrou na função executeAction
+EXPLORE
+55 Entrou na funcao Action: EXPLORE
+56 Entrou na função executeAction
+55 UnitID = 1
+56 Entrou na funcao Action: EXPLORE
+56 UnitID = 2
+55 HP = 40
+56 HP = 40
+55 position = [484, 269]
+55 getCurrentState
+56 position = [471, 362]
+56 getCurrentState
+55 contnumberOfEnemyUnitsThatCanAttackMe: 0
+55 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+56 contnumberOfEnemyUnitsThatCanAttackMe: 0
+56 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+55 Entrou na função updateState
+56 Entrou na função updateState
+56 Entrou na função updateQ
+55 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+55 Entrou na função getValue
+56 Entrou na função getValue
+55 Entrou na função computeQ
+56 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9872970452096888, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9872970452096888, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9872970452096888, 0.0, 0.0]
+q.get stado VALUES[0.9872970452096888, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9872970452096888, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9872970452096888, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9872970452096888, 0.0, 0.0]
+q.get stado VALUES[0.9872970452096888, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9872970452096888, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9872970452096888, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9872970452096888, 0.0, 0.0]
+q.get stado VALUES[0.9872970452096888, 0.0, 0.0]
+cq:0.9872970452096888
+cq:0.9872970452096888
+value:0.00254059095806225
+value:0.00254059095806225
+newQ:0.9895835770719448
+newQ:0.9895835770719448
+Entrou na função onEnd
+22
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init24
+57 Entrou na função getNextAction
+57 Entrou na função getNextAction
+1 thread Created on init24
+58 Entrou na função getNextAction
+58 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9895835770719448, FLEE=0.0, ATTACK=0.0}
+{EXPLORE=0.9895835770719448, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+57 Entrou na função executeAction
+EXPLORE
+58 Entrou na função executeAction
+57 Entrou na funcao Action: EXPLORE
+57 UnitID = 1
+58 Entrou na funcao Action: EXPLORE
+58 UnitID = 3
+57 HP = 40
+58 HP = 40
+57 position = [484, 269]
+57 getCurrentState
+58 position = [471, 362]
+58 getCurrentState
+57 contnumberOfEnemyUnitsThatCanAttackMe: 0
+57 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+58 contnumberOfEnemyUnitsThatCanAttackMe: 0
+58 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+57 Entrou na função updateState
+58 Entrou na função updateState
+57 Entrou na função updateQ
+58 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+58 Entrou na função getValue
+57 Entrou na função getValue
+58 Entrou na função computeQ
+57 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9895835770719448, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9895835770719448, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9895835770719448, 0.0, 0.0]
+q.get stado VALUES[0.9895835770719448, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9895835770719448, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9895835770719448, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9895835770719448, 0.0, 0.0]
+q.get stado VALUES[0.9895835770719448, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9895835770719448, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9895835770719448, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9895835770719448, 0.0, 0.0]
+q.get stado VALUES[0.9895835770719448, 0.0, 0.0]
+cq:0.9895835770719448
+cq:0.9895835770719448
+value:0.0020832845856111337
+value:0.0020832845856111337
+newQ:0.9914585331989948
+newQ:0.9914585331989948
+Entrou na função onEnd
+23
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init25
+59 Entrou na função getNextAction
+59 Entrou na função getNextAction
+1 thread Created on init25
+60 Entrou na função getNextAction
+60 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+{EXPLORE=0.9914585331989948, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+EXPLORE
+{EXPLORE=0.9914585331989948, FLEE=0.0, ATTACK=0.0}
+EXPLORE
+59 Entrou na função executeAction
+59 Entrou na funcao Action: EXPLORE
+60 Entrou na função executeAction
+59 UnitID = 0
+60 Entrou na funcao Action: EXPLORE
+59 HP = 40
+60 UnitID = 2
+59 position = [471, 362]
+60 HP = 40
+60 position = [484, 269]
+59 getCurrentState
+60 getCurrentState
+59 contnumberOfEnemyUnitsThatCanAttackMe: 0
+60 contnumberOfEnemyUnitsThatCanAttackMe: 0
+59 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+60 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+59 Entrou na função updateState
+60 Entrou na função updateState
+59 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+60 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+59 Entrou na função getValue
+59 Entrou na função computeQ
+60 Entrou na função getValue
+action ATTACK
+60 Entrou na função computeQ
+estado MEDIUM_LOWHIGHZEROZERO
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9914585331989948, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9914585331989948, 0.0, 0.0]
+q.get stado {EXPLORE=0.9914585331989948, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9914585331989948, 0.0, 0.0]
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9914585331989948, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9914585331989948, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9914585331989948, 0.0, 0.0]
+action FLEE
+q.get stado VALUES[0.9914585331989948, 0.0, 0.0]
+estado MEDIUM_LOWHIGHZEROZERO
+action FLEE
+q.get stado {EXPLORE=0.9914585331989948, FLEE=0.0, ATTACK=0.0}
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9914585331989948, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9914585331989948, 0.0, 0.0]
+cq:0.9914585331989948
+q.get stado VALUES[0.9914585331989948, 0.0, 0.0]
+cq:0.9914585331989948
+value:0.001708293360201174
+value:0.001708293360201174
+newQ:0.9929959972231759
+newQ:0.9929959972231759
+Entrou na função onEnd
+24
+Entrou na função onStart
+1 Entrou na função init
+1 thread Created on init26
+61 Entrou na função getNextAction
+61 Entrou na função getNextAction
+1 thread Created on init26
+62 Entrou na função getNextAction
+MEDIUM_LOWHIGHZEROZERO
+62 Entrou na função getNextAction
+{EXPLORE=0.9929959972231759, FLEE=0.0, ATTACK=0.0}
+MEDIUM_LOWHIGHZEROZERO
+EXPLORE
+{EXPLORE=0.9929959972231759, FLEE=0.0, ATTACK=0.0}
+61 Entrou na função executeAction
+EXPLORE
+61 Entrou na funcao Action: EXPLORE
+62 Entrou na função executeAction
+61 UnitID = 2
+62 Entrou na funcao Action: EXPLORE
+61 HP = 40
+62 UnitID = 3
+62 HP = 40
+61 position = [484, 269]
+62 position = [471, 362]
+61 getCurrentState
+62 getCurrentState
+61 contnumberOfEnemyUnitsThatCanAttackMe: 0
+61 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+62 contnumberOfEnemyUnitsThatCanAttackMe: 0
+62 contnumberOfEnemyUnitsThatCanBeAttacked: 0
+Map data ready
+61 Entrou na função updateState
+62 Entrou na função updateState
+61 Entrou na função updateQ
+62 Entrou na função updateQ
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print state: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+Print nextState: MEDIUM_LOWHIGHZEROZERO
+62 Entrou na função getValue
+61 Entrou na função getValue
+61 Entrou na função computeQ
+62 Entrou na função computeQ
+action ATTACK
+action ATTACK
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9929959972231759, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9929959972231759, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9929959972231759, 0.0, 0.0]
+q.get stado VALUES[0.9929959972231759, 0.0, 0.0]
+action EXPLORE
+action EXPLORE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9929959972231759, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9929959972231759, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9929959972231759, 0.0, 0.0]
+q.get stado VALUES[0.9929959972231759, 0.0, 0.0]
+action FLEE
+action FLEE
+estado MEDIUM_LOWHIGHZEROZERO
+estado MEDIUM_LOWHIGHZEROZERO
+q.get stado {EXPLORE=0.9929959972231759, FLEE=0.0, ATTACK=0.0}
+q.get stado {EXPLORE=0.9929959972231759, FLEE=0.0, ATTACK=0.0}
+q.get stado VALUES[0.9929959972231759, 0.0, 0.0]
+q.get stado VALUES[0.9929959972231759, 0.0, 0.0]
+cq:0.9929959972231759
+cq:0.9929959972231759
+value:0.001400800555364956
+value:0.001400800555364956
+newQ:0.9942567177230044
+newQ:0.9942567177230044
+Entrou na função onEnd
+25

@@ -1,12 +1,13 @@
 package scrl;
 
+import java.io.IOException;
 import java.io.Serializable;
-
 import scrl.algorithm.QLearning;
 import scrl.algorithm.QTable;
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
+import scrl.tests.TestBotSC1;
 
 public class SCRL implements Serializable {
 
@@ -28,18 +29,31 @@ public class SCRL implements Serializable {
 		//learning.getQTable().setEpsilon(1 - (matchNumber / (TestBotSC1.MAX_GAMES * 1d)));
 	}
 
-	public void updateState(Actions action, UnitState state) {
-		System.out.println("updateState");
-		learning.updateQ(state, action);
-		setCurrent(state);
+	public void updateState(Actions action, UnitState curState, UnitState newState) {
+		try {
+			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função updateState");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setCurrent(curState);
+		
+		System.out.println("updateState function");
+		System.out.println("cur: "+curState);
+		System.out.println("new: "+newState);
+		
+		learning.updateQ(curState,newState, action);
+		
 	}
 
 	public Actions getNextAction(UnitState pState) {
-		System.out.println("get next action");
-		
+		try {
+			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getNextAction");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		QTable table = learning.getQTable();
-		//System.out.println(table);
-		//System.out.println(pState);
 		return table.getMaxAction(pState);
 	}
 

@@ -9,10 +9,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
+import scrl.tests.TestBotSC1;
 
 public class QLearning implements Serializable {
 	private static final long serialVersionUID = -6943736143750359469L;
@@ -32,79 +32,72 @@ public class QLearning implements Serializable {
 		q = new QTable(states, actions);
 	}
 
-	public void updateQ(UnitState state, Actions action) {
-		System.out.println("updateQ");
-		double reward = scrl.model.RewardFunction.getValue(state, action);
-		// double reward = model.getRewardFunction().getValue(state, action);
+	public void updateQ(UnitState state, UnitState next, Actions action) {
+		try {
+			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função updateQ");
+			TestBotSC1.log("Print state: " + state.toString());
+			TestBotSC1.log("Print nextState: "+next.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		double reward = scrl.model.RewardFunction.getValue(state,next, action);
 		double newQValue = computeQ(state, action, reward);
-		
-		System.out.println("newCCHashMap");
-		//Map<Actions, Double> computedActionValue = new HashMap<>();
-		
-		
 		Map<Actions, Double> computedActionValue = new ConcurrentHashMap<>();
 		computedActionValue = q.get(state);
 		for (Actions actions2 : actions) {
 			if(actions2 == action)
 				computedActionValue.put(action, newQValue);
 		}
-		
-		System.out.println("addTheNewHashMapOn Q");
 		q.put(state, computedActionValue);
-		
-		// q[state.hashCode()][actions.indexOf(action)] = computeQ(state,
-		// action, reward);
-		System.out.println("ACCTUALY DID THAT");
-		
 	}
 
 	private double computeQ(UnitState state, Actions action, double reward) {
-		System.out.println("compute Q");
-		// get current q value
-		
-		System.out.println("vai pegar cq");
+		try {
+			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função computeQ");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		double cq = q.get(state).get(action);
-		System.out.println("pegou cq:  "+ cq);
-		// double cq = q[index(state)][action.hashCode()];
-		// compute the right side of the equation
-		System.out.println("vai calcular VALUE");
+		//System.out.println("pegou cq:  "+ cq);
+	//	System.out.println("vai calcular VALUE");
 		double value = reward + (GAMA * getMax(state)) - cq;
-		// compute new q value
 		double newq = cq + ALPHA * value;
-
-		System.out.println("computou newQ:  "+ newq);
+//		System.out.println("computou newQ:  "+ newq);
+		try {
+			TestBotSC1.log("cq:" + cq);
+			TestBotSC1.log("value:" + value);
+			TestBotSC1.log("newQ:" + newq);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return newq;
 	}
 
 	protected double getMax(UnitState pState){
-		double max = 0;
-		// search for the Q v for each state
-		System.out.println("vai entrar no for do GetMAX QLEARNING CLASS");
+		double max = 0;		
 		for (Actions action : actions) {
-			System.out.println("action "+action);
-			System.out.println("estado "+pState);
-			System.out.println("q.get stado " +q.get(pState));
-			System.out.println("q.get stado VALUES" +q.get(pState).values());
 			
+			try {
+				TestBotSC1.log("action "+action);
+				TestBotSC1.log("estado "+pState);
+				TestBotSC1.log("q.get stado " +q.get(pState));
+				TestBotSC1.log("q.get stado VALUES" +q.get(pState).values());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 			
-			
-			// tá aqui nessa linha o problema
-			
-			System.out.println("q");
-			System.out.println(q);
-			System.out.println("imprimiu q inteiro");
-
-			System.out.println(q.size());
-			System.out.println(q.values());
 			double value = q.get(pState).get(action);
-			System.out.println("value " +value);
 			if (value > max) {
 				max = value;
 			}
-			System.out.println("vai pra prox iteração do FOR");
+			
 		}
-		System.out.println("saiu do for");
+		
 
 		return max;
 	}
