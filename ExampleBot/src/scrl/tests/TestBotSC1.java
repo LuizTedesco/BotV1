@@ -33,6 +33,12 @@ public class TestBotSC1 extends DefaultBWListener {
 	private static int match = 0;
 
 	public void run() {
+		try {
+			TestBotSC1.log("Entrou na função RUN DENTRO DE TESTBOTSC1");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		mirror.getModule().setEventListener(this);
 		mirror.startGame();
 	}
@@ -103,9 +109,7 @@ public class TestBotSC1 extends DefaultBWListener {
 		rl.init(match);
 
 		for (Unit myUnit : self.getUnits()) {
-			
-			
-			new RLUnitThread(rl, myUnit, this, enemy).start();
+			new RLUnitThread(rl, myUnit, self, this, enemy).start();
 			try {
 				log(Thread.currentThread().getId()+" thread Created on init" + initCounter);
 			} catch (IOException e) {

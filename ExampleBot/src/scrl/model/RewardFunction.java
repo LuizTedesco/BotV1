@@ -14,8 +14,8 @@ public class RewardFunction {
 		}
 		//System.out.println("getValueForGiverAction:  " + pAction);
 		if (pAction == Actions.ATTACK) {
-			return next.getHpFromNearbyEnemies().isLower(pState.getHpFromNearbyEnemies()) ? -10 : 10;
-			//return 30;
+			//return next.getHpFromNearbyEnemies().isLower(pState.getHpFromNearbyEnemies()) ? -10 : 10;
+			return 30;
 		} else if (pAction == Actions.EXPLORE){
 			return 0.2;
 		}

@@ -1,7 +1,7 @@
 package scrl.model.range;
 
 public enum RangeUnits implements Range {
-	ZERO(0, 0), SMALL(1, 2), MEDIUM(2, 3), LARGE(3, 50); // e o caso q se tenha
+	ZERO(0, 0), SMALL(1, 2), MEDIUM(3, 5), LARGE(6, 200); // e o caso q se tenha
 															// mais?
 	double min;
 	double max;
@@ -16,9 +16,9 @@ public enum RangeUnits implements Range {
 			return ZERO;
 		else if (value <= 2)
 			return SMALL;
-		else if (value <= 3)
+		else if (value <= 5)
 			return MEDIUM;
-		else if (value <= 50)
+		else if (value <= 200)
 			return LARGE;
 		return null;
 	}

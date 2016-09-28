@@ -1,11 +1,15 @@
 package scrl;
 
 import java.io.IOException;
+import java.util.List;
 
 import bwapi.Player;
 import bwapi.Unit;
 import scrl.model.Actions;
 import scrl.model.UnitState;
+import scrl.model.range.RangeDistance;
+import scrl.model.range.RangeHP;
+import scrl.model.range.RangeUnits;
 import scrl.tests.TestBotSC1;
 
 public class RLUnitThread extends Thread {
@@ -13,32 +17,21 @@ public class RLUnitThread extends Thread {
 	private Unit me;
 	private SCRL rl;
 	private TestBotSC1 bot;
-	private Player enemies;
+	private Player enemy;
+	private Player self;
 
-	public RLUnitThread(SCRL rl, Unit me, TestBotSC1 bot, Player enemies) {
+	public RLUnitThread(SCRL rl, Unit me, Player self, TestBotSC1 bot, Player enemy) {
 		this.me = me;
+		this.self = self;
 		this.rl = rl;
 		this.bot = bot;
-		this.enemies = enemies;
+		this.enemy = enemy;
 	}
 
 	@Override
 	public void run() {
-		double contHpLife = 0.d;
-		int contnumberOfEnemyUnitsThatCanBeAttacked = 0;
-		int contnumberOfEnemyUnitsThatCanAttackMe = 0;
+		UnitState curState = getCurrentState();
 
-		for (Unit enemyUnit : enemies.getUnits()) {
-			contHpLife += enemyUnit.getHitPoints();
-			if (me.isInWeaponRange(enemyUnit))
-				contnumberOfEnemyUnitsThatCanAttackMe++;
-			if (enemyUnit.isInWeaponRange(me))
-				contnumberOfEnemyUnitsThatCanBeAttacked++;
-		}
-		UnitState curState = new UnitState(me.getHitPoints(), contHpLife, contnumberOfEnemyUnitsThatCanBeAttacked,
-				contnumberOfEnemyUnitsThatCanAttackMe);
-
-		
 		Actions actionToPerform = rl.getNextAction(curState);
 		
 		try {
@@ -53,11 +46,8 @@ public class RLUnitThread extends Thread {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-
-		
-		UnitState newState = getCurrentState(me,enemies);
-		
+				
+		UnitState newState = getCurrentState();
 		
 		
 		try {
@@ -69,7 +59,7 @@ public class RLUnitThread extends Thread {
 		rl.updateState(actionToPerform, curState,newState);
 	}
 
-	private UnitState getCurrentState(Unit me, Player enemies) {
+	private UnitState getCurrentState() {
 		
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+" getCurrentState");
@@ -78,28 +68,32 @@ public class RLUnitThread extends Thread {
 			e.printStackTrace();
 		}
 		
-		double contHpLife = 0.d;
-		int contnumberOfEnemyUnitsThatCanBeAttacked = 0;
-		int contnumberOfEnemyUnitsThatCanAttackMe = 0;
+		double contHpEnemyLife = 0.d;
+		double contHpAlliesLife = 0.d;
+		double mediumHpFromNearbyEnemies = 0.d;
+		int numberOfEnemiesUnitsNearby =0;
+		double hpFromNearbyAllies = 0.d;
+		int numberOfAlliesUnitsNearby = 0;
+		int distanceToClosestEnemyUnit = 1000;	
 		
-		for (Unit enemyUnit : enemies.getUnits()) {
-			contHpLife += enemyUnit.getHitPoints();
-			if (me.isInWeaponRange(enemyUnit))
-				contnumberOfEnemyUnitsThatCanAttackMe++;
-			if (enemyUnit.isInWeaponRange(me))
-				contnumberOfEnemyUnitsThatCanBeAttacked++;
+		List<Unit> units = me.getUnitsInRadius(50);
+		for (Unit unit : units) {
+			if(unit.getPlayer().isAlly(self))
+			{
+				contHpAlliesLife += unit.getHitPoints();
+				numberOfAlliesUnitsNearby++;
+			}else if(unit.getPlayer().isEnemy(self))
+			{
+				contHpEnemyLife += unit.getHitPoints();
+				numberOfEnemiesUnitsNearby++;
+				distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit ? me.getDistance(unit) : distanceToClosestEnemyUnit;
+			}	
 		}
-		try {
-			TestBotSC1.log(Thread.currentThread().getId()+" contnumberOfEnemyUnitsThatCanAttackMe: "+contnumberOfEnemyUnitsThatCanAttackMe);
-			TestBotSC1.log(Thread.currentThread().getId()+" contnumberOfEnemyUnitsThatCanBeAttacked: "+contnumberOfEnemyUnitsThatCanBeAttacked);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return new UnitState(me.getHitPoints(), contHpLife, contnumberOfEnemyUnitsThatCanBeAttacked,
-				contnumberOfEnemyUnitsThatCanAttackMe);
-		
-	}
+		mediumHpFromNearbyEnemies = contHpEnemyLife / numberOfEnemiesUnitsNearby;
+		hpFromNearbyAllies = contHpAlliesLife / numberOfAlliesUnitsNearby;
 
+		UnitState curState = new UnitState(me.getHitPoints(), mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, 
+											hpFromNearbyAllies, numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
+		return curState;
+	}
 }
