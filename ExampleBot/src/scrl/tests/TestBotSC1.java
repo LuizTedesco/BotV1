@@ -28,6 +28,7 @@ public class TestBotSC1 extends DefaultBWListener {
 	private SCRL rl;
 	static File outFile = new File("teste1.txt");
 	private int initCounter = 1;
+	
 
 
 	private static int match = 0;
@@ -47,57 +48,6 @@ public class TestBotSC1 extends DefaultBWListener {
 	public void onUnitCreate(Unit unit) {
 		log("New unit discovered " + unit.getType());
 	}*/
-
-	@Override
-	public void onEnd(boolean isWinner) {
-		try {
-			TestBotSC1.log("Entrou na função onEnd");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		rl.end(isWinner);
-		try {
-			log(match + "");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		match++;
-		if (match == 500)
-			System.exit(0);
-
-	}
-
-	@Override
-	public void onStart() {
-		try {
-			TestBotSC1.log("Entrou na função onStart");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		game = mirror.getGame();
-		self = game.self();
-		enemy = game.enemy();
-		game.setLocalSpeed(20);
-		init();
-		
-		//rl = new SCRL();
-		//rl.init(match);
-
-		BWTA.readMap();
-		BWTA.analyze();
-		try {
-			log("Map data ready");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-
 	private void init(){
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função init");
@@ -121,20 +71,59 @@ public class TestBotSC1 extends DefaultBWListener {
 		initCounter++;
 	}
 
-	@SuppressWarnings("unused")
-	private Object getState(Unit myUnit) {
-		double myHpLife = myUnit.getHitPoints();
-		double contHpLife = 0.d;
-		int contnumberOfEnemyUnitsThatCanBeAttacked = 0;
-		int contnumberOfEnemyUnitsThatCanAttackMe = 0;
-		for (Unit enemyUnit : enemy.getUnits()) {
-			contHpLife += enemyUnit.getHitPoints();
-			if (myUnit.isInWeaponRange(enemyUnit))
-				contnumberOfEnemyUnitsThatCanAttackMe++;
-			if (enemyUnit.isInWeaponRange(myUnit))
-				contnumberOfEnemyUnitsThatCanBeAttacked++;
+	
+	
+	
+	@Override
+	public void onStart() {
+		//game.enableFlag(1);
+		game.setLocalSpeed(0);
+		
+		try {
+			TestBotSC1.log("Entrou na função onStart");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return myUnit;
+		game = mirror.getGame();
+		self = game.self();
+		enemy = game.enemy();
+		
+		init();
+		
+		//rl = new SCRL();
+		//rl.init(match);
+
+		BWTA.readMap();
+		BWTA.analyze();
+		try {
+			log("Map data ready");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Override
+	public void onEnd(boolean isWinner) {
+		try {
+			TestBotSC1.log("Entrou na função onEnd");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		rl.end(isWinner);
+		try {
+			log(match + "");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		match++;
+		if (match == 500)
+			System.exit(0);
+
 	}
 
 	@Override
@@ -210,6 +199,26 @@ public class TestBotSC1 extends DefaultBWListener {
 			}
 		}
 	}
+	
+	
+	
+	@SuppressWarnings("unused")
+	private Object getState(Unit myUnit) {
+		double myHpLife = myUnit.getHitPoints();
+		double contHpLife = 0.d;
+		int contnumberOfEnemyUnitsThatCanBeAttacked = 0;
+		int contnumberOfEnemyUnitsThatCanAttackMe = 0;
+		for (Unit enemyUnit : enemy.getUnits()) {
+			contHpLife += enemyUnit.getHitPoints();
+			if (myUnit.isInWeaponRange(enemyUnit))
+				contnumberOfEnemyUnitsThatCanAttackMe++;
+			if (enemyUnit.isInWeaponRange(myUnit))
+				contnumberOfEnemyUnitsThatCanBeAttacked++;
+		}
+		return myUnit;
+	}
+	
+	
 
 	public static void log(String msg) throws IOException {
 		if (DEBUG){

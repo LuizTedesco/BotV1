@@ -38,12 +38,36 @@ public class UnitState implements Serializable{
 		this.distanceToClosestEnemyUnit = RangeDistance.get(distanceToClosestEnemyUnit);
 	}
 
-	//public boolean in(double hp2, double hpFromNearbyEnemies2, int numberOfEnemyUnitsThatCanBeAttacked2, int numberOfEnemyUnitsThatCanAttackMe2) {
-		//return hp.in(hp2) && hpFromNearbyEnemies.in(hpFromNearbyEnemies2) && numberOfEnemyUnitsThatCanBeAttacked.in(numberOfEnemyUnitsThatCanBeAttacked2)
-			//	&& numberOfEnemyUnitsThatCanAttackMe.in(numberOfEnemyUnitsThatCanAttackMe2);
-	//}
-
-
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+				builder.append(hp).append(mediumHpFromNearbyEnemies).append(numberOfEnemiesUnitsNearby)
+				.append(hpFromNearbyAllies).append(numberOfAlliesUnitsNearby).append(distanceToClosestEnemyUnit);
+				return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o == this) return true;
+		if(!(o instanceof UnitState)) return false;
+		
+		UnitState unit = (UnitState) o;
+		return hp == unit.hp &&
+				Objects.equals(mediumHpFromNearbyEnemies, unit.mediumHpFromNearbyEnemies) &&
+				Objects.equals(numberOfEnemiesUnitsNearby, unit.numberOfEnemiesUnitsNearby) &&
+				Objects.equals(hpFromNearbyAllies, unit.hpFromNearbyAllies) &&
+				Objects.equals(numberOfAlliesUnitsNearby, unit.numberOfAlliesUnitsNearby) &&
+				Objects.equals(distanceToClosestEnemyUnit, unit.distanceToClosestEnemyUnit);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(hp,mediumHpFromNearbyEnemies,numberOfEnemiesUnitsNearby,hpFromNearbyAllies,
+							numberOfAlliesUnitsNearby,distanceToClosestEnemyUnit);
+	}
+		
+	
 	public RangeHP getHp() {
 		return hp;
 	}
@@ -68,31 +92,4 @@ public class UnitState implements Serializable{
 		return distanceToClosestEnemyUnit;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-				builder.append(hp).append(mediumHpFromNearbyEnemies).append(numberOfEnemiesUnitsNearby).append(hpFromNearbyAllies).append(numberOfAlliesUnitsNearby).append(distanceToClosestEnemyUnit);
-				return builder.toString();
-	}
-	
-	@Override
-	public boolean equals(Object o){
-		if(o == this) return true;
-		if(!(o instanceof UnitState)) return false;
-		
-		UnitState unit = (UnitState) o;
-		return hp == unit.hp &&
-				Objects.equals(mediumHpFromNearbyEnemies, unit.mediumHpFromNearbyEnemies) &&
-				Objects.equals(numberOfEnemiesUnitsNearby, unit.numberOfEnemiesUnitsNearby) &&
-				Objects.equals(hpFromNearbyAllies, unit.hpFromNearbyAllies) &&
-				Objects.equals(numberOfAlliesUnitsNearby, unit.numberOfAlliesUnitsNearby) &&
-				Objects.equals(distanceToClosestEnemyUnit, unit.distanceToClosestEnemyUnit)
-				;
-	}
-	
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(hp,mediumHpFromNearbyEnemies,numberOfEnemiesUnitsNearby,hpFromNearbyAllies,numberOfAlliesUnitsNearby,distanceToClosestEnemyUnit);
-	}	
 }
