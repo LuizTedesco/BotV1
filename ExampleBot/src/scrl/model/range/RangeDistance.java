@@ -1,7 +1,7 @@
 package scrl.model.range;
 
 public enum RangeDistance {
-	CLOSE, MEDIUM, FAR;
+	FAR, MEDIUM, CLOSE,  ;
 
 	public static RangeDistance get(int distanceToClosestEnemyUnit) {
 		if(distanceToClosestEnemyUnit <= 15)

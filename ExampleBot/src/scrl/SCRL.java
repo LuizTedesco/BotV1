@@ -38,22 +38,30 @@ public class SCRL implements Serializable {
 		}
 		setCurrent(curState);
 		
-		System.out.println("updateState function");
-		System.out.println("cur: "+curState);
-		System.out.println("new: "+newState);
+		//System.out.println("updateState function");
+		//System.out.println("cur: "+curState);
+		//System.out.println("new: "+newState);
 		
 		learning.updateQ(curState,newState, action);
 		
 	}
 
 	public Actions getNextAction(UnitState pState) {
+		//System.out.println("getNextAction");
+		QTable table = learning.getQTable();
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getNextAction");
+			TestBotSC1.log(Thread.currentThread().getId()+" Qtable: "+ table);
+			TestBotSC1.log(Thread.currentThread().getId()+" state: "+ pState);
+			TestBotSC1.log(Thread.currentThread().getId()+" BU");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		QTable table = learning.getQTable();
+		
+		
+		
+		
 		return table.getMaxAction(pState);
 	}
 

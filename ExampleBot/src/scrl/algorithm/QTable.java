@@ -28,16 +28,19 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 		}
 	}
 
-	public Actions getMaxAction(UnitState pState) {	
+	public Actions getMaxAction(UnitState pState) {
+		//System.out.println("getMaxAction");
 		Map<Actions, Double> map = this.get(pState);
+		//System.out.println("pegou o map");
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getNextAction");
-			TestBotSC1.log(pState.toString());
-			TestBotSC1.log(map.toString());
+			TestBotSC1.log(" Pstate " +pState.toString()); // ERROR
+			TestBotSC1.log(" Map " +map.toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//System.out.println("max");
 		double max = Double.NEGATIVE_INFINITY;
 		Actions ret = null;
 			for (Actions act : map.keySet()) {
@@ -46,6 +49,7 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 					ret = act;
 				}
 			}
+			//System.out.println("no for");
 		return ret;
 	}
 
@@ -63,6 +67,7 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 			action = Actions.values()[rand.nextInt(Actions.values().length)];
 		} else {
 			// select max action
+			
 			action = getMaxAction(state);
 		}
 

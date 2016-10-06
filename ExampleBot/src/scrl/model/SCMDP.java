@@ -37,6 +37,7 @@ public class SCMDP {
 				}
 			}
 		}
+		System.out.println("tam do espaco de estados: "+sts.size());
 		return sts;
 	}
 	

@@ -24,7 +24,7 @@ public class TestBotSC1 extends DefaultBWListener {
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
-	private Player enemy;
+//	private Player enemy;
 	private SCRL rl;
 	static File outFile = new File("teste1.txt");
 	private int initCounter = 1;
@@ -34,6 +34,7 @@ public class TestBotSC1 extends DefaultBWListener {
 	private static int match = 0;
 
 	public void run() {
+		//System.out.println("Run");
 		try {
 			TestBotSC1.log("Entrou na função RUN DENTRO DE TESTBOTSC1");
 		} catch (IOException e) {
@@ -43,11 +44,37 @@ public class TestBotSC1 extends DefaultBWListener {
 		mirror.getModule().setEventListener(this);
 		mirror.startGame();
 	}
-
-/*	@Override
-	public void onUnitCreate(Unit unit) {
-		log("New unit discovered " + unit.getType());
-	}*/
+	
+	@Override
+	public void onStart() {
+		try {
+			TestBotSC1.log("Entrou na função onStart");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		// dá pau aqui por algum motivo
+		//game.enableFlag(1);
+		//game.setLocalSpeed(0);
+		game = mirror.getGame();
+		self = game.self();
+		//enemy = game.enemy();
+		game.setLocalSpeed(0);
+		BWTA.readMap();
+		BWTA.analyze();
+		
+		try {
+			log("Map data ready");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		init();
+	}
+	
+	
 	private void init(){
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função init");
@@ -59,77 +86,36 @@ public class TestBotSC1 extends DefaultBWListener {
 		rl.init(match);
 
 		for (Unit myUnit : self.getUnits()) {
-			new RLUnitThread(rl, myUnit, self, this, enemy).start();
+			new RLUnitThread(rl, myUnit, self, this, game.enemy()).start();
 			try {
-				log(Thread.currentThread().getId()+" thread Created on init" + initCounter);
+				log(Thread.currentThread().getId()+" thread Created on init: " + initCounter);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
 		initCounter++;
-	}
-
-	
-	
-	
-	@Override
-	public void onStart() {
-		//game.enableFlag(1);
-		game.setLocalSpeed(0);
-		
-		try {
-			TestBotSC1.log("Entrou na função onStart");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		game = mirror.getGame();
-		self = game.self();
-		enemy = game.enemy();
-		
-		init();
-		
-		//rl = new SCRL();
-		//rl.init(match);
-
-		BWTA.readMap();
-		BWTA.analyze();
-		try {
-			log("Map data ready");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 	
 	@Override
 	public void onEnd(boolean isWinner) {
 		try {
-			TestBotSC1.log("Entrou na função onEnd");
+			TestBotSC1.log("Entrou na função onEnd pela thread" + Thread.currentThread().getId());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		rl.end(isWinner);
-		try {
-			log(match + "");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		match++;
 		if (match == 500)
 			System.exit(0);
 
 	}
 
-	@Override
-	public void onFrame() {
+	//@Override
+	//public void onFrame() {
 		//game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
-	}
+	//}
 
 	public void executeAction(Actions actionToPerform, Unit myUnit) throws IOException{
 		try {
@@ -156,7 +142,7 @@ public class TestBotSC1 extends DefaultBWListener {
 		//log("HPFromEnemies = " + myUnit.getID());
 		//log("NumerOfEnemiesThatCanAttackMe = " + myUnit.getID());
 		//log("NumerOfEnemiesThatICanAttack = " + myUnit.getID());
-		myUnit.move(getToSafePlace(myUnit,enemy));
+		myUnit.move(getToSafePlace(myUnit,game.enemy()));
 		// -myUnit.getPoint().getY()));
 		//myUnit.move(new bwapi.Position(-1*myUnit.getPosition().getX(), -1*myUnit.getPosition().getY()));
 	}
@@ -173,11 +159,11 @@ public class TestBotSC1 extends DefaultBWListener {
 		// myUnit.getPoint().getY()));
 	}
 
-	private  Position getToSafePlace(Unit myUnit, Player enemies) {
+	private  Position getToSafePlace(Unit myUnit, Player enemy) {
 		
 		int posX = 0;
 		int posy = 0;
-		for (Unit enemyUnit : enemies.getUnits()) {
+		for (Unit enemyUnit : enemy.getUnits()) {
 			posX += enemyUnit.getPosition().getX();
 			posy += enemyUnit.getPosition().getY();
 		}
@@ -191,7 +177,7 @@ public class TestBotSC1 extends DefaultBWListener {
 		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
 		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
 		log(Thread.currentThread().getId()+" position = " + myUnit.getPosition());
-		for (Unit enemyUnit : enemy.getUnits()) {
+		for (Unit enemyUnit : game.enemy().getUnits()) {
 			if (myUnit.isInWeaponRange(enemyUnit)) {
 				myUnit.stop();
 				myUnit.attack(enemyUnit.getPosition());
@@ -200,7 +186,9 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 	}
 	
-	
+	/*	@Override
+	public void onUnitCreate(Unit unit) {
+		log("New unit discovered " + unit.getType());
 	
 	@SuppressWarnings("unused")
 	private Object getState(Unit myUnit) {
@@ -217,6 +205,7 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 		return myUnit;
 	}
+	}*/
 	
 	
 
@@ -230,8 +219,6 @@ public class TestBotSC1 extends DefaultBWListener {
 			writer.flush();
 			writer.close();
 		}
-			
-			
 	}
 
 	public static void main(String[] args) {
