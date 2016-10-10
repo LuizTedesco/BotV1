@@ -26,15 +26,10 @@ public class QLearning implements Serializable {
 	private Collection<Actions> actions;
 
 	public QLearning(SCMDP model) {
-		//System.out.println("Qlearning");
 		this.setModel(model);
 		this.states = model.getStates();
-		//System.out.println(this.states);
 		this.actions = model.getActions();
-		//System.out.println(this.actions);
 		q = new QTable(states, actions);
-		///System.out.println("Criou o QLearning");
-		//System.out.println(q);
 		
 	}
 

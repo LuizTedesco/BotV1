@@ -3,63 +3,65 @@ package scrl;
 import java.io.IOException;
 import java.util.List;
 
+import bwapi.Game;
 import bwapi.Player;
 import bwapi.Unit;
 import scrl.model.Actions;
 import scrl.model.UnitState;
 import scrl.tests.TestBotSC1;
 
+
 public class RLUnitThread extends Thread {
 
+	private Game game;
 	private Unit me;
 	private SCRL rl;
 	private TestBotSC1 bot;
 	private Player self;
 	private Player enemy;
 
-	public RLUnitThread(SCRL rl, Unit me, Player self, TestBotSC1 bot, Player enemy) {
+	public RLUnitThread(Game game, SCRL rl, Unit me, Player self, TestBotSC1 bot, Player enemy) {
+	//public RLUnitThread(SCRL rl, Unit me, Player self, TestBotSC1 bot, Player enemy) {
 		this.me = me;
 		this.self = self;
 		this.rl = rl;
 		this.bot = bot;
+		this.setGame(game);
 		this.setEnemy(enemy);
 	}
 
 	@Override
 	public void run() {
-		UnitState curState = getCurrentState();
+		//if(game.getFrameCount()%24 == 0)
+		//{
+			//System.out.println(Thread.currentThread().getId()+"  RUN U FOLL");
+			UnitState curState = getCurrentState();
+			
+			//System.out.println(curState);
+			Actions actionToPerform = rl.getNextAction(curState);
+			
+			
+			try {
+				TestBotSC1.log(actionToPerform.toString());
+				bot.executeAction(actionToPerform, me);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+					
+			UnitState newState = getCurrentState();
+			
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 
-		//System.out.println(curState);
-		Actions actionToPerform = rl.getNextAction(curState);
-		
-		try {
-			TestBotSC1.log(actionToPerform.toString());
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		try {
-			bot.executeAction(actionToPerform, me);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-				
-		UnitState newState = getCurrentState();
-		
-		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		rl.updateState(actionToPerform, curState,newState);
+			rl.updateState(actionToPerform, curState,newState);
+		//}
 	}
 
 	private UnitState getCurrentState() {
-		// NAO FUNCIONA
-		// Dá NULL AS XS
 		try {
 			TestBotSC1.log(" getCurrentState da thread: "+ Thread.currentThread().getId());
 		} catch (IOException e) {
@@ -104,5 +106,13 @@ public class RLUnitThread extends Thread {
 
 	public void setEnemy(Player enemy) {
 		this.enemy = enemy;
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 }

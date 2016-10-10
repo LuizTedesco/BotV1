@@ -33,7 +33,7 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 		Map<Actions, Double> map = this.get(pState);
 		//System.out.println("pegou o map");
 		try {
-			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getNextAction");
+			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getMaxAction");
 			TestBotSC1.log(" Pstate " +pState.toString()); // ERROR
 			TestBotSC1.log(" Map " +map.toString());
 		} catch (IOException e) {

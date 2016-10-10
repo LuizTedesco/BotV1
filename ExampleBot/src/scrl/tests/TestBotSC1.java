@@ -34,7 +34,7 @@ public class TestBotSC1 extends DefaultBWListener {
 	private static int match = 0;
 
 	public void run() {
-		//System.out.println("Run");
+		System.out.println("Run");
 		try {
 			TestBotSC1.log("Entrou na função RUN DENTRO DE TESTBOTSC1");
 		} catch (IOException e) {
@@ -53,15 +53,12 @@ public class TestBotSC1 extends DefaultBWListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		// dá pau aqui por algum motivo
-		//game.enableFlag(1);
-		//game.setLocalSpeed(0);
 		game = mirror.getGame();
 		self = game.self();
+		
 		//enemy = game.enemy();
-		game.setLocalSpeed(0);
+		//game.setLocalSpeed(0);
+		
 		BWTA.readMap();
 		BWTA.analyze();
 		
@@ -86,7 +83,8 @@ public class TestBotSC1 extends DefaultBWListener {
 		rl.init(match);
 
 		for (Unit myUnit : self.getUnits()) {
-			new RLUnitThread(rl, myUnit, self, this, game.enemy()).start();
+			new RLUnitThread(game, rl, myUnit, self, this, game.enemy()).start();
+			//new RLUnitThread(rl, myUnit, self, this, game.enemy()).start();
 			try {
 				log(Thread.currentThread().getId()+" thread Created on init: " + initCounter);
 			} catch (IOException e) {
@@ -94,6 +92,7 @@ public class TestBotSC1 extends DefaultBWListener {
 				e.printStackTrace();
 			}
 		}
+		
 		initCounter++;
 	}
 	
@@ -107,56 +106,73 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 		rl.end(isWinner);
 		match++;
-		if (match == 500)
+		if (match == 15)
 			System.exit(0);
 
 	}
+	
+	/*
+	@Override
+	public void onFrame() {
+		if(game.getFrameCount()%(game.getFPS()) == 0)
+		{
+			System.out.println("FrameCount");
+			System.out.println(game.getFrameCount());
+			System.out.println("Game FPS");
+			System.out.println(game.getFPS());
+			System.out.println(game.getFPS()*3);
+			for (Unit myUnit : self.getUnits()) {
+				new RLUnitThread(game, rl, myUnit, self, this, game.enemy()).start();
+				try {
+					log(Thread.currentThread().getId()+" thread Created on init: " + initCounter);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	*/
 
-	//@Override
-	//public void onFrame() {
-		//game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
-	//}
-
-	public void executeAction(Actions actionToPerform, Unit myUnit) throws IOException{
+	public void executeAction(Actions actionToPerform, Unit me) throws IOException{
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função executeAction");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println("ActionToPerform "+ actionToPerform);
 		if (actionToPerform.equals(Actions.ATTACK)) {
-			attack(myUnit);
+			attack(me);
 		} else if (actionToPerform.equals(Actions.EXPLORE)) {
-			explore(myUnit);
+			explore(me);
 		} else {
-			flee(myUnit);
+			flee(me);
 		}
 	}
 
 	private void flee(Unit myUnit) throws IOException {
+		System.out.println("Flee Function");
 		log(Thread.currentThread().getId()+" Entrou na funcao Action: FLEE");
 		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
 		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
 		log(Thread.currentThread().getId()+" position = " + myUnit.getPosition());
-		//log("HPFromEnemies = " + myUnit.getID());
-		//log("NumerOfEnemiesThatCanAttackMe = " + myUnit.getID());
-		//log("NumerOfEnemiesThatICanAttack = " + myUnit.getID());
 		myUnit.move(getToSafePlace(myUnit,game.enemy()));
-		// -myUnit.getPoint().getY()));
-		//myUnit.move(new bwapi.Position(-1*myUnit.getPosition().getX(), -1*myUnit.getPosition().getY()));
 	}
 
 	private void explore(Unit myUnit) throws IOException {
+		System.out.println("Explore Function");
 		log(Thread.currentThread().getId()+" Entrou na funcao Action: EXPLORE");
 		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
 		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
 		log(Thread.currentThread().getId()+" position = " + myUnit.getPosition());
+		
 		Random generator = new Random();
-		myUnit.move(new bwapi.Position(myUnit.getPosition().getX() + (generator.nextInt(30)-31), myUnit.getPosition().getY() +(generator.nextInt(30)-31)));
-		//myUnit.move(new bwapi.Position(3 * myUnit.getPosition().getX(), 2 * myUnit.getPosition().getY()));
-		// myUnit.move(new Position(3 * myUnit.getPoint().getX(), 2 *
-		// myUnit.getPoint().getY()));
+		int low = -200;
+		int high = 200;
+		int aux1 = generator.nextInt(high-low)+low;
+		int aux2 = generator.nextInt(high-low)+low;
+		//myUnit.move(new bwapi.Position(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2)));
+		myUnit.move(new bwapi.Position(aux1, aux2));
 	}
 
 	private  Position getToSafePlace(Unit myUnit, Player enemy) {
@@ -173,6 +189,7 @@ public class TestBotSC1 extends DefaultBWListener {
 	}
 
 	private void attack(Unit myUnit) throws IOException {
+		System.out.println("Attack Function");
 		log(Thread.currentThread().getId()+" entrou na funcao ACTION: Attack");
 		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
 		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
