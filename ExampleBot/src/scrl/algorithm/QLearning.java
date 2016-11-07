@@ -83,8 +83,8 @@ public class QLearning implements Serializable {
 		for (Actions action : actions) {
 			
 			try {
-				TestBotSC1.log("action "+action);
-				TestBotSC1.log("estado "+pState);
+				TestBotSC1.log(Thread.currentThread().getId() +"  "+ "action: "+action);
+				TestBotSC1.log("estado: "+pState);
 				TestBotSC1.log("q.get stado " +q.get(pState));
 				TestBotSC1.log("q.get stado VALUES" +q.get(pState).values());
 			} catch (IOException e) {

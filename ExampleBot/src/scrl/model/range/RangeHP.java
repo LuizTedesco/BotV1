@@ -13,13 +13,14 @@ public enum RangeHP implements Range {
 	}
 
 	public static RangeHP get(double value) {
-		if (value >= 0 && value <= 25)
+		if (value <= 33)
 			return LOW;
-		else if (value <= 50)
+		else if (value <= 66)
 			return MEDIUM_LOW;
-		else if (value <= 75)
+		else
+		//else if (value <= 100)
 			return MEDIUM_HIGH;
-		return null;
+		//return null;
 	}
 
 	public boolean isLower(RangeHP next) {

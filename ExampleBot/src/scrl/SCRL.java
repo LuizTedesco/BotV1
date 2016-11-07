@@ -51,9 +51,9 @@ public class SCRL implements Serializable {
 		QTable table = learning.getQTable();
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getNextAction");
-			TestBotSC1.log(Thread.currentThread().getId()+" Qtable: "+ table);
-			TestBotSC1.log(Thread.currentThread().getId()+" state: "+ pState);
-			TestBotSC1.log(Thread.currentThread().getId()+" BU");
+			//TestBotSC1.log(Thread.currentThread().getId()+" Qtable: "+ table);
+			//TestBotSC1.log(Thread.currentThread().getId()+" state: "+ pState);
+			//TestBotSC1.log(Thread.currentThread().getId()+" BU");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

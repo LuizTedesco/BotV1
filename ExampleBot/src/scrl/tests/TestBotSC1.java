@@ -4,7 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import bwapi.DefaultBWListener;
 import bwapi.Game;
@@ -19,7 +21,7 @@ import scrl.model.Actions;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 100;
+	public static final int MAX_GAMES = 3;
 	private static final boolean DEBUG = true;
 	private Mirror mirror = new Mirror();
 	private Game game;
@@ -28,15 +30,13 @@ public class TestBotSC1 extends DefaultBWListener {
 	private SCRL rl;
 	static File outFile = new File("teste1.txt");
 	private int initCounter = 1;
-	
-
-
+	public ArrayList<AtomicBoolean> listaBooleana = new ArrayList<>();
 	private static int match = 0;
 
 	public void run() {
-		System.out.println("Run");
+		//System.out.println("Run");
 		try {
-			TestBotSC1.log("Entrou na função RUN DENTRO DE TESTBOTSC1");
+			TestBotSC1.log("função RUN DENTRO DE TESTBOTSC1");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,7 +48,7 @@ public class TestBotSC1 extends DefaultBWListener {
 	@Override
 	public void onStart() {
 		try {
-			TestBotSC1.log("Entrou na função onStart");
+			log("Entrou na função onStart");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,7 +57,7 @@ public class TestBotSC1 extends DefaultBWListener {
 		self = game.self();
 		
 		//enemy = game.enemy();
-		//game.setLocalSpeed(0);
+		//game.setLocalSpeed(20);
 		
 		BWTA.readMap();
 		BWTA.analyze();
@@ -70,77 +70,28 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 		init();
 	}
-	
-	
+
 	private void init(){
-		try {
-			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função init");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		rl = new SCRL();
 		rl.init(match);
-
 		for (Unit myUnit : self.getUnits()) {
 			new RLUnitThread(game, rl, myUnit, self, this, game.enemy()).start();
-			//new RLUnitThread(rl, myUnit, self, this, game.enemy()).start();
-			try {
-				log(Thread.currentThread().getId()+" thread Created on init: " + initCounter);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
-		
-		initCounter++;
+		setInitCounter(getInitCounter() + 1);
 	}
 	
 	@Override
 	public void onEnd(boolean isWinner) {
-		try {
-			TestBotSC1.log("Entrou na função onEnd pela thread" + Thread.currentThread().getId());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (AtomicBoolean atomicBoolean : listaBooleana) {
+			atomicBoolean.set(true);
 		}
 		rl.end(isWinner);
 		match++;
-		if (match == 15)
+		if (match == MAX_GAMES)
 			System.exit(0);
-
 	}
 	
-	/*
-	@Override
-	public void onFrame() {
-		if(game.getFrameCount()%(game.getFPS()) == 0)
-		{
-			System.out.println("FrameCount");
-			System.out.println(game.getFrameCount());
-			System.out.println("Game FPS");
-			System.out.println(game.getFPS());
-			System.out.println(game.getFPS()*3);
-			for (Unit myUnit : self.getUnits()) {
-				new RLUnitThread(game, rl, myUnit, self, this, game.enemy()).start();
-				try {
-					log(Thread.currentThread().getId()+" thread Created on init: " + initCounter);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	*/
-
 	public void executeAction(Actions actionToPerform, Unit me) throws IOException{
-		try {
-			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função executeAction");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		if (actionToPerform.equals(Actions.ATTACK)) {
 			attack(me);
 		} else if (actionToPerform.equals(Actions.EXPLORE)) {
@@ -151,32 +102,19 @@ public class TestBotSC1 extends DefaultBWListener {
 	}
 
 	private void flee(Unit myUnit) throws IOException {
-		System.out.println("Flee Function");
-		log(Thread.currentThread().getId()+" Entrou na funcao Action: FLEE");
-		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
-		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
-		log(Thread.currentThread().getId()+" position = " + myUnit.getPosition());
 		myUnit.move(getToSafePlace(myUnit,game.enemy()));
 	}
 
 	private void explore(Unit myUnit) throws IOException {
-		System.out.println("Explore Function");
-		log(Thread.currentThread().getId()+" Entrou na funcao Action: EXPLORE");
-		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
-		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
-		log(Thread.currentThread().getId()+" position = " + myUnit.getPosition());
-		
 		Random generator = new Random();
-		int low = -200;
-		int high = 200;
+		int low = -1000;
+		int high = 1000;
 		int aux1 = generator.nextInt(high-low)+low;
 		int aux2 = generator.nextInt(high-low)+low;
-		//myUnit.move(new bwapi.Position(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2)));
-		myUnit.move(new bwapi.Position(aux1, aux2));
+		myUnit.move(new bwapi.Position(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2)));
 	}
 
 	private  Position getToSafePlace(Unit myUnit, Player enemy) {
-		
 		int posX = 0;
 		int posy = 0;
 		for (Unit enemyUnit : enemy.getUnits()) {
@@ -184,16 +122,9 @@ public class TestBotSC1 extends DefaultBWListener {
 			posy += enemyUnit.getPosition().getY();
 		}
 		return new bwapi.Position(-posX,-posy);
-		
-		
 	}
 
 	private void attack(Unit myUnit) throws IOException {
-		System.out.println("Attack Function");
-		log(Thread.currentThread().getId()+" entrou na funcao ACTION: Attack");
-		log(Thread.currentThread().getId()+" UnitID = " + myUnit.getID());
-		log(Thread.currentThread().getId()+" HP = " + myUnit.getHitPoints());
-		log(Thread.currentThread().getId()+" position = " + myUnit.getPosition());
 		for (Unit enemyUnit : game.enemy().getUnits()) {
 			if (myUnit.isInWeaponRange(enemyUnit)) {
 				myUnit.stop();
@@ -203,29 +134,6 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 	}
 	
-	/*	@Override
-	public void onUnitCreate(Unit unit) {
-		log("New unit discovered " + unit.getType());
-	
-	@SuppressWarnings("unused")
-	private Object getState(Unit myUnit) {
-		double myHpLife = myUnit.getHitPoints();
-		double contHpLife = 0.d;
-		int contnumberOfEnemyUnitsThatCanBeAttacked = 0;
-		int contnumberOfEnemyUnitsThatCanAttackMe = 0;
-		for (Unit enemyUnit : enemy.getUnits()) {
-			contHpLife += enemyUnit.getHitPoints();
-			if (myUnit.isInWeaponRange(enemyUnit))
-				contnumberOfEnemyUnitsThatCanAttackMe++;
-			if (enemyUnit.isInWeaponRange(myUnit))
-				contnumberOfEnemyUnitsThatCanBeAttacked++;
-		}
-		return myUnit;
-	}
-	}*/
-	
-	
-
 	public static void log(String msg) throws IOException {
 		if (DEBUG){
 			if(!outFile.isFile())
@@ -240,5 +148,13 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	public static void main(String[] args) {
 		new TestBotSC1().run();
+	}
+
+	public int getInitCounter() {
+		return initCounter;
+	}
+
+	public void setInitCounter(int initCounter) {
+		this.initCounter = initCounter;
 	}
 }

@@ -18,9 +18,10 @@ public enum RangeUnits implements Range {
 			return SMALL;
 		else if (value <= 5)
 			return MEDIUM;
-		else if (value <= 200)
+		else
+		//else if (value <= 200)
 			return LARGE;
-		return null;
+		//return null;
 	}
 
 	public boolean in(double v) {
