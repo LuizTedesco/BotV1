@@ -37,8 +37,8 @@ public class UnitState implements Serializable{
 		this.numberOfAlliesUnitsNearby = RangeUnits.get(numberOfAlliesUnitsNearby);
 		this.distanceToClosestEnemyUnit = RangeDistance.get(distanceToClosestEnemyUnit);
 		
-		System.out.println(Thread.currentThread().getId() + "  " + this.hp  + "  " + this.mediumHpFromNearbyEnemies  + "  " + this.numberOfEnemiesUnitsNearby  + "  " + 
-				this.mediumHpFromNearbyAllies  + "  " + this.numberOfAlliesUnitsNearby  + "  " + this.distanceToClosestEnemyUnit);
+		//System.out.println(Thread.currentThread().getId() + "  " + this.hp  + "  " + this.mediumHpFromNearbyEnemies  + "  " + this.numberOfEnemiesUnitsNearby  + "  " + 
+			//	this.mediumHpFromNearbyAllies  + "  " + this.numberOfAlliesUnitsNearby  + "  " + this.distanceToClosestEnemyUnit);
 	}
 
 	@Override

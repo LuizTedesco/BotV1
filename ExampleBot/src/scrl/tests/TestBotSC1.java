@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import bwapi.DefaultBWListener;
@@ -21,8 +22,8 @@ import scrl.model.Actions;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 3;
-	private static final boolean DEBUG = true;
+	public static final int MAX_GAMES = 1;
+	private static final boolean DEBUG = false;
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
@@ -75,13 +76,22 @@ public class TestBotSC1 extends DefaultBWListener {
 		rl = new SCRL();
 		rl.init(match);
 		for (Unit myUnit : self.getUnits()) {
+			System.out.println("Going to Creat a new Thread");
 			new RLUnitThread(game, rl, myUnit, self, this, game.enemy()).start();
+			System.out.println("Thread created");
 		}
 		setInitCounter(getInitCounter() + 1);
 	}
 	
 	@Override
 	public void onEnd(boolean isWinner) {
+		Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+		Thread[] threadArray = threadSet.toArray(new Thread[threadSet.size()]);
+		System.out.println("threadArray");
+		for (Thread thread : threadArray) {
+			System.out.println(thread.getId());
+		}
+
 		for (AtomicBoolean atomicBoolean : listaBooleana) {
 			atomicBoolean.set(true);
 		}

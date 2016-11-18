@@ -30,6 +30,7 @@ public class RLUnitThread extends Thread {
 		this.setEnemy(enemy);
 		stop = new AtomicBoolean(false);
 		this.bot.listaBooleana.add(stop);
+		System.out.println("Thread Id: "+Thread.currentThread().getId()+ " .Unit Id: "+ me.getID());
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class RLUnitThread extends Thread {
 			//if(game.getFrameCount()%24 == 0) 	// game Speed 20
 			{
 				//System.out.println(Thread.currentThread().getId()+"  RUN U FOLL");
-				//System.out.println(Thread.currentThread().getId()+"  RUN U FOLL");
+				System.out.println("Thread Id: "+Thread.currentThread().getId()+" RUN");
 				UnitState curState = getCurrentState();
 				
 				//System.out.println(curState);
