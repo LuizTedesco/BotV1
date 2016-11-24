@@ -11,7 +11,7 @@ import scrl.model.Actions;
 import scrl.model.UnitState;
 import scrl.tests.TestBotSC1;
 
-public class RLUnitThread extends Thread {
+public class RLUnitThread implements Runnable {
 
 	private Game game;
 	private Unit me;
@@ -19,7 +19,6 @@ public class RLUnitThread extends Thread {
 	private TestBotSC1 bot;
 	private Player self;
 	private Player enemy;
-	public AtomicBoolean stop;
 
 	public RLUnitThread(Game game, SCRL rl, Unit me, Player self, TestBotSC1 bot, Player enemy) {
 		this.me = me;
@@ -28,53 +27,53 @@ public class RLUnitThread extends Thread {
 		this.bot = bot;
 		this.setGame(game);
 		this.setEnemy(enemy);
-		stop = new AtomicBoolean(false);
-		this.bot.listaBooleana.add(stop);
-		System.out.println("Thread Id: "+Thread.currentThread().getId()+ " .Unit Id: "+ me.getID());
-	}
-
-	@Override
-	public void run() {
-		while(true)
-		{
-			if(game.getFrameCount()%24 == 0)  // game Speed 0
-			//if(game.getFrameCount()%48 == 0)  // game Speed 10
-			//if(game.getFrameCount()%24 == 0) 	// game Speed 20
-			{
-				//System.out.println(Thread.currentThread().getId()+"  RUN U FOLL");
-				System.out.println("Thread Id: "+Thread.currentThread().getId()+" RUN");
-				UnitState curState = getCurrentState();
-				
-				//System.out.println(curState);
-				Actions actionToPerform = rl.getNextAction(curState);
-				try {
-					TestBotSC1.log(Thread.currentThread().getId()+ " RLUnitThread "+ actionToPerform.toString());
-					bot.executeAction(actionToPerform, me);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				UnitState newState = getCurrentState();
-				
-				try {
-					// menos que 300 dah pau
-					Thread.sleep(300);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				rl.updateState(actionToPerform, curState,newState);
-			}
-		}
-	}
-	
-	private UnitState getCurrentState() {
 		try {
-			TestBotSC1.log(Thread.currentThread().getId() +" getCurrentState da thread ");
+			TestBotSC1.log("Thread Created for idle Unit: Id: "+ me.getID());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void run() {
+
+		//System.out.println("Thread Id: "+Thread.currentThread().getId()+" RUN");
+		UnitState curState = getCurrentState();
+			
+		//System.out.println(curState);
+		Actions actionToPerform = rl.getNextAction(curState);
+		try {
+			TestBotSC1.log(Thread.currentThread().getId()+ " RLUnitThread "+ actionToPerform.toString());
+			bot.executeAction(actionToPerform, me);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		UnitState newState = getCurrentState();
+			
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		rl.updateState(actionToPerform, curState,newState);
+		try {
+			TestBotSC1.log("Thread Id: "+Thread.currentThread().getId()+" Finished the Run");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private UnitState getCurrentState() {
+		//try {
+		//	TestBotSC1.log(Thread.currentThread().getId() +" getCurrentState da thread ");
+		//} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		//}
 		
 		double contHpEnemyLife = 0.d;
 		double contHpAlliesLife = 0.d;
@@ -109,18 +108,9 @@ public class RLUnitThread extends Thread {
 		if(numberOfAlliesUnitsNearby != 0)
 			mediumHpFromNearbyAllies = contHpAlliesLife / numberOfAlliesUnitsNearby;
 		
-		//System.out.println(Thread.currentThread().getId() + "  " +me.getHitPoints()  + "  " + mediumHpFromNearbyEnemies  + "  " + numberOfEnemiesUnitsNearby  + "  " + 
-			//	mediumHpFromNearbyAllies  + "  " + numberOfAlliesUnitsNearby  + "  " + distanceToClosestEnemyUnit);
-		
 		UnitState curState = new UnitState(me.getHitPoints(), mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, 
 											mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
 		
-		try {
-			TestBotSC1.log(Thread.currentThread().getId() +"  SAINDO DE getCurrentState da thread ");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return curState;
 	}
 

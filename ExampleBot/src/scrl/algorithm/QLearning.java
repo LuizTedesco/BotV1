@@ -34,14 +34,15 @@ public class QLearning implements Serializable {
 	}
 
 	public void updateQ(UnitState state, UnitState next, Actions action) {
-		try {
+		/*try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função updateQ");
 			TestBotSC1.log("Print state: " + state.toString());
 			TestBotSC1.log("Print nextState: "+next.toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		
 		
 		double reward = scrl.model.RewardFunction.getValue(state,next, action);
 		double newQValue = computeQ(state, action, reward);
@@ -55,26 +56,28 @@ public class QLearning implements Serializable {
 	}
 
 	private double computeQ(UnitState state, Actions action, double reward) {
-		try {
+		
+		/* try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função computeQ");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} */
 		double cq = q.get(state).get(action);
 		//System.out.println("pegou cq:  "+ cq);
 	//	System.out.println("vai calcular VALUE");
 		double value = reward + (GAMA * getMax(state)) - cq;
 		double newq = cq + ALPHA * value;
 //		System.out.println("computou newQ:  "+ newq);
-		try {
+		
+		/*try {
 			TestBotSC1.log("cq:" + cq);
 			TestBotSC1.log("value:" + value);
 			TestBotSC1.log("newQ:" + newq);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		return newq;
 	}
 
@@ -82,7 +85,7 @@ public class QLearning implements Serializable {
 		double max = 0;		
 		for (Actions action : actions) {
 			
-			try {
+			/*try {
 				TestBotSC1.log(Thread.currentThread().getId() +"  "+ "action: "+action);
 				TestBotSC1.log("estado: "+pState);
 				TestBotSC1.log("q.get stado " +q.get(pState));
@@ -90,7 +93,7 @@ public class QLearning implements Serializable {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
+			}*/
 			
 			double value = q.get(pState).get(action);
 			if (value > max) {

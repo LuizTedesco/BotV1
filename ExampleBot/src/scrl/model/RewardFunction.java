@@ -7,12 +7,12 @@ import scrl.tests.TestBotSC1;
 public class RewardFunction {
 	public static double getValue(final UnitState pState, UnitState next, final Actions pAction) {
 		//System.out.println(Thread.currentThread().getId()+" Reward Function  " + pAction);
-		try {
+		/*try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getValue");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		if (pAction == Actions.ATTACK) {
 			// problema, tinha que pegar o VALOR mesmo para comparar.
 			if(next.getMediumHpFromNearbyEnemies().isLower(pState.getMediumHpFromNearbyEnemies())){

@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import bwapi.DefaultBWListener;
@@ -20,10 +22,10 @@ import scrl.RLUnitThread;
 import scrl.SCRL;
 import scrl.model.Actions;
 
-public class TestBotSC1 extends DefaultBWListener {
+public class TestBotSC1 extends DefaultBWListener{
 
-	public static final int MAX_GAMES = 1;
-	private static final boolean DEBUG = false;
+	public static final int MAX_GAMES = 50;
+	private static final boolean DEBUG = true;
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
@@ -33,11 +35,12 @@ public class TestBotSC1 extends DefaultBWListener {
 	private int initCounter = 1;
 	public ArrayList<AtomicBoolean> listaBooleana = new ArrayList<>();
 	private static int match = 0;
+	ExecutorService executor = Executors.newFixedThreadPool(5);
+	private int auxCounter = 0;
 
 	public void run() {
-		//System.out.println("Run");
 		try {
-			TestBotSC1.log("função RUN DENTRO DE TESTBOTSC1");
+			TestBotSC1.log("função RUN DENTRO DE TESTBOTSC1, Primeiro item a ser chamado");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,35 +66,58 @@ public class TestBotSC1 extends DefaultBWListener {
 		BWTA.readMap();
 		BWTA.analyze();
 		
-		try {
-			log("Map data ready");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		init();
 	}
 
 	private void init(){
 		rl = new SCRL();
 		rl.init(match);
-		for (Unit myUnit : self.getUnits()) {
-			System.out.println("Going to Creat a new Thread");
-			new RLUnitThread(game, rl, myUnit, self, this, game.enemy()).start();
-			System.out.println("Thread created");
-		}
 		setInitCounter(getInitCounter() + 1);
+	}
+	
+
+	@Override
+	public void onFrame()
+	{
+		//System.out.println("Frame Counter: "+game.getFrameCount());
+		List<Unit> units = self.getUnits();
+		//System.out.println("size: "+units.size());
+		for (Unit unit : units) {
+			if(unit.isIdle()){
+				auxCounter++;
+				try {
+					log("Vai chamar o new RLUnitThread");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Runnable rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
+				
+				try {
+					log("Thread Created for idle Unit: Id: "+ unit.getID()+ " Will execute");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				executor.execute(rlUnit);
+				try {
+					log("Thread Created for idle Unit: Id: "+ unit.getID()+ " was given execute command");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}	
+		try {
+			log("AuxCounter : "+auxCounter);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void onEnd(boolean isWinner) {
-		Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-		Thread[] threadArray = threadSet.toArray(new Thread[threadSet.size()]);
-		System.out.println("threadArray");
-		for (Thread thread : threadArray) {
-			System.out.println(thread.getId());
-		}
-
 		for (AtomicBoolean atomicBoolean : listaBooleana) {
 			atomicBoolean.set(true);
 		}
@@ -117,8 +143,8 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	private void explore(Unit myUnit) throws IOException {
 		Random generator = new Random();
-		int low = -1000;
-		int high = 1000;
+		int low = -750;
+		int high = 750;
 		int aux1 = generator.nextInt(high-low)+low;
 		int aux2 = generator.nextInt(high-low)+low;
 		myUnit.move(new bwapi.Position(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2)));
@@ -155,11 +181,7 @@ public class TestBotSC1 extends DefaultBWListener {
 			writer.close();
 		}
 	}
-
-	public static void main(String[] args) {
-		new TestBotSC1().run();
-	}
-
+	
 	public int getInitCounter() {
 		return initCounter;
 	}
@@ -167,4 +189,10 @@ public class TestBotSC1 extends DefaultBWListener {
 	public void setInitCounter(int initCounter) {
 		this.initCounter = initCounter;
 	}
+
+
+	public static void main(String[] args) {
+		new TestBotSC1().run();
+	}
+
 }
