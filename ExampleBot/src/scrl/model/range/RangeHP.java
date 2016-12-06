@@ -1,7 +1,7 @@
 package scrl.model.range;
 
 public enum RangeHP implements Range {
-	LOW(0, 0, 33), MEDIUM_LOW(1, 34, 66), MEDIUM_HIGH(2, 67, 100);
+	LOW(0, 0, 10), MEDIUM_LOW(1, 11, 26), MEDIUM_HIGH(2, 27, 40);
 	double min;
 	double max;
 	private int index;
@@ -13,9 +13,9 @@ public enum RangeHP implements Range {
 	}
 
 	public static RangeHP get(double value) {
-		if (value <= 33)
+		if (value <= 10)
 			return LOW;
-		else if (value <= 66)
+		else if (value <= 26)
 			return MEDIUM_LOW;
 		else
 		//else if (value <= 100)

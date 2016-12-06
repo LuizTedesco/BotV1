@@ -2,8 +2,8 @@ package scrl;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
+import bwapi.Color;
 import bwapi.Game;
 import bwapi.Player;
 import bwapi.Unit;
@@ -40,12 +40,14 @@ public class RLUnitThread implements Runnable {
 
 		//System.out.println("Thread Id: "+Thread.currentThread().getId()+" RUN");
 		UnitState curState = getCurrentState();
-			
-		//System.out.println(curState);
+
 		Actions actionToPerform = rl.getNextAction(curState);
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+ " RLUnitThread "+ actionToPerform.toString());
+			
+			
 			bot.executeAction(actionToPerform, me);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,17 +85,16 @@ public class RLUnitThread implements Runnable {
 		int numberOfAlliesUnitsNearby = 0;
 		int distanceToClosestEnemyUnit = 400000;	
 		
-		List<Unit> units = me.getUnitsInRadius(200);
+		List<Unit> units = me.getUnitsInRadius(230);
+		game.drawCircleMap(me.getPosition().getX(),me.getPosition().getY(),200,Color.Green);
 		for (Unit unit : units) {
 			
 			if(unit.getPlayer().isAlly(self))
 			{
-				//System.out.println(" Thread N: "+Thread.currentThread().getId() + " Unit ID: "+unit.getID());
 				contHpAlliesLife += unit.getHitPoints();
 				numberOfAlliesUnitsNearby++;
 			}else if(unit.getPlayer().isEnemy(self))
 			{
-				//System.out.println("Entra aqui no is Ally Enemy? ");
 				contHpEnemyLife += unit.getHitPoints();
 				numberOfEnemiesUnitsNearby++;
 				distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit ? me.getDistance(unit) : distanceToClosestEnemyUnit;

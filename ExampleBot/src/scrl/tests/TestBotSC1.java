@@ -4,13 +4,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 
+import bwapi.Color;
 import bwapi.DefaultBWListener;
 import bwapi.Game;
 import bwapi.Mirror;
@@ -33,7 +32,6 @@ public class TestBotSC1 extends DefaultBWListener{
 	private SCRL rl;
 	static File outFile = new File("teste1.txt");
 	private int initCounter = 1;
-	public ArrayList<AtomicBoolean> listaBooleana = new ArrayList<>();
 	private static int match = 0;
 	ExecutorService executor = Executors.newFixedThreadPool(5);
 	private int auxCounter = 0;
@@ -79,11 +77,10 @@ public class TestBotSC1 extends DefaultBWListener{
 	@Override
 	public void onFrame()
 	{
-		//System.out.println("Frame Counter: "+game.getFrameCount());
 		List<Unit> units = self.getUnits();
-		//System.out.println("size: "+units.size());
 		for (Unit unit : units) {
 			if(unit.isIdle()){
+				game.drawCircleMap(unit.getPosition().getX(),unit.getPosition().getY(),15,Color.Orange);
 				auxCounter++;
 				try {
 					log("Vai chamar o new RLUnitThread");
@@ -92,7 +89,6 @@ public class TestBotSC1 extends DefaultBWListener{
 					e.printStackTrace();
 				}
 				Runnable rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
-				
 				try {
 					log("Thread Created for idle Unit: Id: "+ unit.getID()+ " Will execute");
 				} catch (IOException e) {
@@ -114,13 +110,10 @@ public class TestBotSC1 extends DefaultBWListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+}
 	
 	@Override
 	public void onEnd(boolean isWinner) {
-		for (AtomicBoolean atomicBoolean : listaBooleana) {
-			atomicBoolean.set(true);
-		}
 		rl.end(isWinner);
 		match++;
 		if (match == MAX_GAMES)
@@ -128,6 +121,7 @@ public class TestBotSC1 extends DefaultBWListener{
 	}
 	
 	public void executeAction(Actions actionToPerform, Unit me) throws IOException{
+//		System.out.println(actionToPerform);
 		if (actionToPerform.equals(Actions.ATTACK)) {
 			attack(me);
 		} else if (actionToPerform.equals(Actions.EXPLORE)) {
@@ -143,11 +137,12 @@ public class TestBotSC1 extends DefaultBWListener{
 
 	private void explore(Unit myUnit) throws IOException {
 		Random generator = new Random();
-		int low = -750;
-		int high = 750;
+		int low = -150;
+		int high = 150;
 		int aux1 = generator.nextInt(high-low)+low;
 		int aux2 = generator.nextInt(high-low)+low;
 		myUnit.move(new bwapi.Position(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2)));
+		game.drawCircleMap(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2),15,Color.Cyan);
 	}
 
 	private  Position getToSafePlace(Unit myUnit, Player enemy) {
@@ -157,7 +152,8 @@ public class TestBotSC1 extends DefaultBWListener{
 			posX += enemyUnit.getPosition().getX();
 			posy += enemyUnit.getPosition().getY();
 		}
-		return new bwapi.Position(-posX,-posy);
+		return new bwapi.Position(myUnit.getPosition().getX()-posX,myUnit.getPosition().getY()-posy);
+		
 	}
 
 	private void attack(Unit myUnit) throws IOException {

@@ -12,7 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
-import scrl.tests.TestBotSC1;
 
 public class QLearning implements Serializable {
 	private static final long serialVersionUID = -6943736143750359469L;
@@ -34,17 +33,10 @@ public class QLearning implements Serializable {
 	}
 
 	public void updateQ(UnitState state, UnitState next, Actions action) {
-		/*try {
-			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função updateQ");
-			TestBotSC1.log("Print state: " + state.toString());
-			TestBotSC1.log("Print nextState: "+next.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
 		
 		double reward = scrl.model.RewardFunction.getValue(state,next, action);
+		
+		
 		double newQValue = computeQ(state, action, reward);
 		Map<Actions, Double> computedActionValue = new ConcurrentHashMap<>();
 		computedActionValue = q.get(state);
