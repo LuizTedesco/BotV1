@@ -12,7 +12,7 @@ import scrl.model.range.RangeHP;
 import scrl.model.range.RangeUnits;
 
 public class SCMDP {
-	List<Actions> actions = Arrays.asList(ATTACK, EXPLORE, FLEE);
+	List<Actions> actions = Arrays.asList(EXPLORE, FLEE, ATTACK);
 	Set<UnitState> states;
 
 	public SCMDP() {

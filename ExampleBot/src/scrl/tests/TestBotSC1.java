@@ -33,8 +33,9 @@ public class TestBotSC1 extends DefaultBWListener{
 	static File outFile = new File("teste1.txt");
 	private int initCounter = 1;
 	private static int match = 0;
-	ExecutorService executor = Executors.newFixedThreadPool(5);
+	ExecutorService executor = Executors.newFixedThreadPool(10);
 	private int auxCounter = 0;
+	private int auxCounter2 = 1;
 
 	public void run() {
 		try {
@@ -59,7 +60,7 @@ public class TestBotSC1 extends DefaultBWListener{
 		self = game.self();
 		
 		//enemy = game.enemy();
-		//game.setLocalSpeed(20);
+		game.setLocalSpeed(20);
 		
 		BWTA.readMap();
 		BWTA.analyze();
@@ -88,7 +89,8 @@ public class TestBotSC1 extends DefaultBWListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Runnable rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
+				//Runnable rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
+				RLUnitThread rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
 				try {
 					log("Thread Created for idle Unit: Id: "+ unit.getID()+ " Will execute");
 				} catch (IOException e) {
@@ -124,10 +126,10 @@ public class TestBotSC1 extends DefaultBWListener{
 //		System.out.println(actionToPerform);
 		if (actionToPerform.equals(Actions.ATTACK)) {
 			attack(me);
-		} else if (actionToPerform.equals(Actions.EXPLORE)) {
-			explore(me);
-		} else {
+		} else if (actionToPerform.equals(Actions.FLEE)) {
 			flee(me);
+		} else {
+			explore(me);
 		}
 	}
 

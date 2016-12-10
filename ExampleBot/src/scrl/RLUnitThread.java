@@ -27,24 +27,16 @@ public class RLUnitThread implements Runnable {
 		this.bot = bot;
 		this.setGame(game);
 		this.setEnemy(enemy);
-		try {
-			TestBotSC1.log("Thread Created for idle Unit: Id: "+ me.getID());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override
 	public void run() {
 
-		//System.out.println("Thread Id: "+Thread.currentThread().getId()+" RUN");
 		UnitState curState = getCurrentState();
 
 		Actions actionToPerform = rl.getNextAction(curState);
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+ " RLUnitThread "+ actionToPerform.toString());
-			
 			
 			bot.executeAction(actionToPerform, me);
 			
@@ -55,11 +47,6 @@ public class RLUnitThread implements Runnable {
 				
 		UnitState newState = getCurrentState();
 			
-		try {
-			Thread.sleep(300);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		rl.updateState(actionToPerform, curState,newState);
 		try {
 			TestBotSC1.log("Thread Id: "+Thread.currentThread().getId()+" Finished the Run");
@@ -70,13 +57,6 @@ public class RLUnitThread implements Runnable {
 	}
 	
 	private UnitState getCurrentState() {
-		//try {
-		//	TestBotSC1.log(Thread.currentThread().getId() +" getCurrentState da thread ");
-		//} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		//}
-		
 		double contHpEnemyLife = 0.d;
 		double contHpAlliesLife = 0.d;
 		double mediumHpFromNearbyEnemies = 0.d;
