@@ -23,7 +23,7 @@ import scrl.model.Actions;
 
 public class TestBotSC1 extends DefaultBWListener{
 
-	public static final int MAX_GAMES = 50;
+	public static final int MAX_GAMES = 5000;
 	private static final boolean DEBUG = true;
 	private Mirror mirror = new Mirror();
 	private Game game;
@@ -36,6 +36,7 @@ public class TestBotSC1 extends DefaultBWListener{
 	ExecutorService executor = Executors.newFixedThreadPool(10);
 	private int auxCounter = 0;
 	private int auxCounter2 = 1;
+	private int actionCounter = 0;
 
 	public void run() {
 		try {
@@ -81,28 +82,32 @@ public class TestBotSC1 extends DefaultBWListener{
 		List<Unit> units = self.getUnits();
 		for (Unit unit : units) {
 			if(unit.isIdle()){
-				game.drawCircleMap(unit.getPosition().getX(),unit.getPosition().getY(),15,Color.Orange);
-				auxCounter++;
-				try {
-					log("Vai chamar o new RLUnitThread");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				//Runnable rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
-				RLUnitThread rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
-				try {
-					log("Thread Created for idle Unit: Id: "+ unit.getID()+ " Will execute");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				executor.execute(rlUnit);
-				try {
-					log("Thread Created for idle Unit: Id: "+ unit.getID()+ " was given execute command");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(game.getFrameCount()%5 == 0)
+				{
+					game.drawCircleMap(unit.getPosition().getX(),unit.getPosition().getY(),15,Color.Orange);
+					game.drawTextMap(unit.getPosition().getX() + 25, unit.getPosition().getY() + 25, "IDLE  -  UNIT");
+					auxCounter++;
+					try {
+						log("Vai chamar o new RLUnitThread");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Runnable rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
+					//RLUnitThread rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
+					try {
+						log("Thread Created for idle Unit: Id: "+ unit.getID()+ " Will execute");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					executor.execute(rlUnit);
+					try {
+						log("Thread Created for idle Unit: Id: "+ unit.getID()+ " was given execute command");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}	
@@ -119,11 +124,16 @@ public class TestBotSC1 extends DefaultBWListener{
 		rl.end(isWinner);
 		match++;
 		if (match == MAX_GAMES)
+		{
+			System.out.println(actionCounter);
 			System.exit(0);
+		}
+
 	}
 	
 	public void executeAction(Actions actionToPerform, Unit me) throws IOException{
-//		System.out.println(actionToPerform);
+		actionCounter++;
+		System.out.println(actionToPerform);
 		if (actionToPerform.equals(Actions.ATTACK)) {
 			attack(me);
 		} else if (actionToPerform.equals(Actions.FLEE)) {
@@ -139,12 +149,13 @@ public class TestBotSC1 extends DefaultBWListener{
 
 	private void explore(Unit myUnit) throws IOException {
 		Random generator = new Random();
-		int low = -150;
-		int high = 150;
+		int low = -100;
+		int high = 100;
 		int aux1 = generator.nextInt(high-low)+low;
 		int aux2 = generator.nextInt(high-low)+low;
 		myUnit.move(new bwapi.Position(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2)));
-		game.drawCircleMap(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2),15,Color.Cyan);
+		game.drawCircleMap(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2),15,Color.Blue);
+		game.drawTextMap(myUnit.getPosition().getX(), myUnit.getPosition().getY(), "EXPLORE");
 	}
 
 	private  Position getToSafePlace(Unit myUnit, Player enemy) {
@@ -154,6 +165,7 @@ public class TestBotSC1 extends DefaultBWListener{
 			posX += enemyUnit.getPosition().getX();
 			posy += enemyUnit.getPosition().getY();
 		}
+		game.drawTextMap(myUnit.getPosition().getX(), myUnit.getPosition().getY(), "flee -- GetToSafePlace");
 		return new bwapi.Position(myUnit.getPosition().getX()-posX,myUnit.getPosition().getY()-posy);
 		
 	}
