@@ -1,5 +1,6 @@
 package scrl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import scrl.algorithm.QLearning;
@@ -23,8 +24,12 @@ public class SCRL implements Serializable {
 	}
 
 	public void init(int matchNumber) {
-		if(matchNumber!=0)
+		System.out.println("SCRL init, match: " + matchNumber);
+		File f = new File("marineTable.ser");
+		if(f.exists())
 			learning.deserialize();
+		//if(matchNumber!=0)
+			//learning.deserialize();
 		//TODO remover Epsilon dinamico
 		//learning.getQTable().setEpsilon(1 - (matchNumber / (TestBotSC1.MAX_GAMES * 1d)));
 	}
@@ -38,10 +43,6 @@ public class SCRL implements Serializable {
 		}
 		setCurrent(curState);
 		
-		//System.out.println("updateState function");
-		//System.out.println("cur: "+curState);
-		//System.out.println("new: "+newState);
-		
 		learning.updateQ(curState,newState, action);
 		
 	}
@@ -51,9 +52,6 @@ public class SCRL implements Serializable {
 		QTable table = learning.getQTable();
 		try {
 			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getNextAction");
-			//TestBotSC1.log(Thread.currentThread().getId()+" Qtable: "+ table);
-			//TestBotSC1.log(Thread.currentThread().getId()+" state: "+ pState);
-			//TestBotSC1.log(Thread.currentThread().getId()+" BU");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +67,7 @@ public class SCRL implements Serializable {
 		this.current = current;
 	}
 
-	public void end(boolean isWinner) {
+	public void end() {
 		learning.serialize();
 	}
 }

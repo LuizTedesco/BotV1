@@ -23,7 +23,7 @@ import scrl.model.Actions;
 
 public class TestBotSC1 extends DefaultBWListener{
 
-	public static final int MAX_GAMES = 5000;
+	public static final int MAX_GAMES = 3000;
 	private static final boolean DEBUG = true;
 	private Mirror mirror = new Mirror();
 	private Game game;
@@ -37,8 +37,13 @@ public class TestBotSC1 extends DefaultBWListener{
 	private int auxCounter = 0;
 	private int auxCounter2 = 1;
 	private int actionCounter = 0;
+	private int winCounter = 0;
+	private int lossCounter = 0;
+	private int drawCounter = 0;
 
+	// Funcao 1
 	public void run() {
+		System.out.println("TestBotSC1 RUN");
 		try {
 			TestBotSC1.log("função RUN DENTRO DE TESTBOTSC1, Primeiro item a ser chamado");
 		} catch (IOException e) {
@@ -49,8 +54,10 @@ public class TestBotSC1 extends DefaultBWListener{
 		mirror.startGame();
 	}
 	
+	// Funcao 2
 	@Override
 	public void onStart() {
+		System.out.println("TestBotSC1 onStart");
 		try {
 			log("Entrou na função onStart");
 		} catch (IOException e) {
@@ -69,8 +76,18 @@ public class TestBotSC1 extends DefaultBWListener{
 		init();
 	}
 
+	// Funcao 3
 	private void init(){
+		System.out.println("TestBotSC1 init");
 		rl = new SCRL();
+		
+		try {
+			TestBotSC1.log("match: "+ match);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		rl.init(match);
 		setInitCounter(getInitCounter() + 1);
 	}
@@ -112,7 +129,7 @@ public class TestBotSC1 extends DefaultBWListener{
 			}
 		}	
 		try {
-			log("AuxCounter : "+auxCounter);
+			log("AuxCounter FRAME : "+auxCounter);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,11 +138,22 @@ public class TestBotSC1 extends DefaultBWListener{
 	
 	@Override
 	public void onEnd(boolean isWinner) {
-		rl.end(isWinner);
+		System.out.println("TestBotSC1 onEnd");
+		rl.end();
+		if(isWinner)
+		{
+			winCounter++;
+		}else
+		{
+			lossCounter++;
+		}
 		match++;
 		if (match == MAX_GAMES)
 		{
-			System.out.println(actionCounter);
+			System.out.println("actionCounter: " + actionCounter);
+			System.out.println("winCounter: " + winCounter);
+			System.out.println("lossCounter: " + lossCounter);
+			
 			System.exit(0);
 		}
 
@@ -202,7 +230,9 @@ public class TestBotSC1 extends DefaultBWListener{
 
 
 	public static void main(String[] args) {
+		System.out.println("TestBotSC1 MAIN antes do RUN");
 		new TestBotSC1().run();
+		System.out.println("TestBotSC1 MAIN depois do RUN");
 	}
 
 }

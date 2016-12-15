@@ -5,17 +5,17 @@ public class RewardFunction {
 		
 		if (pAction == Actions.ATTACK) {
 			if(next.getMediumHpFromNearbyEnemies().isLower(pState.getMediumHpFromNearbyEnemies())){
-				return 5;
+				return 7;
 			}
 			else{
-				return -3;
+				return -4;
 			}
 		} else if (pAction == Actions.EXPLORE){
-			return -2;
-		}
-		else if (pAction == Actions.FLEE) {
 			return -1;
 		}
-		return -1;
+		else if (pAction == Actions.FLEE) {
+			return -2;
+		}
+		return -0.1;
 	}
 }

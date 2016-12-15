@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
+import scrl.tests.TestBotSC1;
 
 public class QLearning implements Serializable {
 	private static final long serialVersionUID = -6943736143750359469L;
@@ -29,13 +30,11 @@ public class QLearning implements Serializable {
 		this.states = model.getStates();
 		this.actions = model.getActions();
 		q = new QTable(states, actions);
-		
 	}
 
 	public void updateQ(UnitState state, UnitState next, Actions action) {
 		
 		double reward = scrl.model.RewardFunction.getValue(state,next, action);
-		
 		
 		double newQValue = computeQ(state, action, reward);
 		Map<Actions, Double> computedActionValue = new ConcurrentHashMap<>();
@@ -49,35 +48,18 @@ public class QLearning implements Serializable {
 
 	private double computeQ(UnitState state, Actions action, double reward) {
 		
-		/* try {
-			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função computeQ");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} */
+		
 		double cq = q.get(state).get(action);
-		//System.out.println("pegou cq:  "+ cq);
-	//	System.out.println("vai calcular VALUE");
 		double value = reward + (GAMA * getMax(state)) - cq;
 		double newq = cq + ALPHA * value;
-//		System.out.println("computou newQ:  "+ newq);
 		
-		/*try {
-			TestBotSC1.log("cq:" + cq);
-			TestBotSC1.log("value:" + value);
-			TestBotSC1.log("newQ:" + newq);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		return newq;
 	}
 
 	protected double getMax(UnitState pState){
 		double max = 0;		
 		for (Actions action : actions) {
-			
-			/*try {
+			try {
 				TestBotSC1.log(Thread.currentThread().getId() +"  "+ "action: "+action);
 				TestBotSC1.log("estado: "+pState);
 				TestBotSC1.log("q.get stado " +q.get(pState));
@@ -85,7 +67,7 @@ public class QLearning implements Serializable {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
 			
 			double value = q.get(pState).get(action);
 			if (value > max) {
@@ -99,7 +81,7 @@ public class QLearning implements Serializable {
 	}
 
 	public void deserialize() {
-		// System.out.println("Deserialize");
+		System.out.println("Deserialize");
 		try {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -112,7 +94,7 @@ public class QLearning implements Serializable {
 	}
 
 	public void serialize() {
-		// System.out.println("Serialize");
+		System.out.println("Serialize");
 		try {
 			// System.out.println(" pra ver se entra aqui no Try");
 			// qtable = new FileOutputStream("marineTable.txt");
