@@ -26,6 +26,14 @@ public enum RangeHP implements Range {
 	public boolean isLower(RangeHP next) {
 		return index < next.index;
 	}
+	
+	public boolean isEqual(RangeHP next) {
+		return index == next.index;
+	}
+	
+	public boolean isHigher(RangeHP other) {
+		return index > other.index;
+	}
 
 	public boolean in(double v) {
 		return min <= v && v < max;

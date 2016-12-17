@@ -3,3 +3,12 @@
 *.txt
 *.dll
 *.clas
+*.scm
+ExampleBot/bin/scrl/algorithm/QLearning.class
+ExampleBot/bin/scrl/algorithm/QLearning.class
+ExampleBot/bin/scrl/model/range/RangeHP.class
+ExampleBot/bin/scrl/model/range/RangeUnits.class
+ExampleBot/bin/scrl/model/RewardFunction.class
+ExampleBot/bin/scrl/RLUnitThread.class
+ExampleBot/bin/scrl/SCRL.class
+ExampleBot/bin/scrl/tests/TestBotSC1.class

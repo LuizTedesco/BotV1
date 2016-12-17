@@ -6,8 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import bwapi.Color;
 import bwapi.DefaultBWListener;
@@ -20,11 +22,12 @@ import bwta.BWTA;
 import scrl.RLUnitThread;
 import scrl.SCRL;
 import scrl.model.Actions;
+import scrl.model.UnitState;
 
 public class TestBotSC1 extends DefaultBWListener{
 
-	public static final int MAX_GAMES = 3000;
-	private static final boolean DEBUG = true;
+	public static final int MAX_GAMES = 10;
+	private static final boolean DEBUG = false;
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
@@ -40,6 +43,7 @@ public class TestBotSC1 extends DefaultBWListener{
 	private int winCounter = 0;
 	private int lossCounter = 0;
 	private int drawCounter = 0;
+	public Set<Unit> myUnitsSet;
 
 	// Funcao 1
 	public void run() {
@@ -90,17 +94,29 @@ public class TestBotSC1 extends DefaultBWListener{
 		
 		rl.init(match);
 		setInitCounter(getInitCounter() + 1);
+		System.out.println("ANTES");
+		for (Unit unit : self.getUnits()) {
+			System.out.println("entroy");
+			myUnitsSet.add(unit);
+			System.out.println("Add");
+		}
+		System.out.println("DPS");
 	}
 	
 
 	@Override
 	public void onFrame()
 	{
+		System.out.println("onFrame");
+		
+		System.out.println(myUnitsSet.toString());
+		
 		List<Unit> units = self.getUnits();
 		for (Unit unit : units) {
-			if(unit.isIdle()){
-				if(game.getFrameCount()%5 == 0)
-				{
+			if(unit.isIdle() && myUnitsSet.contains(unit)){
+				myUnitsSet.remove(unit);
+				//if(game.getFrameCount()%3 == 0)
+				//{
 					game.drawCircleMap(unit.getPosition().getX(),unit.getPosition().getY(),15,Color.Orange);
 					game.drawTextMap(unit.getPosition().getX() + 25, unit.getPosition().getY() + 25, "IDLE  -  UNIT");
 					auxCounter++;
@@ -118,6 +134,7 @@ public class TestBotSC1 extends DefaultBWListener{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					//Future<?> future = executor.submit(rlUnit);
 					executor.execute(rlUnit);
 					try {
 						log("Thread Created for idle Unit: Id: "+ unit.getID()+ " was given execute command");
@@ -125,9 +142,9 @@ public class TestBotSC1 extends DefaultBWListener{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
+				//}
 			}
-		}	
+		}
 		try {
 			log("AuxCounter FRAME : "+auxCounter);
 		} catch (IOException e) {
@@ -177,8 +194,8 @@ public class TestBotSC1 extends DefaultBWListener{
 
 	private void explore(Unit myUnit) throws IOException {
 		Random generator = new Random();
-		int low = -100;
-		int high = 100;
+		int low = -150;
+		int high = 150;
 		int aux1 = generator.nextInt(high-low)+low;
 		int aux2 = generator.nextInt(high-low)+low;
 		myUnit.move(new bwapi.Position(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() +(aux2)));
@@ -187,25 +204,50 @@ public class TestBotSC1 extends DefaultBWListener{
 	}
 
 	private  Position getToSafePlace(Unit myUnit, Player enemy) {
-		int posX = 0;
-		int posy = 0;
+		int myUnitX = myUnit.getPosition().getX();
+		int myUnitY = myUnit.getPosition().getY();
+		int distX = 0;
+		int distY = 0;
 		for (Unit enemyUnit : enemy.getUnits()) {
-			posX += enemyUnit.getPosition().getX();
-			posy += enemyUnit.getPosition().getY();
+			distX += myUnitX - enemyUnit.getPosition().getX();
+			distY += myUnitY - enemyUnit.getPosition().getY();
 		}
 		game.drawTextMap(myUnit.getPosition().getX(), myUnit.getPosition().getY(), "flee -- GetToSafePlace");
-		return new bwapi.Position(myUnit.getPosition().getX()-posX,myUnit.getPosition().getY()-posy);
-		
+		return new bwapi.Position(myUnitX+distX,myUnitY+distY);
 	}
 
 	private void attack(Unit myUnit) throws IOException {
+		int aux;
+		int aux2;
+		int closest = 9999;
+		int lowestLife = 9999;
+		int lowestUnitId = 0;
+		int closestUnitId = 0;
 		for (Unit enemyUnit : game.enemy().getUnits()) {
+			aux = myUnit.getDistance(enemyUnit);
+			if(aux < closest){
+				closest = aux;
+				closestUnitId = enemyUnit.getID();
+			}
+			aux2 = enemyUnit.getHitPoints();
+			if(aux2 < lowestLife){
+				lowestLife = aux2;
+				lowestUnitId = enemyUnit.getID();
+			}
+		}
+		// TODO como relacionar lowestUnitId & closestUnitId
+		for (Unit enemyUnit : game.enemy().getUnits()) {
+			if(lowestUnitId == enemyUnit.getID())
+				myUnit.attack(enemyUnit);
+		}
+		
+		/*for (Unit enemyUnit : game.enemy().getUnits()) {
 			if (myUnit.isInWeaponRange(enemyUnit)) {
 				myUnit.stop();
 				myUnit.attack(enemyUnit.getPosition());
 				break;
 			}
-		}
+		}*/
 	}
 	
 	public static void log(String msg) throws IOException {

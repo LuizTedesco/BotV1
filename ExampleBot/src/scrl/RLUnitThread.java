@@ -54,6 +54,7 @@ public class RLUnitThread implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		bot.myUnitsSet.add(me);
 	}
 	
 	private UnitState getCurrentState() {
@@ -65,8 +66,8 @@ public class RLUnitThread implements Runnable {
 		int numberOfAlliesUnitsNearby = 0;
 		int distanceToClosestEnemyUnit = 400000;	
 		
-		List<Unit> units = me.getUnitsInRadius(230);
-		game.drawCircleMap(me.getPosition().getX(),me.getPosition().getY(),200,Color.Green);
+		List<Unit> units = me.getUnitsInRadius(250);
+		game.drawCircleMap(me.getPosition().getX(),me.getPosition().getY(),250,Color.Green);
 		for (Unit unit : units) {
 			
 			if(unit.getPlayer().isAlly(self))
