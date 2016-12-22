@@ -23,13 +23,13 @@ import bwapi.Player;
 import bwapi.Position;
 import bwapi.Unit;
 import bwta.BWTA;
-import scrl.RLUnitThread;
 import scrl.SCRL;
 import scrl.model.Actions;
+import scrl.model.UnitState;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 5;
+	public static final int MAX_GAMES = 10;
 	private static final boolean DEBUG = false;
 	private Mirror mirror = new Mirror();
 	private Game game;
@@ -76,7 +76,9 @@ public class TestBotSC1 extends DefaultBWListener {
 		game = mirror.getGame();
 		self = game.self();
 
-//		game.setLocalSpeed(20);
+//		game.setLocalSpeed(0);
+//		game.setGUI(false);
+		
 
 		BWTA.readMap();
 		BWTA.analyze();
@@ -91,52 +93,31 @@ public class TestBotSC1 extends DefaultBWListener {
 
 		rl.init(match);
 		setInitCounter(getInitCounter() + 1);
-		for (Unit unit : self.getUnits()) {
-			avaiableUnitsList.add(unit);
-			System.out.println("UnitId: "+ unit.getID()+"  Foi adicionado a avaiableUnitsList. Match N: "+ match );
-		}
+//		for (Unit unit : self.getUnits()) {
+//			avaiableUnitsList.add(unit);
+//			System.out.println("UnitId: "+ unit.getID()+"  Foi adicionado a avaiableUnitsList. Match N: "+ match );
+//		}
 	}
-	
-	
-	//				System.out.println(unit.getLastCommand().isQueued());
-	//				unit.isStartingAttack()
-	//				unit.isAttackFrame()
-	//				unit.isAttacking()
 
 	@Override
 	public void onFrame() {
 		for (Unit unit : self.getUnits()) {
-			if (unit.isIdle() && avaiableUnitsList.contains(unit)) {
-				unit.stop(false);
-//				if(game.getFrameCount() % 15 == 0 ){
-					avaiableUnitsList.remove(unit);
-					System.out.println("avaiableUnitsList.size() After Removing: "+avaiableUnitsList.size());
-					//					System.out.println("UnitId: "+ unit.getID()+" Foi removido da avaiableUnitsList");
-					//					System.out.println("game.getFrameCount(): "+ game.getFrameCount());
-					//					System.out.println("unit.getLastCommandFrame(): "+ unit.getLastCommandFrame());
-					//						
-					//						System.out.println("UnitId: "+ unit.getID()+" is Idle Entrou" );
-
-					//System.out.println("ThisFrame: "+ game.getFrameCount());
-					//if(game.getFrameCount()%3 == 0)
-					//{
+//			if (unit.isIdle() && avaiableUnitsList.contains(unit)) {
+			if (unit.isIdle()) {
+//					avaiableUnitsList.remove(unit);
+//					String lastAction = unit.getLastCommand().getUnitCommandType().toString();
+					UnitState curState = getCurrentState(unit);
+					Actions actionToPerform = rl.getNextAction(curState);
+					executeAction(actionToPerform, unit);
+					UnitState newState = getCurrentState(unit);
+					rl.updateState(actionToPerform, curState,newState);
+//					avaiableUnitsList.add(unit);
 					game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 25, Color.Green);
 					game.drawTextMap(unit.getPosition().getX() + 30, unit.getPosition().getY() + 30, "IDLE  -  UNIT");
 					game.drawTextMap(unit.getPosition().getX() + 10, unit.getPosition().getY() + 10, "UnitId: "+unit.getID()+ " "+ avaiableUnitsList.contains(unit));
 					auxCounter++;
-					log("Vai chamar o new RLUnitThread");
-					Runnable rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
-					// RLUnitThread rlUnit = new RLUnitThread(game, rl, unit, self, this, game.enemy());
-
-					log("Thread Created for idle Unit: Id: " + unit.getID() + " Will execute");
-					executor.execute(rlUnit);
-
-					//System.out.println("LastCommandFrame: "+unit.getLastCommandFrame());
-					log("Thread Created for idle Unit: Id: " + unit.getID() + " was given execute command");	
-					//				}
 			}
 		}
-		log("AuxCounter FRAME : " + auxCounter);
 	}
 
 	@Override
@@ -177,7 +158,6 @@ public class TestBotSC1 extends DefaultBWListener {
 	}
 
 	private void flee(Unit myUnit){
-//		getToSafePlace(myUnit, game.enemy());
 		Position safePlace ;
 		Player enemy = game.enemy();
 		System.out.println("Funcao flee");
@@ -197,7 +177,6 @@ public class TestBotSC1 extends DefaultBWListener {
 			distXElevated = Math.pow(distX, 2);
 			distYElevated = Math.pow(distY, 2);
 			dist += Math.sqrt(distXElevated+distYElevated);
-//			System.out.println("Enemy position:" + enemyX + "," + enemyY);
 		}
 		int numberOfEnemies = enemy.getUnits().size();
 		if(numberOfEnemies != 0)
@@ -206,7 +185,6 @@ public class TestBotSC1 extends DefaultBWListener {
 			System.out.println("Complex safePlace ");
 			game.drawCircleMap((int)(myUnitX - distMedia/numberOfEnemies), (int)(myUnitY - distMedia/numberOfEnemies), 7, Color.White);
 			safePlace = new bwapi.Position((int)(myUnitX - distMedia/numberOfEnemies), (int)(myUnitY - distMedia/numberOfEnemies));
-			
 		}
 		else
 		{
@@ -247,47 +225,6 @@ public class TestBotSC1 extends DefaultBWListener {
 		
 	}
 
-	@SuppressWarnings("unused")
-	private void getToSafePlace(Unit myUnit, Player enemy) {
-		
-		int myUnitX = myUnit.getPosition().getX();
-		int myUnitY = myUnit.getPosition().getY();
-		int distX = 0;
-		int distY = 0;
-		for (Unit enemyUnit : enemy.getUnits()) {
-			distX += myUnitX - enemyUnit.getPosition().getX();
-			distY += myUnitY - enemyUnit.getPosition().getY();
-		}
-		//game.drawTextMap(myUnit.getPosition().getX(), myUnit.getPosition().getY(), "flee -- GetToSafePlace");
-		Position gogogo = new bwapi.Position(myUnitX+distX,myUnitY+distY);
-		if(gogogo.isValid()){
-			System.out.println("gogogo is Valid");
-			myUnit.move(gogogo, false);
-		}else
-		{
-			System.out.println("gogogo is NOT Valid");
-		}
-			
-		
-//		System.out.println("Funcao getToSafePlace");
-//		int myUnitX = myUnit.getPosition().getX();
-//		int myUnitY = myUnit.getPosition().getY();
-//		int distX = 0;
-//		int distY = 0;
-//		for (Unit enemyUnit : enemy.getUnits()) {
-//			int enemyX = enemyUnit.getPosition().getX();
-//			int enemyY = enemyUnit.getPosition().getY();
-//			distX += enemyX - myUnitX;
-//			distY += enemyY - myUnitY;
-//			System.out.println("Enemy position:" + enemyX + "," + enemyY);
-//		}
-//		game.drawTextMap(myUnit.getPosition().getX(), myUnit.getPosition().getY(), "flee -- GetToSafePlace");
-//		System.out.println(myUnitX + "," + myUnitY);
-//		System.out.println(-distX + "," + -distY);
-//		System.out.println("Funcao getToSafePlace");
-//		return new bwapi.Position(-distX, -distY);
-	}
-
 	private void attack(Unit myUnit){
 		int aux;
 		int aux2;
@@ -314,14 +251,54 @@ public class TestBotSC1 extends DefaultBWListener {
 			if (lowestUnitId == enemyUnit.getID())
 				myUnit.attack(enemyUnit);
 		}
-
-		/*
-		 * for (Unit enemyUnit : game.enemy().getUnits()) { if
-		 * (myUnit.isInWeaponRange(enemyUnit)) { myUnit.stop();
-		 * myUnit.attack(enemyUnit.getPosition()); break; } }
-		 */
 	}
-
+	
+	
+	
+	
+	
+	
+	
+	private UnitState getCurrentState(Unit givenUnit) {
+		Unit me = givenUnit;
+		double contHpEnemyLife = 0.d;
+		double contHpAlliesLife = 0.d;
+		double mediumHpFromNearbyEnemies = 0.d;
+		int numberOfEnemiesUnitsNearby = 0;
+		double mediumHpFromNearbyAllies = 0.d;
+		int numberOfAlliesUnitsNearby = 0;
+		int distanceToClosestEnemyUnit = 400000;	
+		
+		List<Unit> units = me.getUnitsInRadius(270);
+		game.drawCircleMap(me.getPosition().getX(),me.getPosition().getY(),270,Color.Green);
+		for (Unit unit : units) {
+			
+			if(unit.getPlayer().isAlly(self))
+			{
+				contHpAlliesLife += unit.getHitPoints();
+				numberOfAlliesUnitsNearby++;
+			}else if(unit.getPlayer().isEnemy(self))
+			{
+				contHpEnemyLife += unit.getHitPoints();
+				numberOfEnemiesUnitsNearby++;
+				distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit ? me.getDistance(unit) : distanceToClosestEnemyUnit;
+			}else
+			{
+				System.out.println("Cai no else em alguma vez?");
+			}
+		}
+		
+		if(numberOfEnemiesUnitsNearby != 0)
+			mediumHpFromNearbyEnemies = contHpEnemyLife / numberOfEnemiesUnitsNearby;
+		if(numberOfAlliesUnitsNearby != 0)
+			mediumHpFromNearbyAllies = contHpAlliesLife / numberOfAlliesUnitsNearby;
+		
+		UnitState curState = new UnitState(me.getHitPoints(), mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, 
+											mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
+		
+		return curState;
+	}
+	
 	public static void log(String msg) {
 		if (DEBUG) {
 			if (!outFile.isFile())
@@ -345,9 +322,11 @@ public class TestBotSC1 extends DefaultBWListener {
 	public void setInitCounter(int initCounter) {
 		this.initCounter = initCounter;
 	}
-
+	
 	public static void main(String[] args) {
 		new TestBotSC1().run();
 	}
+	
+
 
 }
