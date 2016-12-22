@@ -15,6 +15,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isEqual(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("100");
 				return 100;
 			}
 			else if(
@@ -26,6 +27,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isEqual(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("95");
 				return 95;
 			}
 			else if(
@@ -37,6 +39,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isEqual(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("90");
 				return 90;
 			}
 			else if(
@@ -48,6 +51,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isLower(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("80");
 				return 80;
 			}
 			else if(
@@ -59,6 +63,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isEqual(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("75");
 				return 75;
 			}
 			else if(
@@ -70,6 +75,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isLower(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("70");
 				return 70;
 			}
 			else if(
@@ -81,6 +87,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isLower(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("-100");
 				return -100;
 			}
 			else if(
@@ -92,6 +99,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isEqual(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("-95");
 				return -95;
 			}
 			else if(
@@ -103,6 +111,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isLower(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("-90");
 				return -90;
 			}
 			else if(
@@ -114,6 +123,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isEqual(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("-85");
 				return -85;
 			}
 			else if(
@@ -125,6 +135,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isLower(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("-80");
 				return -80;
 			}
 			else if(
@@ -136,6 +147,7 @@ public class RewardFunction {
 					next.getHpFromNearbyAllies().isEqual(pState.getHpFromNearbyAllies())
 					&&
 					next.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfAlliesUnitsNearby())){
+				System.out.println("-70");
 				return -70;
 			}
 			else return 0;
@@ -143,9 +155,13 @@ public class RewardFunction {
 			if(
 					// 1
 					pState.getNumberOfEnemiesUnitsNearby() == RangeUnits.ZERO){
+				System.out.println("100");
 				return 100;
 			} // mais casos?
-			else return -30;
+			else {
+				System.out.println("-30");
+				return -30;
+			}
 		}
 		else if (pAction == Actions.FLEE) {
 			if(
@@ -154,6 +170,7 @@ public class RewardFunction {
 					&&
 					pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
 					){
+				System.out.println("100");
 				return 100;
 			}
 			else if(
@@ -162,6 +179,7 @@ public class RewardFunction {
 					&&
 					pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
 					){
+				System.out.println("90");
 				return 90;
 			}
 			else if(
@@ -170,6 +188,7 @@ public class RewardFunction {
 					&&
 					pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
 					){
+				System.out.println("80");
 				return 80;
 			}
 			else if(
@@ -178,6 +197,7 @@ public class RewardFunction {
 					&&
 					pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
 					){
+				System.out.println("70");
 				return 70;
 			}
 			else if( 
@@ -186,6 +206,7 @@ public class RewardFunction {
 					&&
 					pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
 					){
+				System.out.println("-100");
 				return -100;
 			}
 			else if( 
@@ -194,6 +215,7 @@ public class RewardFunction {
 					&&
 					pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
 					){
+				System.out.println("-90");
 				return -90;
 			}
 			else if(
@@ -202,10 +224,15 @@ public class RewardFunction {
 					&&
 					pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
 					){
+				System.out.println("-80");
 				return -80;
 			}
-			else return 10;
+			else{
+				System.out.println("10");
+				return 10;
+			}
 		}
+		System.out.println("-0.1");
 		return -0.1;
 	}
 }

@@ -59,16 +59,10 @@ public class QLearning implements Serializable {
 	protected double getMax(UnitState pState){
 		double max = 0;		
 		for (Actions action : actions) {
-			try {
-				TestBotSC1.log(Thread.currentThread().getId() +"  "+ "action: "+action);
-				TestBotSC1.log("estado: "+pState);
-				TestBotSC1.log("q.get stado " +q.get(pState));
-				TestBotSC1.log("q.get stado VALUES" +q.get(pState).values());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			TestBotSC1.log(Thread.currentThread().getId() +"  "+ "action: "+action);
+			TestBotSC1.log("estado: "+pState);
+			TestBotSC1.log("q.get stado " +q.get(pState));
+			TestBotSC1.log("q.get stado VALUES" +q.get(pState).values());
 			double value = q.get(pState).get(action);
 			if (value > max) {
 				max = value;

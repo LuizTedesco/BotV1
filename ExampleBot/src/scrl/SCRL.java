@@ -35,12 +35,7 @@ public class SCRL implements Serializable {
 	}
 
 	public void updateState(Actions action, UnitState curState, UnitState newState) {
-		try {
-			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função updateState");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função updateState");
 		setCurrent(curState);
 		
 		learning.updateQ(curState,newState, action);
@@ -50,12 +45,7 @@ public class SCRL implements Serializable {
 	public Actions getNextAction(UnitState pState) {
 		//System.out.println("getNextAction");
 		QTable table = learning.getQTable();
-		try {
-			TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getNextAction");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getNextAction");
 		return table.getMaxAction(pState);
 	}
 

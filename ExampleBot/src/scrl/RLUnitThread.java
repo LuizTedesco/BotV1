@@ -1,6 +1,5 @@
 package scrl;
 
-import java.io.IOException;
 import java.util.List;
 
 import bwapi.Color;
@@ -31,30 +30,55 @@ public class RLUnitThread implements Runnable {
 
 	@Override
 	public void run() {
-
+		String lastAction = me.getLastCommand().getUnitCommandType().toString();
 		UnitState curState = getCurrentState();
 
 		Actions actionToPerform = rl.getNextAction(curState);
-		try {
-			TestBotSC1.log(Thread.currentThread().getId()+ " RLUnitThread "+ actionToPerform.toString());
-			
+		TestBotSC1.log(Thread.currentThread().getId()+ " RLUnitThread "+ actionToPerform.toString());
+		
+		if(lastAction == "Move" || lastAction == "Attack_Move" || lastAction == "Attack_Unit"){
+			bot.executeActionStop(me);
+//			me.stop(false);
+			System.out.println("if do run");
 			bot.executeAction(actionToPerform, me);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-				
-		UnitState newState = getCurrentState();
-			
-		rl.updateState(actionToPerform, curState,newState);
-		try {
+			UnitState newState = getCurrentState();
+			rl.updateState(actionToPerform, curState,newState);
 			TestBotSC1.log("Thread Id: "+Thread.currentThread().getId()+" Finished the Run");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			bot.avaiableUnitsList.add(me);
+			System.out.println("UnitId: "+ me.getID()+"Foi RE---adicionado a avaiableUnitsList. EM IF");
+			System.out.println("avaiableUnitsList.size() After Re-ADD: "+bot.avaiableUnitsList.size());
+		}else{
+			System.out.println("else do Run");
+			bot.executeAction(actionToPerform, me);
+			UnitState newState = getCurrentState();
+			rl.updateState(actionToPerform, curState,newState);
+			TestBotSC1.log("Thread Id: "+Thread.currentThread().getId()+" Finished the Run");
+			bot.avaiableUnitsList.add(me);
+			System.out.println("UnitId: "+ me.getID()+"  Foi RE---adicionado a avaiableUnitsList. EM ELSE");
+			System.out.println("avaiableUnitsList.size() After Re-ADD: "+bot.avaiableUnitsList.size());
 		}
-		bot.myUnitsSet.add(me);
+			
+//		unit.isStartingAttack()
+//						unit.isAttackFrame()
+//						unit.isAttacking()
+		
+//		if(game.getFrameCount() - me.getLastCommandFrame() >= 5 || me.isAttackFrame() ){
+//		System.out.println("me.getLastCommand().toString()");
+		// None, Move, Attack_Move ou Attack_Unit
+//		System.out.println(me.getLastCommand().getUnitCommandType().toString());
+		
+		
+		//{
+			//System.out.println("no if");
+			// dont act, therefore, dont update Q
+		//}else
+		//{
+			//System.out.println("no Else");
+//			bot.executeAction(actionToPerform, me);
+//			UnitState newState = getCurrentState();
+//				
+//			rl.updateState(actionToPerform, curState,newState);
+//			TestBotSC1.log("Thread Id: "+Thread.currentThread().getId()+" Finished the Run");
 	}
 	
 	private UnitState getCurrentState() {
@@ -66,8 +90,8 @@ public class RLUnitThread implements Runnable {
 		int numberOfAlliesUnitsNearby = 0;
 		int distanceToClosestEnemyUnit = 400000;	
 		
-		List<Unit> units = me.getUnitsInRadius(250);
-		game.drawCircleMap(me.getPosition().getX(),me.getPosition().getY(),250,Color.Green);
+		List<Unit> units = me.getUnitsInRadius(270);
+		game.drawCircleMap(me.getPosition().getX(),me.getPosition().getY(),270,Color.Green);
 		for (Unit unit : units) {
 			
 			if(unit.getPlayer().isAlly(self))

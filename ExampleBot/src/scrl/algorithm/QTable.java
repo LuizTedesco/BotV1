@@ -59,12 +59,7 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 		double rnd = rand.nextDouble();
 		if (rnd < epsilon) {
 			// select random
-			try {
-				TestBotSC1.log(Thread.currentThread().getId()+" Randomic Action");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			TestBotSC1.log(Thread.currentThread().getId()+" Randomic Action");
 			action = Actions.values()[rand.nextInt(Actions.values().length)];
 		} else {
 			action = getMaxAction(state);
