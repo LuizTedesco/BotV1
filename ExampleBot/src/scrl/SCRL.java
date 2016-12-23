@@ -1,7 +1,6 @@
 package scrl;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import scrl.algorithm.QLearning;
 import scrl.algorithm.QTable;

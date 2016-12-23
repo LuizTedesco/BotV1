@@ -5,15 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
+//import java.util.concurrent.ExecutorService;
+//import java.util.concurrent.Executors;
 
 import bwapi.Color;
 import bwapi.DefaultBWListener;
@@ -29,20 +24,18 @@ import scrl.model.UnitState;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 10;
-	private static final boolean DEBUG = false;
+	public static final int MAX_GAMES = 100;
+	private static final boolean DEBUG = true;
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
-	// private Player enemy;
 	private SCRL rl;
 	static File outFile = new File("teste1.txt");
 	private int initCounter = 1;
 	private static int match = 0;
-	ExecutorService executor = Executors.newFixedThreadPool(5);
-	private int auxCounter = 0;
+//	ExecutorService executor = Executors.newFixedThreadPool(5);
 	@SuppressWarnings("unused")
-	private int auxCounter2 = 1;
+	private int auxCounter = 0;
 	private int actionCounter = 0;
 	private int winCounter = 0;
 	private int lossCounter = 0;
@@ -76,10 +69,11 @@ public class TestBotSC1 extends DefaultBWListener {
 		game = mirror.getGame();
 		self = game.self();
 
-//		game.setLocalSpeed(0);
-//		game.setGUI(false);
 		
+		game.setLocalSpeed(0);
+		game.setGUI(false);
 
+		
 		BWTA.readMap();
 		BWTA.analyze();
 
@@ -90,31 +84,21 @@ public class TestBotSC1 extends DefaultBWListener {
 	private void init() {
 		rl = new SCRL();
 		TestBotSC1.log("match: " + match);
-
 		rl.init(match);
 		setInitCounter(getInitCounter() + 1);
-//		for (Unit unit : self.getUnits()) {
-//			avaiableUnitsList.add(unit);
-//			System.out.println("UnitId: "+ unit.getID()+"  Foi adicionado a avaiableUnitsList. Match N: "+ match );
-//		}
 	}
 
 	@Override
 	public void onFrame() {
 		for (Unit unit : self.getUnits()) {
-//			if (unit.isIdle() && avaiableUnitsList.contains(unit)) {
 			if (unit.isIdle()) {
-//					avaiableUnitsList.remove(unit);
-//					String lastAction = unit.getLastCommand().getUnitCommandType().toString();
 					UnitState curState = getCurrentState(unit);
 					Actions actionToPerform = rl.getNextAction(curState);
 					executeAction(actionToPerform, unit);
 					UnitState newState = getCurrentState(unit);
 					rl.updateState(actionToPerform, curState,newState);
-//					avaiableUnitsList.add(unit);
 					game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 25, Color.Green);
 					game.drawTextMap(unit.getPosition().getX() + 30, unit.getPosition().getY() + 30, "IDLE  -  UNIT");
-					game.drawTextMap(unit.getPosition().getX() + 10, unit.getPosition().getY() + 10, "UnitId: "+unit.getID()+ " "+ avaiableUnitsList.contains(unit));
 					auxCounter++;
 			}
 		}
@@ -134,7 +118,6 @@ public class TestBotSC1 extends DefaultBWListener {
 			System.out.println("actionCounter: " + actionCounter);
 			System.out.println("winCounter: " + winCounter);
 			System.out.println("lossCounter: " + lossCounter);
-
 			System.exit(0);
 		}
 
@@ -159,48 +142,150 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	private void flee(Unit myUnit){
 		Position safePlace ;
-		Player enemy = game.enemy();
 		System.out.println("Funcao flee");
 		int myUnitX = myUnit.getPosition().getX();
 		int myUnitY = myUnit.getPosition().getY();
+		int numberofEnemiesOnUpperRight = 0;
+		int numberofEnemiesOnLowerRight = 0;
+		int numberofEnemiesOnUpperLeft = 0;
+		int numberofEnemiesOnLowerLeft = 0;
+		int enemyX = 0;
+		int enemyY = 0;
 		int distX = 0;
 		int distY = 0;
 		double distXElevated = 0;
 		double distYElevated = 0;
 		double dist = 0.0;
-		double distMedia = 0.0;
-		for (Unit enemyUnit : enemy.getUnits()) {
-			int enemyX = enemyUnit.getPosition().getX();
-			int enemyY = enemyUnit.getPosition().getY();
+//		double distMedia = 0.0;
+		int numberOfEnemyUnits = game.enemy().getUnits().size();
+		for (Unit enemyUnit : game.enemy().getUnits()) {
+			enemyX = enemyUnit.getPosition().getX();
+			enemyY = enemyUnit.getPosition().getY();
 			distX = enemyX - myUnitX;
 			distY = enemyY - myUnitY;
 			distXElevated = Math.pow(distX, 2);
 			distYElevated = Math.pow(distY, 2);
 			dist += Math.sqrt(distXElevated+distYElevated);
+			if(enemyX > myUnitX){
+				if(enemyY > myUnitY){
+					numberofEnemiesOnUpperRight++;
+				}else
+				{
+					numberofEnemiesOnLowerRight++;					
+				}
+			}else{
+				if(enemyY > myUnitY)
+				{
+					numberofEnemiesOnUpperLeft++;
+				}
+				else
+				{numberofEnemiesOnLowerLeft++;
+				}
+			}
 		}
-		int numberOfEnemies = enemy.getUnits().size();
-		if(numberOfEnemies != 0)
+		
+		safePlace = new bwapi.Position(myUnitX -15,myUnitY - 15);
+		if(numberofEnemiesOnUpperRight > numberofEnemiesOnUpperLeft || numberofEnemiesOnLowerRight > numberofEnemiesOnLowerLeft)
 		{
-			distMedia = dist / numberOfEnemies;
-			System.out.println("Complex safePlace ");
-			game.drawCircleMap((int)(myUnitX - distMedia/numberOfEnemies), (int)(myUnitY - distMedia/numberOfEnemies), 7, Color.White);
-			safePlace = new bwapi.Position((int)(myUnitX - distMedia/numberOfEnemies), (int)(myUnitY - distMedia/numberOfEnemies));
+			// esquerda
+			if(numberofEnemiesOnLowerLeft > numberofEnemiesOnUpperLeft || numberofEnemiesOnLowerRight > numberofEnemiesOnUpperRight){
+				// cima
+				System.out.println("Esquerda Cima");
+				safePlace = new bwapi.Position(myUnitX - (int)(dist/numberOfEnemyUnits),myUnitY + (int)(dist/numberOfEnemyUnits));
+			}else if(numberofEnemiesOnUpperLeft > numberofEnemiesOnLowerLeft || numberofEnemiesOnUpperRight > numberofEnemiesOnLowerRight)
+			{
+				// baixo
+				System.out.println("Esquerda Baixo");
+				safePlace = new bwapi.Position(myUnitX - (int)(dist/numberOfEnemyUnits),myUnitY - (int)(dist/numberOfEnemyUnits));
+			}
+		}else if(numberofEnemiesOnUpperLeft > numberofEnemiesOnUpperRight || numberofEnemiesOnLowerLeft > numberofEnemiesOnLowerRight){
+			// direita
+			if(numberofEnemiesOnLowerLeft > numberofEnemiesOnUpperLeft || numberofEnemiesOnLowerRight > numberofEnemiesOnUpperRight){
+				// cima
+				System.out.println("Direita Cima");
+				safePlace = new bwapi.Position(myUnitX + (int)(dist/numberOfEnemyUnits),myUnitY + (int)(dist/numberOfEnemyUnits));
+			}else if(numberofEnemiesOnUpperLeft > numberofEnemiesOnLowerLeft || numberofEnemiesOnUpperRight > numberofEnemiesOnLowerRight)
+			{
+				// baixo
+				System.out.println("Direita Baixo");
+				safePlace = new bwapi.Position(myUnitX + (int)(dist/numberOfEnemyUnits),myUnitY - (int)(dist/numberOfEnemyUnits));
+			}
 		}
-		else
+		
+//		if(numberofEnemiesOnUpperRight > numberofEnemiesOnLowerRight)
+//		{ // ir pra baixo
+//			if(numberofEnemiesOnUpperLeft > numberofEnemiesOnUpperRight)
+//			{
+//				//ir pra direita
+//				safePlace = new bwapi.Position(myUnitX + (int)(dist/numberOfEnemyUnits),myUnitY - (int)(dist/numberOfEnemyUnits));
+//			}
+//			else
+//			{
+//				//ir pra esquerda
+//				safePlace = new bwapi.Position(myUnitX - (int)(dist/numberOfEnemyUnits),myUnitY - (int)(dist/numberOfEnemyUnits));
+//			}
+//		}else{
+//			// pra cima
+//			if(numberofEnemiesOnUpperLeft > numberofEnemiesOnUpperRight)
+//			{
+//				//ir pra direita
+//				safePlace = new bwapi.Position(myUnitX + (int)(dist/numberOfEnemyUnits),myUnitY + (int)(dist/numberOfEnemyUnits));
+//			}
+//			else
+//			{
+//				//ir pra esquerda
+//				safePlace = new bwapi.Position(myUnitX - (int)(dist/numberOfEnemyUnits),myUnitY + (int)(dist/numberOfEnemyUnits));
+//			}
+//		}
+		if(safePlace.isValid())
 		{
-			System.out.println("Simples safePlace");
-			safePlace = new bwapi.Position(myUnitX,myUnitY);
-		}
-		game.drawTextMap(myUnit.getPosition().getX(), myUnit.getPosition().getY(), "flee -- GetToSafePlace");
-		if(safePlace.isValid()){
-			System.out.println("safePlace is Valid");
-			myUnit.move(safePlace, false);
-		}
-		else
+			System.out.println("SafePlace Is Valid");
+			myUnit.move(safePlace);
+		}else
 		{
-			System.out.println("safePlace is NOT Valid");
-			myUnit.move(new bwapi.Position(myUnitX,myUnitY));
+			System.out.println("SafePlace Is Not Valid");
+			explore(myUnit);
 		}
+
+		
+//		int distX = 0;
+//		int distY = 0;
+//		double distXElevated = 0;
+//		double distYElevated = 0;
+//		double dist = 0.0;
+//		double distMedia = 0.0;
+//		for (Unit enemyUnit : enemy.getUnits()) {
+//			int enemyX = enemyUnit.getPosition().getX();
+//			int enemyY = enemyUnit.getPosition().getY();
+//			distX = enemyX - myUnitX;
+//			distY = enemyY - myUnitY;
+//			distXElevated = Math.pow(distX, 2);
+//			distYElevated = Math.pow(distY, 2);
+//			dist += Math.sqrt(distXElevated+distYElevated);
+//		}
+//		int numberOfEnemies = enemy.getUnits().size();
+//		if(numberOfEnemies != 0)
+//		{
+//			distMedia = dist / numberOfEnemies;
+//			System.out.println("Complex safePlace ");
+//			game.drawCircleMap((int)(myUnitX - distMedia/numberOfEnemies), (int)(myUnitY - distMedia/numberOfEnemies), 7, Color.White);
+//			safePlace = new bwapi.Position((int)(myUnitX - distMedia/numberOfEnemies), (int)(myUnitY - distMedia/numberOfEnemies));
+//		}
+//		else
+//		{
+//			System.out.println("Simples safePlace");
+//			safePlace = new bwapi.Position(myUnitX,myUnitY);
+//		}
+//		game.drawTextMap(myUnit.getPosition().getX(), myUnit.getPosition().getY(), "flee -- GetToSafePlace");
+//		if(safePlace.isValid()){
+//			System.out.println("safePlace is Valid");
+//			myUnit.move(safePlace, false);
+//		}
+//		else
+//		{
+//			System.out.println("safePlace is NOT Valid");
+//			myUnit.move(new bwapi.Position(myUnitX,myUnitY));
+//		}
 	}
 
 	private void explore(Unit myUnit){
