@@ -26,6 +26,7 @@ public class QLearning implements Serializable {
 	private Collection<Actions> actions;
 
 	public QLearning(SCMDP model) {
+		System.out.println("passou no construtor do QLearning quantas Xs?");
 		this.setModel(model);
 		this.states = model.getStates();
 		this.actions = model.getActions();
@@ -48,7 +49,6 @@ public class QLearning implements Serializable {
 
 	private double computeQ(UnitState state, Actions action, double reward) {
 		
-		
 		double cq = q.get(state).get(action);
 		double value = reward + (GAMA * getMax(state)) - cq;
 		double newq = cq + ALPHA * value;
@@ -57,20 +57,15 @@ public class QLearning implements Serializable {
 	}
 
 	protected double getMax(UnitState pState){
-		double max = 0;		
+		double max = 0;
+		TestBotSC1.log("estado: "+pState);
+		TestBotSC1.log("q.get stado " +q.get(pState));
 		for (Actions action : actions) {
-			TestBotSC1.log(Thread.currentThread().getId() +"  "+ "action: "+action);
-			TestBotSC1.log("estado: "+pState);
-			TestBotSC1.log("q.get stado " +q.get(pState));
-			TestBotSC1.log("q.get stado VALUES" +q.get(pState).values());
 			double value = q.get(pState).get(action);
 			if (value > max) {
 				max = value;
 			}
-			
 		}
-		
-
 		return max;
 	}
 

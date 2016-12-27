@@ -297,7 +297,11 @@ public class RewardFunction {
 				System.out.println("-70");
 				return -70;
 			}
-			else return 0;
+			else 
+				{
+					System.out.println("-150");
+					return -150;
+				}
 		} else if (pAction == Actions.EXPLORE){
 			if(
 					// 1
@@ -473,9 +477,9 @@ public class RewardFunction {
 				TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
 				TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
 				TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
-				TestBotSC1.log("Flee, RW: 10");
-				System.out.println("10");
-				return 10;
+				TestBotSC1.log("Flee, RW: -10");
+				System.out.println("-10");
+				return -10;
 			}
 		}
 		TestBotSC1.log("Estado Velho:");

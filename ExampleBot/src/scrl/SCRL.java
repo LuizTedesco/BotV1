@@ -15,7 +15,6 @@ public class SCRL implements Serializable {
 
 	private SCMDP model;
 	private QLearning learning;
-	private UnitState current; // eu to usando esse cara?
 
 	public SCRL() {
 		model = new SCMDP();
@@ -34,26 +33,14 @@ public class SCRL implements Serializable {
 	}
 
 	public void updateState(Actions action, UnitState curState, UnitState newState) {
-		TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função updateState");
-		setCurrent(curState);
-		
+		TestBotSC1.log(" Entrou na função updateState");
 		learning.updateQ(curState,newState, action);
-		
 	}
 
 	public Actions getNextAction(UnitState pState) {
-		//System.out.println("getNextAction");
 		QTable table = learning.getQTable();
-		TestBotSC1.log(Thread.currentThread().getId()+" Entrou na função getNextAction");
+		TestBotSC1.log(" Entrou na função getNextAction");
 		return table.getMaxAction(pState);
-	}
-
-	public UnitState getCurrent() {
-		return current;
-	}
-
-	public void setCurrent(UnitState current) {
-		this.current = current;
 	}
 
 	public void end() {
