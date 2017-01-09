@@ -37,7 +37,8 @@ public class QLearning implements Serializable {
 		
 		double reward = scrl.model.RewardFunction.getValue(state,next, action);
 		
-		double newQValue = computeQ(state, action, reward);
+		double newQValue = computeQ(state, next, action, reward);
+//		double newNewQValue = newComputeQ(state, next, action, reward);
 		Map<Actions, Double> computedActionValue = new ConcurrentHashMap<>();
 		computedActionValue = q.get(state);
 		for (Actions actions2 : actions) {
@@ -45,21 +46,31 @@ public class QLearning implements Serializable {
 				computedActionValue.put(action, newQValue);
 		}
 		q.put(state, computedActionValue);
+		TestBotSC1.log("computedActionValue: "+ computedActionValue);
 	}
 
-	private double computeQ(UnitState state, Actions action, double reward) {
-		
-		double cq = q.get(state).get(action);
-		double value = reward + (GAMA * getMax(state)) - cq;
-		double newq = cq + ALPHA * value;
-		
-		return newq;
+	private double computeQ(UnitState current, UnitState next, Actions action, double reward) {
+		double oldQ = q.get(current).get(action); // Q(s,a)
+		double bracedValue = reward + (GAMA * getMax(next)) - oldQ;
+		return oldQ + ALPHA*bracedValue;
 	}
+
+//	private double computeQ(UnitState state, Actions action, double reward) {
+//		
+//		 ERRADO pois levava em consideracao o current e nao o next
+//		double cq = q.get(state).get(action);
+//		double value = reward + (GAMA * getMax(state)) - cq;
+//		double newq = cq + ALPHA * value;
+//		
+//		return newq;
+//	}
 
 	protected double getMax(UnitState pState){
-		double max = 0;
-		TestBotSC1.log("estado: "+pState);
-		TestBotSC1.log("q.get stado " +q.get(pState));
+//		double max = 0;
+		double max = Double.NEGATIVE_INFINITY;
+//		TestBotSC1.log("estado: "+pState.toString());
+		TestBotSC1.log("estado novo: "+pState.toStringDebugStateReward());
+//		TestBotSC1.log("q.get stado " +q.get(pState));
 		for (Actions action : actions) {
 			double value = q.get(pState).get(action);
 			if (value > max) {

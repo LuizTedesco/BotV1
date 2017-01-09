@@ -40,6 +40,13 @@ public class UnitState implements Serializable{
 		//System.out.println(Thread.currentThread().getId() + "  " + this.hp  + "  " + this.mediumHpFromNearbyEnemies  + "  " + this.numberOfEnemiesUnitsNearby  + "  " + 
 			//	this.mediumHpFromNearbyAllies  + "  " + this.numberOfAlliesUnitsNearby  + "  " + this.distanceToClosestEnemyUnit);
 	}
+	
+	public String toStringDebugStateReward() {
+		StringBuilder builder = new StringBuilder();
+				builder.append(mediumHpFromNearbyAllies).append(" ").append(numberOfAlliesUnitsNearby).append(" ")
+				.append(mediumHpFromNearbyEnemies).append(" ").append(numberOfEnemiesUnitsNearby);
+				return builder.toString();
+	}
 
 	@Override
 	public String toString() {

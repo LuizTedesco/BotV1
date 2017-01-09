@@ -2,12 +2,12 @@ package scrl;
 
 import java.io.File;
 import java.io.Serializable;
+
 import scrl.algorithm.QLearning;
 import scrl.algorithm.QTable;
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
-import scrl.tests.TestBotSC1;
 
 public class SCRL implements Serializable {
 
@@ -33,13 +33,13 @@ public class SCRL implements Serializable {
 	}
 
 	public void updateState(Actions action, UnitState curState, UnitState newState) {
-		TestBotSC1.log(" Entrou na função updateState");
+//		TestBotSC1.log("Entrou na função updateState");
 		learning.updateQ(curState,newState, action);
 	}
 
 	public Actions getNextAction(UnitState pState) {
 		QTable table = learning.getQTable();
-		TestBotSC1.log(" Entrou na função getNextAction");
+//		TestBotSC1.log("Entrou na função getNextAction");
 		return table.getMaxAction(pState);
 	}
 
