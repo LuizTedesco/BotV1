@@ -24,8 +24,8 @@ import scrl.model.UnitState;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 50;
-	private static final boolean DEBUG = false;
+	public static final int MAX_GAMES = 2;
+	private static final boolean DEBUG = true;
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
@@ -89,9 +89,9 @@ public class TestBotSC1 extends DefaultBWListener {
 	public void onFrame() {
 //		log("OnFrame ");
 		for (Unit unit : self.getUnits()) {
-			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 50, Color.Brown);
-			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 100, Color.Cyan);
-			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 150, Color.Green);
+//			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 50, Color.Brown);
+			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 125, Color.Cyan);
+//			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 150, Color.Green);
 			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 200, Color.Orange);
 			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 300, Color.Red);
 			
@@ -481,8 +481,11 @@ public class TestBotSC1 extends DefaultBWListener {
 		if (numberOfAlliesUnitsNearby != 0)
 			mediumHpFromNearbyAllies = contHpAlliesLife / numberOfAlliesUnitsNearby;
 
-		UnitState curState = new UnitState(me.getHitPoints(), mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby,
-				mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
+//		UnitState curState = new UnitState(me.getHitPoints(), mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby,
+//				mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
+		
+		UnitState curState = new UnitState(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby,
+				mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby);
 
 		return curState;
 	}

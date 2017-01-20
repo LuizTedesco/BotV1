@@ -26,28 +26,28 @@ public enum RangeUnits implements Range {
 	}
 
 	public boolean isLower(RangeUnits next) {
-		TestBotSC1.log("isLowerThan: ");
-		TestBotSC1.log("index: " +index);
-		TestBotSC1.log("next.index: " + next.index);
+//		TestBotSC1.log("isLowerThan: ");
+//		TestBotSC1.log("index: " +index);
+//		TestBotSC1.log("next.index: " + next.index);
 		return index < next.index;
 	}
 	
 	public boolean isEqual(RangeUnits next) {
-		TestBotSC1.log("isEqual: ");
-		TestBotSC1.log("index: " +index);
-		TestBotSC1.log("next.index: " + next.index);
+//		TestBotSC1.log("isEqual: ");
+//		TestBotSC1.log("index: " +index);
+//		TestBotSC1.log("next.index: " + next.index);
 		return index == next.index;
 	}
 	
 	public boolean isHigher(RangeUnits other) {
-		TestBotSC1.log("isHigherThan: ");
-		TestBotSC1.log("index: " +index);
-		TestBotSC1.log("other.index: " + other.index);
+//		TestBotSC1.log("isHigherThan: ");
+//		TestBotSC1.log("index: " +index);
+//		TestBotSC1.log("other.index: " + other.index);
 		return index > other.index;
 	}
 	
 	public boolean in(double v) {
-		TestBotSC1.log("in: ");
+//		TestBotSC1.log("in: ");
 		return min <= v && v < max;
 	}
 }

@@ -11,31 +11,35 @@ import scrl.model.range.RangeUnits;
 
 public class UnitState implements Serializable{
 	private static final long serialVersionUID = 7588180712283449263L;
-	private RangeHP hp;
+//	private RangeHP hp;
 	private RangeHP mediumHpFromNearbyEnemies;
 	private RangeUnits numberOfEnemiesUnitsNearby;
 	private RangeHP mediumHpFromNearbyAllies;
 	private RangeUnits numberOfAlliesUnitsNearby;
-	private RangeDistance distanceToClosestEnemyUnit;
+//	private RangeDistance distanceToClosestEnemyUnit;
 
-	public UnitState(RangeHP hp, RangeHP mediumHpFromNearbyEnemies, RangeUnits numberOfEnemiesUnitsNearby,
-					 RangeHP mediumHpFromNearbyAllies, RangeUnits numberOfAlliesUnitsNearby,RangeDistance distanceToClosestEnemyUnit) {
-		this.hp = hp;
+//	public UnitState(RangeHP hp, RangeHP mediumHpFromNearbyEnemies, RangeUnits numberOfEnemiesUnitsNearby,
+//					 RangeHP mediumHpFromNearbyAllies, RangeUnits numberOfAlliesUnitsNearby,RangeDistance distanceToClosestEnemyUnit) {
+	public UnitState(RangeHP mediumHpFromNearbyEnemies, RangeUnits numberOfEnemiesUnitsNearby,
+			 RangeHP mediumHpFromNearbyAllies, RangeUnits numberOfAlliesUnitsNearby) {	
+//		this.hp = hp;
 		this.mediumHpFromNearbyEnemies = mediumHpFromNearbyEnemies;
 		this.numberOfEnemiesUnitsNearby = numberOfEnemiesUnitsNearby;
 		this.mediumHpFromNearbyAllies = mediumHpFromNearbyAllies;
 		this.numberOfAlliesUnitsNearby = numberOfAlliesUnitsNearby;
-		this.distanceToClosestEnemyUnit = distanceToClosestEnemyUnit;
+//		this.distanceToClosestEnemyUnit = distanceToClosestEnemyUnit;
 	}
 
-	public UnitState(double hp2, double mediumHpFromNearbyEnemies, int numberOfEnemiesUnitsNearby, double mediumHpFromNearbyAllies, 
-			int numberOfAlliesUnitsNearby, int distanceToClosestEnemyUnit) {
-		this.hp = RangeHP.get(hp2);
+//	public UnitState(double hp2, double mediumHpFromNearbyEnemies, int numberOfEnemiesUnitsNearby, double mediumHpFromNearbyAllies, 
+//			int numberOfAlliesUnitsNearby, int distanceToClosestEnemyUnit) {
+	public UnitState(double mediumHpFromNearbyEnemies, int numberOfEnemiesUnitsNearby, double mediumHpFromNearbyAllies, 
+			int numberOfAlliesUnitsNearby) {
+//		this.hp = RangeHP.get(hp2);
 		this.mediumHpFromNearbyEnemies = RangeHP.get(mediumHpFromNearbyEnemies);
 		this.numberOfEnemiesUnitsNearby = RangeUnits.get(numberOfEnemiesUnitsNearby);
 		this.mediumHpFromNearbyAllies = RangeHP.get(mediumHpFromNearbyAllies);
 		this.numberOfAlliesUnitsNearby = RangeUnits.get(numberOfAlliesUnitsNearby);
-		this.distanceToClosestEnemyUnit = RangeDistance.get(distanceToClosestEnemyUnit);
+//		this.distanceToClosestEnemyUnit = RangeDistance.get(distanceToClosestEnemyUnit);
 		
 		//System.out.println(Thread.currentThread().getId() + "  " + this.hp  + "  " + this.mediumHpFromNearbyEnemies  + "  " + this.numberOfEnemiesUnitsNearby  + "  " + 
 			//	this.mediumHpFromNearbyAllies  + "  " + this.numberOfAlliesUnitsNearby  + "  " + this.distanceToClosestEnemyUnit);
@@ -50,10 +54,16 @@ public class UnitState implements Serializable{
 
 	@Override
 	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//				builder.append(hp).append(mediumHpFromNearbyEnemies).append(numberOfEnemiesUnitsNearby)
+//				.append(mediumHpFromNearbyAllies).append(numberOfAlliesUnitsNearby).append(distanceToClosestEnemyUnit);
+//				return builder.toString();
+				
+
 		StringBuilder builder = new StringBuilder();
-				builder.append(hp).append(mediumHpFromNearbyEnemies).append(numberOfEnemiesUnitsNearby)
-				.append(mediumHpFromNearbyAllies).append(numberOfAlliesUnitsNearby).append(distanceToClosestEnemyUnit);
-				return builder.toString();
+			builder.append(mediumHpFromNearbyEnemies).append(numberOfEnemiesUnitsNearby)
+			.append(mediumHpFromNearbyAllies).append(numberOfAlliesUnitsNearby);
+			return builder.toString();
 	}
 	
 	@Override
@@ -62,25 +72,33 @@ public class UnitState implements Serializable{
 		if(!(o instanceof UnitState)) return false;
 		
 		UnitState unit = (UnitState) o;
-		return hp == unit.hp &&
+//		return hp == unit.hp &&
+//				Objects.equals(mediumHpFromNearbyEnemies, unit.mediumHpFromNearbyEnemies) &&
+//				Objects.equals(numberOfEnemiesUnitsNearby, unit.numberOfEnemiesUnitsNearby) &&
+//				Objects.equals(mediumHpFromNearbyAllies, unit.mediumHpFromNearbyAllies) &&
+//				Objects.equals(numberOfAlliesUnitsNearby, unit.numberOfAlliesUnitsNearby) &&
+//				Objects.equals(distanceToClosestEnemyUnit, unit.distanceToClosestEnemyUnit);
+		
+		return 
 				Objects.equals(mediumHpFromNearbyEnemies, unit.mediumHpFromNearbyEnemies) &&
 				Objects.equals(numberOfEnemiesUnitsNearby, unit.numberOfEnemiesUnitsNearby) &&
 				Objects.equals(mediumHpFromNearbyAllies, unit.mediumHpFromNearbyAllies) &&
-				Objects.equals(numberOfAlliesUnitsNearby, unit.numberOfAlliesUnitsNearby) &&
-				Objects.equals(distanceToClosestEnemyUnit, unit.distanceToClosestEnemyUnit);
+				Objects.equals(numberOfAlliesUnitsNearby, unit.numberOfAlliesUnitsNearby);
 	}
 	
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(hp,mediumHpFromNearbyEnemies,numberOfEnemiesUnitsNearby,mediumHpFromNearbyAllies,
-							numberOfAlliesUnitsNearby,distanceToClosestEnemyUnit);
+//		return Objects.hash(hp,mediumHpFromNearbyEnemies,numberOfEnemiesUnitsNearby,mediumHpFromNearbyAllies,
+//							numberOfAlliesUnitsNearby,distanceToClosestEnemyUnit);
+		return Objects.hash(mediumHpFromNearbyEnemies,numberOfEnemiesUnitsNearby,mediumHpFromNearbyAllies,
+				numberOfAlliesUnitsNearby);
 	}
 		
 	
-	public RangeHP getHp() {
-		return hp;
-	}
+//	public RangeHP getHp() {
+//		return hp;
+//	}
 
 	public RangeHP getMediumHpFromNearbyEnemies() {
 		return mediumHpFromNearbyEnemies;
@@ -98,8 +116,8 @@ public class UnitState implements Serializable{
 		return numberOfAlliesUnitsNearby;
 	}
 
-	public RangeDistance getDistanceToClosestEnemyUnit() {
-		return distanceToClosestEnemyUnit;
-	}
+//	public RangeDistance getDistanceToClosestEnemyUnit() {
+//		return distanceToClosestEnemyUnit;
+//	}
 
 }

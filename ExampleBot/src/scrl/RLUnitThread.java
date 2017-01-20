@@ -114,8 +114,10 @@ public class RLUnitThread implements Runnable {
 		if(numberOfAlliesUnitsNearby != 0)
 			mediumHpFromNearbyAllies = contHpAlliesLife / numberOfAlliesUnitsNearby;
 		
-		UnitState curState = new UnitState(me.getHitPoints(), mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, 
-											mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
+//		UnitState curState = new UnitState(me.getHitPoints(), mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, 
+//											mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
+		UnitState curState = new UnitState(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, 
+				mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby);
 		
 		return curState;
 	}
