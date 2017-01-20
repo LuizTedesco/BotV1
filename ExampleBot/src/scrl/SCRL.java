@@ -38,6 +38,7 @@ public class SCRL implements Serializable {
 	}
 
 	public Actions getNextAction(UnitState pState) {
+		System.out.println("getNextAction");
 		QTable table = learning.getQTable();
 //		TestBotSC1.log("Entrou na função getNextAction");
 		return table.getMaxAction(pState);

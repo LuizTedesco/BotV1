@@ -24,8 +24,8 @@ import scrl.model.UnitState;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 500;
-	private static final boolean DEBUG = true;
+	public static final int MAX_GAMES = 2000;
+	private static final boolean DEBUG = false;
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
@@ -39,6 +39,7 @@ public class TestBotSC1 extends DefaultBWListener {
 	private int lossCounter = 0;
 	private static BufferedWriter writer;
 	public List<Unit> avaiableUnitsList;
+	public List<Unit> discoveredEnemiesUnits;
 
 
 	// Funcao 1
@@ -277,8 +278,8 @@ public class TestBotSC1 extends DefaultBWListener {
 		Random generator = new Random();
 		for( int i = 0; i<10 && flag; i++)
 		{
-			int low = -100;
-			int high = 100;
+			int low = -150;
+			int high = 150;
 			int aux1 = generator.nextInt(high - low) + low;
 			int aux2 = generator.nextInt(high - low) + low;
 			game.drawCircleMap(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() + (aux2), 15, Color.Blue);
@@ -301,13 +302,14 @@ public class TestBotSC1 extends DefaultBWListener {
 
 		int aux;
 		int aux2;
-		int closest = 9999;
-		int lowestLife = 9999;
+		int closest = 99999;
+		int lowestLife = 99999;
 		int lowestUnitId = 0;
 		@SuppressWarnings("unused")
 		int closestUnitId = 0;
+		
+		
 		for (Unit enemyUnit : game.enemy().getUnits()) {
-
 			aux = myUnit.getDistance(enemyUnit);
 			if (aux < closest) {
 				closest = aux;
@@ -320,11 +322,19 @@ public class TestBotSC1 extends DefaultBWListener {
 			}
 		}
 		// TODO como relacionar lowestUnitId & closestUnitId
+//		for (Unit enemyUnit : game.enemy().getUnits()) {
+//			if (lowestUnitId == enemyUnit.getID())
+//				myUnit.attack(enemyUnit);
+//		}
+		
+		
 		for (Unit enemyUnit : game.enemy().getUnits()) {
 			if (lowestUnitId == enemyUnit.getID())
-				myUnit.attack(enemyUnit);
+			{
+				myUnit.attack(enemyUnit.getPosition()); 
+			}
 		}
-
+		
 		/*
 		 * for (Unit enemyUnit : game.enemy().getUnits()) { if
 		 * (myUnit.isInWeaponRange(enemyUnit)) { myUnit.stop();
@@ -333,13 +343,18 @@ public class TestBotSC1 extends DefaultBWListener {
 	}
 
 	private void attack(Unit myUnit) {
+		System.out.println("ATTACK");
 		int aux;
 		int aux2;
 		int closest = 9999;
 		int lowestLife = 9999;
 		int lowestUnitId = 0;
 		int closestUnitId = 0;
+		
 		for (Unit enemyUnit : game.enemy().getUnits()) {
+			
+//			IMPORTANTE
+//		for (Unit enemyUnit : discoveredEnemiesUnits) {
 
 			aux = myUnit.getDistance(enemyUnit);
 			if (aux < closest) {
@@ -352,24 +367,33 @@ public class TestBotSC1 extends DefaultBWListener {
 				lowestUnitId = enemyUnit.getID();
 			}
 		}
-		boolean flag = false;
+		boolean flag = true;
 		// TODO como relacionar lowestUnitId & closestUnitId
-//		for (Unit enemyUnit : game.enemy().getUnits()) {
-		for (Unit enemyUnit : myUnit.getUnitsInRadius(320)) {
+//		for (Unit enemyUnit : myUnit.getUnitsInRadius(320)) {
+		for (Unit enemyUnit : game.enemy().getUnits()) {
 			if (lowestUnitId == enemyUnit.getID()) {
 				System.out.println("Attack this unit");
 				System.out.println("lowestUnitId: "+lowestUnitId);
 				System.out.println("enemyUnit.getID()"+enemyUnit.getID());
 				kitting(myUnit,enemyUnit);
-				flag = true;
-//				break;
+				flag = false;
+				break;
 			}
 		}
 		if (flag)
 		{
 			explore(myUnit);
+//			findEnemy(myUnit);
 		}
 	}
+
+//	private void findEnemy(Unit myUnit) {
+//		for (Unit enemyUnit : discoveredEnemiesUnits) {
+//			
+//		}
+//		myUnit.attack(discoveredEnemiesUnits.iterator())
+//		
+//	}
 
 	private void kitting(Unit myUnit, Unit enemyUnit) {
 		System.out.println("kitting");
@@ -424,14 +448,22 @@ public class TestBotSC1 extends DefaultBWListener {
 		int numberOfAlliesUnitsNearby = 0;
 		int distanceToClosestEnemyUnit = 400000;
 
-		List<Unit> units = me.getUnitsInRadius(320);
-		game.drawCircleMap(me.getPosition().getX(), me.getPosition().getY(), 320, Color.Teal);
+		List<Unit> units = me.getUnitsInRadius(300);
 		for (Unit unit : units) {
-
+//			System.out.println("for (Unit unit : units)");
 			if (unit.getPlayer().isAlly(self)) {
 				contHpAlliesLife += unit.getHitPoints();
 				numberOfAlliesUnitsNearby++;
 			} else if (unit.getPlayer().isEnemy(self)) {
+//				if(!discoveredEnemiesUnits.contains(unit.id))
+//				{
+//					System.out.println("if do !discoveredEnemiesUnits.contains(unit)");
+//					discoveredEnemiesUnits.add(unit);
+//				}else
+//				{
+//					System.out.println("Else do !discoveredEnemiesUnits.contains(unit)");
+//				}
+					
 				contHpEnemyLife += unit.getHitPoints();
 				numberOfEnemiesUnitsNearby++;
 				distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit ? me.getDistance(unit)
