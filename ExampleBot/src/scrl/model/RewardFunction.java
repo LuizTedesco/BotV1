@@ -1123,188 +1123,631 @@ public class RewardFunction {
 		}
 		
 		else if (pAction == Actions.FLEE) {
-			if(
-					pState.getHpFromNearbyAllies().isLower(pState.getMediumHpFromNearbyEnemies())
-					&&
-					pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
-					){
-				System.out.println("1");
-				TestBotSC1.log("Estado Velho:");
-				TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
-				TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
-				TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
-				TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
-				
-//				TestBotSC1.log("Novo Estado:");
-//				TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
-//				TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
-//				TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
-//				TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
-				TestBotSC1.log("1 Flee, RW: 100");
-				System.out.println("Flee 100");
-				return 100;
-			}
-			else if(
-					pState.getHpFromNearbyAllies().isEqual(pState.getMediumHpFromNearbyEnemies())
-					&&
-					pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
-					){
-				System.out.println("2");
-				TestBotSC1.log("Estado Velho:");
-				TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
-				TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
-				TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
-				TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
-				
-//				TestBotSC1.log("Novo Estado:");
-//				TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
-//				TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
-//				TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
-//				TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
-				TestBotSC1.log("2 Flee, RW: 90");
-				System.out.println("Flee 90");
-				return 90;
-			}
-			else if(
-					pState.getHpFromNearbyAllies().isLower(pState.getMediumHpFromNearbyEnemies())
-					&&
-					pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
-					){
-				System.out.println("3");
-				TestBotSC1.log("Estado Velho:");
-				TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
-				TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
-				TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
-				TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
-				
-//				TestBotSC1.log("Novo Estado:");
-//				TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
-//				TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
-//				TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
-//				TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
-				TestBotSC1.log("3 Flee, RW: 80");
-				System.out.println("Flee 80");
-				return 80;
-			}
-			else if(
-					pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
-					&&
-					pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
-					){
-				System.out.println("4");
-				TestBotSC1.log("Estado Velho:");
-				TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
-				TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
-				TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
-				TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
-				
-//				TestBotSC1.log("Novo Estado:");
-//				TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
-//				TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
-//				TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
-//				TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
-				TestBotSC1.log("4 Flee, RW: 70");
-				System.out.println("Flee 70");
-				return 70;
-			}
-			else if(
-					pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
-					&&
-					pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
-					){
-				System.out.println("5");
-				TestBotSC1.log("Estado Velho:");
-				TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
-				TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
-				TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
-				TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
-				
-//				TestBotSC1.log("Novo Estado:");
-//				TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
-//				TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
-//				TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
-//				TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
-				TestBotSC1.log("5 Flee, RW: -100");
-				System.out.println("Flee -100");
-				return -100;
-			}
-			else if(
-					pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
-					&&
-					pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
-					){
-				System.out.println("6");
-				TestBotSC1.log("Estado Velho:");
-				TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
-				TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
-				TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
-				TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
-				
-//				TestBotSC1.log("Novo Estado:");
-//				TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
-//				TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
-//				TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
-//				TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
-				TestBotSC1.log("6 Flee, RW: -90");
-				System.out.println("Flee -90");
-				return -90;
-			}
-			else if(
-					pState.getHpFromNearbyAllies().isEqual(pState.getMediumHpFromNearbyEnemies())
-					&&
-					pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
-					){
-				System.out.println("7");
-				TestBotSC1.log("Estado Velho:");
-				TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
-				TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
-				TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
-				TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
-				
-//				TestBotSC1.log("Novo Estado:");
-//				TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
-//				TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
-//				TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
-//				TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
-//				TestBotSC1.log("Flee, RW: -80");
-//				System.out.println("Flee -80");
-//				return -80;
-				
-				TestBotSC1.log("7 Flee, RW: -100");
-				System.out.println("Flee -100");
-				return -100;
-			}
 			
-//			what should i do here?
-//			Estado Velho:
-//				Vida Aliados: FULL
-//				Num Aliados: SMALL
-//				Vida Inimigos: FULL
-//				Num Inimigos: SMALL
-//				Novo Estado:
-//				Vida Aliados: FULL
-//				Num Aliados: SMALL
-//				Vida Inimigos: FULL
-//				Num Inimigos: SMALL
-//				8 ELSE do Flee, RW: -150
-//				estado novo: FULL SMALL FULL SMALL
+			if(pState.getNumberOfAlliesUnitsNearby().isEqual(RangeUnits.SMALL))
+			{
+//				############################################3
+				if(
+						pState.getHpFromNearbyAllies().isLower(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("1.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("1.1 Flee, RW: 500");
+					System.out.println("Flee 500");
+					return 500;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isEqual(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("2.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("2.1 Flee, RW: 470");
+					System.out.println("Flee 470");
+					return 470;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isLower(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("3.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("3.1 Flee, RW: 450");
+					System.out.println("Flee 450");
+					return 450;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("4.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("4.1 Flee, RW: 400");
+					System.out.println("Flee 400");
+					return 400;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("5.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("5.1 Flee, RW: -400");
+					System.out.println("Flee -400");
+					return -400;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("6.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("6.1 Flee, RW: -450");
+					System.out.println("Flee -450");
+					return -450;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isEqual(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("7.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+//					TestBotSC1.log("Flee, RW: -80");
+//					System.out.println("Flee -80");
+//					return -80;
+					
+					TestBotSC1.log("7.1 Flee, RW: -500");
+					System.out.println("Flee -500");
+					return -500;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isEqual(next.getHpFromNearbyAllies())
+						&&
+						pState.getNumberOfEnemiesUnitsNearby().isEqual(RangeUnits.SMALL)
+						){
+					System.out.println("7.1.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+					TestBotSC1.log("Novo Estado:");
+					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("7.1.1 Flee, RW: -100");
+					System.out.println("Flee -100");
+					return -100;					
+				}
+//				what should i do here?
+//				Estado Velho:
+//					Vida Aliados: FULL
+//					Num Aliados: SMALL
+//					Vida Inimigos: FULL
+//					Num Inimigos: SMALL
+//					Novo Estado:
+//					Vida Aliados: FULL
+//					Num Aliados: SMALL
+//					Vida Inimigos: FULL
+//					Num Inimigos: SMALL
+//					8 ELSE do Flee, RW: -150
+//					estado novo: FULL SMALL FULL SMALL
+					
+				else{
+					System.out.println("8.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+					TestBotSC1.log("Novo Estado:");
+					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("8.1 ELSE do Flee, RW: -600");
+					System.out.println("Flee -600");
+					return -600;
+				}
+//				##############################################3
 				
-			else{
-				System.out.println("8");
-				TestBotSC1.log("Estado Velho:");
-				TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
-				TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
-				TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
-				TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+			}
+			else if(pState.getNumberOfAlliesUnitsNearby().isEqual(RangeUnits.MEDIUM))
+			{
+//				############################################3
+				if(
+						pState.getHpFromNearbyAllies().isLower(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("1.2");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("1.2 Flee, RW: 300");
+					System.out.println("Flee 300");
+					return 300;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isEqual(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("2.2");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("2.2 Flee, RW: 250");
+					System.out.println("Flee 250");
+					return 250;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isLower(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("3.2");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("3.2 Flee, RW: 300");
+					System.out.println("Flee 300");
+					return 300;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("4.2");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("4.2 Flee, RW: 300");
+					System.out.println("Flee 300");
+					return 300;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("5.2");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("5.2 Flee, RW: -600");
+					System.out.println("Flee -600");
+					return -600;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("6.2");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("6.2 Flee, RW: -515");
+					System.out.println("Flee -515");
+					return -515;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isEqual(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("7.2");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+//					TestBotSC1.log("Flee, RW: -80");
+//					System.out.println("Flee -80");
+//					return -80;
+					
+					TestBotSC1.log("7.2 Flee, RW: -600");
+					System.out.println("Flee -600");
+					return -600;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isEqual(next.getHpFromNearbyAllies())
+						&&
+						pState.getNumberOfEnemiesUnitsNearby().isEqual(RangeUnits.SMALL)
+						){
+					System.out.println("7.2.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+					TestBotSC1.log("Novo Estado:");
+					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("7.2.1 Flee, RW: -300");
+					System.out.println("Flee -300");
+					return -300;					
+				}
+//				what should i do here?
+//				Estado Velho:
+//					Vida Aliados: FULL
+//					Num Aliados: SMALL
+//					Vida Inimigos: FULL
+//					Num Inimigos: SMALL
+//					Novo Estado:
+//					Vida Aliados: FULL
+//					Num Aliados: SMALL
+//					Vida Inimigos: FULL
+//					Num Inimigos: SMALL
+//					8 ELSE do Flee, RW: -150
+//					estado novo: FULL SMALL FULL SMALL
+					
+				else{
+					System.out.println("8.2");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+					TestBotSC1.log("Novo Estado:");
+					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("8.2 ELSE do Flee, RW: -700");
+					System.out.println("Flee -700");
+					return -700;
+				}
+//				##############################################3
 				
-				TestBotSC1.log("Novo Estado:");
-				TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
-				TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
-				TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
-				TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
-				TestBotSC1.log("8 ELSE do Flee, RW: -150");
-				System.out.println("Flee -150");
-				return -150;
+			}
+			else if(pState.getNumberOfAlliesUnitsNearby().isEqual(RangeUnits.LARGE))
+			{
+//				############################################3
+				if(
+						pState.getHpFromNearbyAllies().isLower(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("1.3");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("1.3 Flee, RW: 150");
+					System.out.println("Flee 150");
+					return 150;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isEqual(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("2.3");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("2.3 Flee, RW: 120");
+					System.out.println("Flee 120");
+					return 120;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isLower(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("3.3");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("3.3 Flee, RW: 150");
+					System.out.println("Flee 150");
+					return 150;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isLower(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("4.3");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("4.3 Flee, RW: 300");
+					System.out.println("Flee 300");
+					return 300;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("5.3");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("5.3 Flee, RW: -900");
+					System.out.println("Flee -900");
+					return -900;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isHigher(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isEqual(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("6.3");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("6.3 Flee, RW: -600");
+					System.out.println("Flee -600");
+					return -600;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isEqual(pState.getMediumHpFromNearbyEnemies())
+						&&
+						pState.getNumberOfAlliesUnitsNearby().isHigher(pState.getNumberOfEnemiesUnitsNearby())
+						){
+					System.out.println("7.3");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+//					TestBotSC1.log("Novo Estado:");
+//					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+//					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+//					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+//					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+//					TestBotSC1.log("Flee, RW: -80");
+//					System.out.println("Flee -80");
+//					return -80;
+					
+					TestBotSC1.log("7.3 Flee, RW: -650");
+					System.out.println("Flee -650");
+					return -650;
+				}
+				else if(
+						pState.getHpFromNearbyAllies().isEqual(next.getHpFromNearbyAllies())
+						&&
+						pState.getNumberOfEnemiesUnitsNearby().isEqual(RangeUnits.SMALL)
+						){
+					System.out.println("7.3.1");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+					TestBotSC1.log("Novo Estado:");
+					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("7.3.1 Flee, RW: -400");
+					System.out.println("Flee -400");
+					return -400;					
+				}
+//				what should i do here?
+//				Estado Velho:
+//					Vida Aliados: FULL
+//					Num Aliados: SMALL
+//					Vida Inimigos: FULL
+//					Num Inimigos: SMALL
+//					Novo Estado:
+//					Vida Aliados: FULL
+//					Num Aliados: SMALL
+//					Vida Inimigos: FULL
+//					Num Inimigos: SMALL
+//					8 ELSE do Flee, RW: -150
+//					estado novo: FULL SMALL FULL SMALL
+					
+				else{
+					System.out.println("8.3");
+					TestBotSC1.log("Estado Velho:");
+					TestBotSC1.log("Vida Aliados: "+ pState.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ pState.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ pState.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ pState.getNumberOfEnemiesUnitsNearby().toString());
+					
+					TestBotSC1.log("Novo Estado:");
+					TestBotSC1.log("Vida Aliados: "+ next.getHpFromNearbyAllies().toString());
+					TestBotSC1.log("Num Aliados: "+ next.getNumberOfAlliesUnitsNearby().toString());
+					TestBotSC1.log("Vida Inimigos: "+ next.getMediumHpFromNearbyEnemies().toString());
+					TestBotSC1.log("Num Inimigos: "+ next.getNumberOfEnemiesUnitsNearby().toString());				
+					TestBotSC1.log("8.3 ELSE do Flee, RW: -999");
+					System.out.println("Flee -999");
+					return -999;
+				}
 			}
 		}
 		else
@@ -1326,5 +1769,5 @@ public class RewardFunction {
 			return -1000;
 		}
 		return -5000;
-	}	
+	}
 }

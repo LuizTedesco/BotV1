@@ -24,7 +24,7 @@ import scrl.model.UnitState;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 2000;
+	public static final int MAX_GAMES = 50;
 	private static final boolean DEBUG = false;
 	private Mirror mirror = new Mirror();
 	private Game game;
@@ -278,8 +278,8 @@ public class TestBotSC1 extends DefaultBWListener {
 		Random generator = new Random();
 		for( int i = 0; i<10 && flag; i++)
 		{
-			int low = -150;
-			int high = 150;
+			int low = -200;
+			int high = 200;
 			int aux1 = generator.nextInt(high - low) + low;
 			int aux2 = generator.nextInt(high - low) + low;
 			game.drawCircleMap(myUnit.getPosition().getX() + (aux1), myUnit.getPosition().getY() + (aux2), 15, Color.Blue);
