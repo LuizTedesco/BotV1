@@ -2,13 +2,20 @@ package scrl.tests;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 //import java.util.concurrent.ExecutorService;
 //import java.util.concurrent.Executors;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import bwapi.Color;
 import bwapi.DefaultBWListener;
@@ -19,13 +26,18 @@ import bwapi.Position;
 import bwapi.Unit;
 import bwta.BWTA;
 import scrl.SCRL;
+import scrl.algorithm.QTable;
 import scrl.model.Actions;
+import scrl.model.SecondaryDataStructure;
 import scrl.model.UnitState;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 2;
-	private static final boolean DEBUG = true;
+	public static final int MAX_GAMES = 3;
+	private static final boolean DEBUG = false;
+	private static final boolean printer = true;
+	
+	
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
@@ -38,14 +50,18 @@ public class TestBotSC1 extends DefaultBWListener {
 	private int winCounter = 0;
 	private int lossCounter = 0;
 	private static BufferedWriter writer;
-	public List<Unit> avaiableUnitsList;
-	public List<Unit> discoveredEnemiesUnits;
+	public CopyOnWriteArrayList<Unit> avaiableUnitsList;
+	/*public Map<Actions, String> actionFrameCounter;
+	public HashMap<Unit, actionFrameCounter> actionOrderFrame;*/
+	//public List<SecondaryDataStructure> secondaryDataStructure;
+	private ConcurrentHashMap<Unit, SecondaryDataStructure> dataSet = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<Unit, Map<Actions, Double>> actionFrameCounter = new ConcurrentHashMap<>();
 
 
 	// Funcao 1
 	public void run() {
 		// System.out.println("TestBotSC1 RUN");
-		avaiableUnitsList = new ArrayList<Unit>();
+		avaiableUnitsList = new CopyOnWriteArrayList<Unit>();
 		try {
 			System.out.println("Created the outFile");
 
@@ -71,8 +87,8 @@ public class TestBotSC1 extends DefaultBWListener {
 
 //		game.setLocalSpeed(15);
 		
-		game.setGUI(false);
-		game.setLocalSpeed(0);
+		/*game.setGUI(false);
+		game.setLocalSpeed(0);*/
 
 		init();
 	}
@@ -83,10 +99,36 @@ public class TestBotSC1 extends DefaultBWListener {
 		log("match N: " + match);
 		rl.init(match);
 		setInitCounter(getInitCounter() + 1);
+
+	}
+	
+	private void printQ()
+	{
+		QTable qT;
+		System.out.println("printQ");
+		try {
+			FileInputStream fis = new FileInputStream("marineTable.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			qT = (QTable) ois.readObject();
+			try{
+			    PrintWriter qwriter = new PrintWriter("qTable.txt", "UTF-8");
+			    qwriter.println(qT.toString());
+			    qwriter.close();
+			} catch (IOException e) {
+			   // do something
+			}
+			
+			System.out.println(qT.toString());
+			ois.close();
+		} catch (Exception e) {
+			// System.out.println("File nao abriu");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void onFrame() {
+		
 //		log("OnFrame ");
 		for (Unit unit : self.getUnits()) {
 //			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 50, Color.Brown);
@@ -95,20 +137,33 @@ public class TestBotSC1 extends DefaultBWListener {
 			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 200, Color.Orange);
 			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 300, Color.Red);
 			
-			if (unit.isIdle()) {
+			//if (unit.isIdle()) {
+			if (unit.isIdle() && dataSet.contains(unit) == false) {
 				log("                                                     ");
 				System.out.println("FrameCount: " + game.getFrameCount());
 				System.out.println("Unit Id OnFrame: " + unit.getID());
 				UnitState curState = getCurrentState(unit);
 				Actions actionToPerform = rl.getNextAction(curState);
 				executeAction(actionToPerform, unit);
-				// colocar um wait?
-				UnitState newState = getCurrentState(unit);
-				rl.updateState(actionToPerform, curState, newState);
-				game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 25, Color.Green);
-				game.drawTextMap(unit.getPosition().getX() + 30, unit.getPosition().getY() + 30, "IDLE  -  UNIT");
-//				log("Fim OnFrame");
-//				log("                                                                            ");
+				
+				/*Map<Actions, Double> actionOrdered = new HashMap<>();
+				actionOrdered.put(actionToPerform, (double)(game.getFrameCount()-1));
+				actionFrameCounter.put(unit, actionOrdered);*/
+				
+				SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()-1),curState);
+				dataSet.put(unit, info);
+				
+				
+				/*game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 25, Color.Green);
+				game.drawTextMap(unit.getPosition().getX() + 30, unit.getPosition().getY() + 30, "IDLE  -  UNIT");*/
+			} else if(dataSet.containsKey(unit))
+			{
+				if(dataSet.get(unit).givenOrderFrame + 10 < game.getFrameCount())
+				{
+					UnitState newState = getCurrentState(unit);
+					rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
+					dataSet.remove(unit);					
+				}
 			}
 		}
 	}
@@ -138,6 +193,11 @@ public class TestBotSC1 extends DefaultBWListener {
 			System.out.println("actionCounter: " + actionCounter);
 			System.out.println("winCounter: " + winCounter);
 			System.out.println("lossCounter: " + lossCounter);
+			
+			if (printer)
+			{
+				printQ();
+			}
 			System.exit(0);
 		}
 	}
@@ -331,7 +391,7 @@ public class TestBotSC1 extends DefaultBWListener {
 		for (Unit enemyUnit : game.enemy().getUnits()) {
 			if (lowestUnitId == enemyUnit.getID())
 			{
-				myUnit.attack(enemyUnit.getPosition()); 
+				myUnit.attack(enemyUnit.getPosition());
 			}
 		}
 		

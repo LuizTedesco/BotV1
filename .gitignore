@@ -5,3 +5,8 @@
 *.class
 *.scm
 
+ExampleBot/bin/scrl/model/range/RangeDistance.class
+ExampleBot/bin/scrl/model/range/RangeHP.class
+ExampleBot/bin/scrl/model/range/RangeUnits.class
+ExampleBot/bin/scrl/model/SCMDP.class
+ExampleBot/bin/scrl/model/UnitState.class

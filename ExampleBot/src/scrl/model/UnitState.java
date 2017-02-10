@@ -61,8 +61,8 @@ public class UnitState implements Serializable{
 				
 
 		StringBuilder builder = new StringBuilder();
-			builder.append(mediumHpFromNearbyEnemies).append(numberOfEnemiesUnitsNearby)
-			.append(mediumHpFromNearbyAllies).append(numberOfAlliesUnitsNearby);
+			builder.append("HpEnemies: ").append(mediumHpFromNearbyEnemies).append(" N Enemies: ").append(numberOfEnemiesUnitsNearby)
+			.append(" HpAllies: ").append(mediumHpFromNearbyAllies).append(" N Allies: ").append(numberOfAlliesUnitsNearby);
 			return builder.toString();
 	}
 	

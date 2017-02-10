@@ -21,7 +21,7 @@ public class QLearning implements Serializable {
 
 	protected QTable q;
 	private SCMDP model;
-
+	
 	private Collection<UnitState> states;
 	private Collection<Actions> actions;
 
@@ -86,6 +86,8 @@ public class QLearning implements Serializable {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			q = (QTable) ois.readObject();
+			//System.out.println("q");
+			//System.out.println(q.toString());
 			ois.close();
 		} catch (Exception e) {
 			// System.out.println("File nao abriu");

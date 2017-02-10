@@ -1,6 +1,7 @@
 package scrl.algorithm;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,9 +11,10 @@ import scrl.model.UnitState;
 import scrl.tests.TestBotSC1;
 
 public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
-	//public class QTable extends HashMap<UnitState, Map<Actions, Double>> {	
+//public class QTable extends HashMap<UnitState, Map<Actions, Double>> {	
 
 	private static final long serialVersionUID = 3826717973754083254L;
+	
 	private Random rand = new Random();
 	private double epsilon = 0.2;
 
@@ -60,5 +62,18 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 	public void setEpsilon(double epsilon) {
 		this.epsilon = epsilon;
 	}
+	
+	@Override
+	public String toString() {				
+		StringBuilder builder = new StringBuilder();
+		for (UnitState state : this.keySet()) {
+			builder.append("   ");
+			builder.append(state.toString());
+			builder.append(this.get(state));
+			builder.append("\n");
+		}
+		return builder.toString();
+	}
 
 }
+
