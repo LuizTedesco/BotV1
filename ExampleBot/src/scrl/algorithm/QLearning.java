@@ -12,12 +12,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
+import scrl.model.range.RangeHP;
+import scrl.model.range.RangeUnits;
 import scrl.tests.TestBotSC1;
 
 public class QLearning implements Serializable {
 	private static final long serialVersionUID = -6943736143750359469L;
-	private static final double GAMA = 0.8;
-	private static final double ALPHA = 0.9;
+	private static final double GAMA = 0.9;
+	private static final double ALPHA = 0.1;
+	//private static final double ALPHA = 0.2;
 
 	protected QTable q;
 	private SCMDP model;
@@ -26,7 +29,6 @@ public class QLearning implements Serializable {
 	private Collection<Actions> actions;
 
 	public QLearning(SCMDP model) {
-		System.out.println("passou no construtor do QLearning quantas Xs?");
 		this.setModel(model);
 		this.states = model.getStates();
 		this.actions = model.getActions();
@@ -38,7 +40,6 @@ public class QLearning implements Serializable {
 		double reward = scrl.model.RewardFunction.getValue(state,next, action);
 		
 		double newQValue = computeQ(state, next, action, reward);
-//		double newNewQValue = newComputeQ(state, next, action, reward);
 		Map<Actions, Double> computedActionValue = new ConcurrentHashMap<>();
 		computedActionValue = q.get(state);
 		for (Actions actions2 : actions) {
@@ -55,22 +56,10 @@ public class QLearning implements Serializable {
 		return oldQ + ALPHA*bracedValue;
 	}
 
-//	private double computeQ(UnitState state, Actions action, double reward) {
-//		
-//		 ERRADO pois levava em consideracao o current e nao o next
-//		double cq = q.get(state).get(action);
-//		double value = reward + (GAMA * getMax(state)) - cq;
-//		double newq = cq + ALPHA * value;
-//		
-//		return newq;
-//	}
 
 	protected double getMax(UnitState pState){
-//		double max = 0;
 		double max = Double.NEGATIVE_INFINITY;
-//		TestBotSC1.log("estado: "+pState.toString());
 		TestBotSC1.log("estado novo: "+pState.toStringDebugStateReward());
-//		TestBotSC1.log("q.get stado " +q.get(pState));
 		for (Actions action : actions) {
 			double value = q.get(pState).get(action);
 			if (value > max) {
@@ -79,15 +68,15 @@ public class QLearning implements Serializable {
 		}
 		return max;
 	}
-
+	
 	public void deserialize() {
 		System.out.println("Deserialize");
 		try {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			q = (QTable) ois.readObject();
-			//System.out.println("q");
-			//System.out.println(q.toString());
+			System.out.println("Tabela Q");
+			System.out.println(q.toString());
 			ois.close();
 		} catch (Exception e) {
 			// System.out.println("File nao abriu");
@@ -122,5 +111,11 @@ public class QLearning implements Serializable {
 	public void setModel(SCMDP model) {
 		this.model = model;
 	}
+	
+	public void getFakePerfectQTable() {
+
+	}
+	
+
 	
 }

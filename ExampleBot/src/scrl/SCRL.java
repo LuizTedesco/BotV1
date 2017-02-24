@@ -8,6 +8,7 @@ import scrl.algorithm.QTable;
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
+import scrl.tests.TestBotSC1;
 
 public class SCRL implements Serializable {
 
@@ -22,29 +23,36 @@ public class SCRL implements Serializable {
 	}
 
 	public void init(int matchNumber) {
-		System.out.println("SCRL init, match: " + matchNumber);
+		/*System.out.println("SCRL init, match: " + matchNumber);*/
 		File f = new File("marineTable.ser");
 		if(f.exists())
 			learning.deserialize();
 		//if(matchNumber!=0)
 			//learning.deserialize();
-		//TODO remover Epsilon dinamico
-		//learning.getQTable().setEpsilon(1 - (matchNumber / (TestBotSC1.MAX_GAMES * 1d)));
+
+		
+		learning.getQTable().setEpsilon((matchNumber / (TestBotSC1.MAX_GAMES * 1d)));
+		
+		System.out.println("Epsilon: "+ learning.getQTable().getEpsilon());
+	}
+	
+	public void initTeste(int match) {
+		learning.getFakePerfectQTable();
 	}
 
 	public void updateState(Actions action, UnitState curState, UnitState newState) {
-//		TestBotSC1.log("Entrou na função updateState");
 		learning.updateQ(curState,newState, action);
 	}
 
 	public Actions getNextAction(UnitState pState) {
-		System.out.println("getNextAction");
+		//System.out.println("getNextAction");
 		QTable table = learning.getQTable();
-//		TestBotSC1.log("Entrou na função getNextAction");
-		return table.getMaxAction(pState);
+		return table.chooseNextAction(pState);
 	}
 
 	public void end() {
 		learning.serialize();
 	}
+
+	
 }

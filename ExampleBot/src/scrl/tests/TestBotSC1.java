@@ -3,20 +3,17 @@ package scrl.tests;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-//import java.util.concurrent.ExecutorService;
-//import java.util.concurrent.Executors;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import bwapi.Color;
 import bwapi.DefaultBWListener;
 import bwapi.Game;
@@ -30,12 +27,14 @@ import scrl.algorithm.QTable;
 import scrl.model.Actions;
 import scrl.model.SecondaryDataStructure;
 import scrl.model.UnitState;
+import scrl.model.range.RangeHP;
+import scrl.model.range.RangeUnits;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 3;
+	public static final int MAX_GAMES = 50;
 	private static final boolean DEBUG = false;
-	private static final boolean printer = true;
+	private static final boolean printer = false;
 	
 	
 	private Mirror mirror = new Mirror();
@@ -45,22 +44,16 @@ public class TestBotSC1 extends DefaultBWListener {
 	static File outFile = new File("teste1.txt");
 	private int initCounter = 1;
 	private static int match = 0;
-	// ExecutorService executor = Executors.newFixedThreadPool(5);
 	public int actionCounter = 0;
 	private int winCounter = 0;
 	private int lossCounter = 0;
 	private static BufferedWriter writer;
 	public CopyOnWriteArrayList<Unit> avaiableUnitsList;
-	/*public Map<Actions, String> actionFrameCounter;
-	public HashMap<Unit, actionFrameCounter> actionOrderFrame;*/
-	//public List<SecondaryDataStructure> secondaryDataStructure;
 	private ConcurrentHashMap<Unit, SecondaryDataStructure> dataSet = new ConcurrentHashMap<>();
-	private ConcurrentHashMap<Unit, Map<Actions, Double>> actionFrameCounter = new ConcurrentHashMap<>();
 
 
 	// Funcao 1
 	public void run() {
-		// System.out.println("TestBotSC1 RUN");
 		avaiableUnitsList = new CopyOnWriteArrayList<Unit>();
 		try {
 			System.out.println("Created the outFile");
@@ -87,8 +80,8 @@ public class TestBotSC1 extends DefaultBWListener {
 
 //		game.setLocalSpeed(15);
 		
-		/*game.setGUI(false);
-		game.setLocalSpeed(0);*/
+		game.setGUI(false);
+		game.setLocalSpeed(0);
 
 		init();
 	}
@@ -98,14 +91,16 @@ public class TestBotSC1 extends DefaultBWListener {
 		rl = new SCRL();
 		log("match N: " + match);
 		rl.init(match);
+		/*rl.initTeste(match);*/
 		setInitCounter(getInitCounter() + 1);
 
 	}
 	
 	private void printQ()
 	{
+		
 		QTable qT;
-		System.out.println("printQ");
+		System.out.println("printQFunction");
 		try {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -129,34 +124,35 @@ public class TestBotSC1 extends DefaultBWListener {
 	@Override
 	public void onFrame() {
 		
-//		log("OnFrame ");
 		for (Unit unit : self.getUnits()) {
-//			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 50, Color.Brown);
 			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 125, Color.Cyan);
-//			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 150, Color.Green);
 			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 200, Color.Orange);
 			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 300, Color.Red);
 			
-			//if (unit.isIdle()) {
 			if (unit.isIdle() && dataSet.contains(unit) == false) {
-				log("                                                     ");
+				/*log("                                                     ");
 				System.out.println("FrameCount: " + game.getFrameCount());
-				System.out.println("Unit Id OnFrame: " + unit.getID());
+				System.out.println("Unit Id OnFrame: " + unit.getID());*/
 				UnitState curState = getCurrentState(unit);
 				Actions actionToPerform = rl.getNextAction(curState);
 				executeAction(actionToPerform, unit);
 				
-				/*Map<Actions, Double> actionOrdered = new HashMap<>();
-				actionOrdered.put(actionToPerform, (double)(game.getFrameCount()-1));
-				actionFrameCounter.put(unit, actionOrdered);*/
-				
-				SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()-1),curState);
+				SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState);
 				dataSet.put(unit, info);
 				
+			}/*else if(unit.isUnderAttack())
+			{
+				System.out.println("Unit is under Attack" + game.getFrameCount());
+				unit.stop(false);
+				// VAI dar o problema de 2 ações num mesmo frame
+				UnitState curState = getCurrentState(unit);
+				Actions actionToPerform = rl.getNextAction(curState);
+				executeAction(actionToPerform, unit);
+				SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState);
+				dataSet.put(unit, info);
 				
-				/*game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 25, Color.Green);
-				game.drawTextMap(unit.getPosition().getX() + 30, unit.getPosition().getY() + 30, "IDLE  -  UNIT");*/
-			} else if(dataSet.containsKey(unit))
+			}*/
+			else if(dataSet.containsKey(unit))
 			{
 				if(dataSet.get(unit).givenOrderFrame + 10 < game.getFrameCount())
 				{
@@ -170,6 +166,8 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	@Override
 	public void onEnd(boolean isWinner) {
+		/*printOrganizedStateList();*/
+		
 		System.out.println("TestBotSC1 onEnd");
 		rl.end();
 		if (isWinner) {
@@ -219,11 +217,6 @@ public class TestBotSC1 extends DefaultBWListener {
 		} else {
 			explore(me);
 		}
-		System.out.println("Unit Id Execute Action FIM: " + me.getID());
-		System.out.println("Fim da ordem da acão");
-		System.out.println("Unit is already Idle?");
-//		log("Unit is already Idle? "+ me.isIdle());
-		System.out.println(me.isIdle());
 	}
 	
 
@@ -234,8 +227,6 @@ public class TestBotSC1 extends DefaultBWListener {
 			myUnit.move(safePlace);
 		} else {
 			System.out.println("SafePlace Is Not Valid, DO NOTHING");
-//			explore(myUnit);
-//			myUnit.stop();
 		}
 	}
 	
@@ -583,6 +574,35 @@ public class TestBotSC1 extends DefaultBWListener {
 	public void setInitCounter(int initCounter) {
 		this.initCounter = initCounter;
 	}
+	
+	public void printOrganizedStateList(){
+		List<UnitState> stado = new ArrayList<>();
+		for (RangeHP mediumHpFromNearbyEnemies : RangeHP.values()) {
+			for (RangeUnits numberOfEnemiesUnitsNearby : RangeUnits.values() ) {
+				for (RangeHP hpFromNearbyAllies : RangeHP.values() ) {
+					for (RangeUnits numberOfAlliesUnitsNearby : RangeUnits.values() ) {
+							UnitState newUnit = new UnitState(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, hpFromNearbyAllies, numberOfAlliesUnitsNearby);
+							stado.add(newUnit);
+					}
+				}
+			}
+		}
+		PrintWriter qwriter;
+		try {
+			qwriter = new PrintWriter("states.txt", "UTF-8");
+			for (UnitState unitState : stado) {
+				qwriter.println(unitState.toString2());
+			}
+		    qwriter.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	    
+	
+	}
+	
 
 	public static void main(String[] args) {
 		new TestBotSC1().run();
