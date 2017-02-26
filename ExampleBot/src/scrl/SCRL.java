@@ -32,7 +32,7 @@ public class SCRL implements Serializable {
 
 		
 		learning.getQTable().setEpsilon((matchNumber / (TestBotSC1.MAX_GAMES * 1d)));
-		
+		TestBotSC1.log("Epsilon: "+ learning.getQTable().getEpsilon());
 		System.out.println("Epsilon: "+ learning.getQTable().getEpsilon());
 	}
 	

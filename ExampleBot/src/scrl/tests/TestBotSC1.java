@@ -10,7 +10,9 @@ import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,6 +27,7 @@ import bwta.BWTA;
 import scrl.SCRL;
 import scrl.algorithm.QTable;
 import scrl.model.Actions;
+import scrl.model.PolicyDataStructure;
 import scrl.model.SecondaryDataStructure;
 import scrl.model.UnitState;
 import scrl.model.range.RangeHP;
@@ -32,9 +35,9 @@ import scrl.model.range.RangeUnits;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 50;
-	private static final boolean DEBUG = false;
-	private static final boolean printer = false;
+	public static final int MAX_GAMES = 500;
+	private static final boolean DEBUG = true;
+	private static final boolean printer = true;
 	
 	
 	private Mirror mirror = new Mirror();
@@ -50,6 +53,9 @@ public class TestBotSC1 extends DefaultBWListener {
 	private static BufferedWriter writer;
 	public CopyOnWriteArrayList<Unit> avaiableUnitsList;
 	private ConcurrentHashMap<Unit, SecondaryDataStructure> dataSet = new ConcurrentHashMap<>();
+	List<PolicyDataStructure> policyDataList = new ArrayList();
+	Map<UnitState, Actions> policy = new  HashMap<>();
+	
 
 
 	// Funcao 1
@@ -96,11 +102,50 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	}
 	
+	private void printPolicy()
+	{
+		QTable qT;
+		try {
+			FileInputStream fis = new FileInputStream("marineTable.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			qT = (QTable) ois.readObject();
+			Map<Actions, Double> map;
+			for (UnitState state : qT.keySet()) {
+				PolicyDataStructure policyData;
+				double max = Double.NEGATIVE_INFINITY;
+				map = qT.get(state);
+				Actions bestAction = null;
+				for (Actions act : map.keySet()) {
+					if (map.get(act) > max) {
+						max = map.get(act);
+						bestAction = act;
+						// act e max
+					}
+				}
+				policyData = new PolicyDataStructure(state, bestAction);
+				policyDataList.add(policyData);
+			}
+		} catch (Exception e) {
+			// System.out.println("File nao abriu");
+			e.printStackTrace();
+		}
+		/*System.out.println("PolicyDataList");
+		System.out.println(policyDataList.toString());*/
+		
+		try{
+		    PrintWriter qwriter = new PrintWriter("policy.txt", "UTF-8");
+		    qwriter.println(policyDataList.toString());
+		    qwriter.close();
+		} catch (IOException e) {
+		   // do something
+		}
+	}
+	
 	private void printQ()
 	{
 		
 		QTable qT;
-		System.out.println("printQFunction");
+		/*System.out.println("printQFunction");*/
 		try {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -113,7 +158,7 @@ public class TestBotSC1 extends DefaultBWListener {
 			   // do something
 			}
 			
-			System.out.println(qT.toString());
+			/*System.out.println(qT.toString());*/
 			ois.close();
 		} catch (Exception e) {
 			// System.out.println("File nao abriu");
@@ -194,6 +239,7 @@ public class TestBotSC1 extends DefaultBWListener {
 			
 			if (printer)
 			{
+				printPolicy();
 				printQ();
 			}
 			System.exit(0);

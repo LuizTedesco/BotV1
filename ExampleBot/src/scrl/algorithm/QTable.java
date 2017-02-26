@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import scrl.model.Actions;
 import scrl.model.UnitState;
+import scrl.tests.TestBotSC1;
 
 public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 
@@ -34,7 +35,7 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 	
 	// TABELA ideal	
 	public QTable(Collection<UnitState> states, Collection<Actions> actions) {
-		System.out.println("Criou a tabela ideal");
+		TestBotSC1.log("Criou a tabela ideal");
 		
         String csvFile = "desiredQ.csv";
         BufferedReader br = null;

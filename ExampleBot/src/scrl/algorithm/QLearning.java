@@ -75,8 +75,8 @@ public class QLearning implements Serializable {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			q = (QTable) ois.readObject();
-			System.out.println("Tabela Q");
-			System.out.println(q.toString());
+			/*System.out.println("Tabela Q");
+			System.out.println(q.toString());*/
 			ois.close();
 		} catch (Exception e) {
 			// System.out.println("File nao abriu");
