@@ -10,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -35,11 +34,10 @@ import scrl.model.range.RangeUnits;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 500;
+	public static final int MAX_GAMES = 15;
 	private static final boolean DEBUG = true;
 	private static final boolean printer = true;
-	
-	
+
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
@@ -54,37 +52,32 @@ public class TestBotSC1 extends DefaultBWListener {
 	public CopyOnWriteArrayList<Unit> avaiableUnitsList;
 	private ConcurrentHashMap<Unit, SecondaryDataStructure> dataSet = new ConcurrentHashMap<>();
 	List<PolicyDataStructure> policyDataList = new ArrayList();
-	Map<UnitState, Actions> policy = new  HashMap<>();
-	
+	private int counter = 0;
+	private int atckOrderCounter = 0;
+	private int atckRWCounter = 0;
+	private int exploreOrderCounter = 0;
+	private int exploreRWCounter = 0;
+	private int fleeOrderCounter = 0;
+	private int fleeRWCounter = 0;
 
-
-	// Funcao 1
 	public void run() {
 		avaiableUnitsList = new CopyOnWriteArrayList<Unit>();
 		try {
-			System.out.println("Created the outFile");
-
 			writer = new BufferedWriter(new FileWriter(outFile, true));
 		} catch (IOException e1) {
-			System.out.println("Did NOT Create the outFile");
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		mirror.getModule().setEventListener(this);
 		mirror.startGame();
 	}
 
-	// Funcao 2
 	@Override
 	public void onStart() {
-		log("Entrou na função onStart");
 		game = mirror.getGame();
 		self = game.self();
 
 		BWTA.readMap();
 		BWTA.analyze();
-
-//		game.setLocalSpeed(15);
 		
 		game.setGUI(false);
 		game.setLocalSpeed(0);
@@ -92,7 +85,6 @@ public class TestBotSC1 extends DefaultBWListener {
 		init();
 	}
 
-	// Funcao 3
 	private void init() {
 		rl = new SCRL();
 		log("match N: " + match);
@@ -102,118 +94,86 @@ public class TestBotSC1 extends DefaultBWListener {
 
 	}
 	
-	private void printPolicy()
-	{
-		QTable qT;
-		try {
-			FileInputStream fis = new FileInputStream("marineTable.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			qT = (QTable) ois.readObject();
-			Map<Actions, Double> map;
-			for (UnitState state : qT.keySet()) {
-				PolicyDataStructure policyData;
-				double max = Double.NEGATIVE_INFINITY;
-				map = qT.get(state);
-				Actions bestAction = null;
-				for (Actions act : map.keySet()) {
-					if (map.get(act) > max) {
-						max = map.get(act);
-						bestAction = act;
-						// act e max
-					}
-				}
-				policyData = new PolicyDataStructure(state, bestAction);
-				policyDataList.add(policyData);
-			}
-		} catch (Exception e) {
-			// System.out.println("File nao abriu");
-			e.printStackTrace();
-		}
-		/*System.out.println("PolicyDataList");
-		System.out.println(policyDataList.toString());*/
-		
-		try{
-		    PrintWriter qwriter = new PrintWriter("policy.txt", "UTF-8");
-		    qwriter.println(policyDataList.toString());
-		    qwriter.close();
-		} catch (IOException e) {
-		   // do something
-		}
-	}
-	
-	private void printQ()
-	{
-		
-		QTable qT;
-		/*System.out.println("printQFunction");*/
-		try {
-			FileInputStream fis = new FileInputStream("marineTable.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			qT = (QTable) ois.readObject();
-			try{
-			    PrintWriter qwriter = new PrintWriter("qTable.txt", "UTF-8");
-			    qwriter.println(qT.toString());
-			    qwriter.close();
-			} catch (IOException e) {
-			   // do something
-			}
-			
-			/*System.out.println(qT.toString());*/
-			ois.close();
-		} catch (Exception e) {
-			// System.out.println("File nao abriu");
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	public void onFrame() {
-		
 		for (Unit unit : self.getUnits()) {
-			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 125, Color.Cyan);
-			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 200, Color.Orange);
-			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 300, Color.Red);
-			
-			if (unit.isIdle() && dataSet.contains(unit) == false) {
-				/*log("                                                     ");
-				System.out.println("FrameCount: " + game.getFrameCount());
-				System.out.println("Unit Id OnFrame: " + unit.getID());*/
+			if (unit.isIdle()) {
+				System.out.println("Idle Game Frame: "+ game.getFrameCount());
 				UnitState curState = getCurrentState(unit);
 				Actions actionToPerform = rl.getNextAction(curState);
-				executeAction(actionToPerform, unit);
 				
-				SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState);
-				dataSet.put(unit, info);
-				
+				if(dataSet.containsKey(unit)) // ta relacionada?
+				{
+					System.out.println("Contains");
+					if(dataSet.get(unit).rewardedAction == true) // foi recompensada? próxima acao
+					{
+						System.out.println("Rewarded");
+						executeAction(actionToPerform, unit);	// AGIR
+						SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState, false);
+						dataSet.put(unit, info);
+					}else // caso contrário, recompense
+					{
+						System.out.println("Not Rewarded");
+						switch (dataSet.get(unit).choosenAction) {
+						case ATTACK:
+							if(dataSet.get(unit).givenOrderFrame + 35 <= game.getFrameCount())
+							{
+								atckRWCounter++;
+								System.out.println("Go RW F() 1");
+								counter++;
+								UnitState newState = getCurrentState(unit);
+								rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
+								dataSet.get(unit).rewardedAction = true;
+							}
+							
+							break;
+						case FLEE:
+							if(dataSet.get(unit).givenOrderFrame + 30 <= game.getFrameCount())
+							{
+								fleeRWCounter++;
+								System.out.println("Go RW F() 2");
+								counter++;
+								UnitState newState = getCurrentState(unit);
+								rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
+								dataSet.get(unit).rewardedAction = true;			
+							}
+							
+							break;
+						case EXPLORE:
+							if(dataSet.get(unit).givenOrderFrame + 85 <= game.getFrameCount())
+							{
+								exploreRWCounter++;
+								System.out.println("Go RW F() 3 ");
+								counter++;
+								UnitState newState = getCurrentState(unit);
+								rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
+								dataSet.get(unit).rewardedAction = true;					
+							}
+							break;
+						default:
+							System.out.println("Chora");
+							break;
+						}
+					}
+					
+				}else
+				{
+					System.out.println("No Contains");
+					executeAction(actionToPerform, unit);	// AGIR
+					SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState, false);
+					dataSet.put(unit, info);
+				}				
 			}/*else if(unit.isUnderAttack())
 			{
-				System.out.println("Unit is under Attack" + game.getFrameCount());
-				unit.stop(false);
-				// VAI dar o problema de 2 ações num mesmo frame
-				UnitState curState = getCurrentState(unit);
-				Actions actionToPerform = rl.getNextAction(curState);
-				executeAction(actionToPerform, unit);
-				SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState);
-				dataSet.put(unit, info);
 				
 			}*/
-			else if(dataSet.containsKey(unit))
-			{
-				if(dataSet.get(unit).givenOrderFrame + 10 < game.getFrameCount())
-				{
-					UnitState newState = getCurrentState(unit);
-					rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
-					dataSet.remove(unit);					
-				}
-			}
 		}
 	}
 
 	@Override
 	public void onEnd(boolean isWinner) {
 		/*printOrganizedStateList();*/
-		
-		System.out.println("TestBotSC1 onEnd");
 		rl.end();
 		if (isWinner) {
 			winCounter++;
@@ -227,6 +187,14 @@ public class TestBotSC1 extends DefaultBWListener {
 					log("actionCounter: " + actionCounter);
 					log("winCounter: " + winCounter);
 					log("lossCounter: " + lossCounter);
+					
+					log("atckOrderCounter: " + atckOrderCounter);
+					log("atckRWCounter: " + atckRWCounter);
+					log("exploreOrderCounter: " + exploreOrderCounter);
+					log("exploreRWCounter: " + exploreRWCounter);
+					log("fleeOrderCounter: " + fleeOrderCounter);
+					log("fleeRWCounter: " + fleeRWCounter);
+					
 					writer.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -234,9 +202,9 @@ public class TestBotSC1 extends DefaultBWListener {
 				}
 			}
 			System.out.println("actionCounter: " + actionCounter);
+			System.out.println("rewardsCounter: " + counter);
 			System.out.println("winCounter: " + winCounter);
 			System.out.println("lossCounter: " + lossCounter);
-			
 			if (printer)
 			{
 				printPolicy();
@@ -251,16 +219,18 @@ public class TestBotSC1 extends DefaultBWListener {
 	}
 
 	public void executeAction(Actions actionToPerform, Unit me) {
-		log("ACTION TO PERFORM: "+ actionToPerform);
+		/*log("ACTION TO PERFORM: "+ actionToPerform);*/
+		
 		actionCounter++;
-		System.out.println("Unit Id Execute Action: " + me.getID());
-		System.out.println(actionToPerform);
 		if (actionToPerform.equals(Actions.ATTACK)) {
+			atckOrderCounter++;
 			attack2(me);
 //			attack(me);
 		} else if (actionToPerform.equals(Actions.FLEE)) {
+			fleeOrderCounter++;
 			flee(me);
 		} else {
+			exploreOrderCounter++;
 			explore(me);
 		}
 	}
@@ -269,7 +239,7 @@ public class TestBotSC1 extends DefaultBWListener {
 	private void flee(Unit myUnit) {
 		Position safePlace = getSaferPlace(myUnit);
 		if (safePlace.isValid() && myUnit.exists()) {
-			System.out.println("SafePlace Is Valid");
+//			System.out.println("SafePlace Is Valid");
 			myUnit.move(safePlace);
 		} else {
 			System.out.println("SafePlace Is Not Valid, DO NOTHING");
@@ -278,8 +248,6 @@ public class TestBotSC1 extends DefaultBWListener {
 	
 
 	private Position getSaferPlace(Unit myUnit) {
-		System.out.println("getSaferPlace");
-		
 		int myUnitX = myUnit.getPosition().getX();
 		int myUnitY = myUnit.getPosition().getY();
 		int numberofEnemiesOnUpperRight = 0;
@@ -288,23 +256,12 @@ public class TestBotSC1 extends DefaultBWListener {
 		int numberofEnemiesOnLowerLeft = 0;
 		int enemyX = 0;
 		int enemyY = 0;
-//		int distX = 0;
-//		int distY = 0;
-//		double distXElevated = 0;
-//		double distYElevated = 0;
 		double dist = 0.0;
-		// double distMedia = 0.0;
 		int numberOfEnemyUnits = game.enemy().getUnits().size();
 		
-//		for (Unit enemyUnit : game.enemy().getUnits()) {
 		for (Unit enemyUnit : myUnit.getUnitsInRadius(320)) {
 			enemyX = enemyUnit.getPosition().getX();
 			enemyY = enemyUnit.getPosition().getY();
-//			distX = enemyX - myUnitX;
-//			distY = enemyY - myUnitY;
-//			distXElevated = Math.pow(distX, 2);
-//			distYElevated = Math.pow(distY, 2);
-//			dist += Math.sqrt(distXElevated + distYElevated);
 			dist += myUnit.getDistance(enemyUnit);
 			if (enemyX > myUnitX) {
 				if (enemyY > myUnitY) {
@@ -322,8 +279,8 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 		
 		Random generator = new Random();
-		int low = -10;
-		int high = 10;
+		int low = -50;
+		int high = 50;
 		int aux1 = generator.nextInt(high - low) + low;
 		int aux2 = generator.nextInt(high - low) + low;
 
@@ -363,14 +320,11 @@ public class TestBotSC1 extends DefaultBWListener {
 						myUnitY - (int) (dist / numberOfEnemyUnits));
 			}
 		}
-		System.out.println("return do getSaferPlace");
+//		System.out.println("return do getSaferPlace");
 		return safePlace;
 	}
 
 	private void explore(Unit myUnit) {
-		// System.out.println("EXPLORE, avaiableUnitsList.size():
-		// "+avaiableUnitsList.size());
-		// System.out.println("EXPLORE");
 		boolean flag = true;
 		Random generator = new Random();
 		for( int i = 0; i<10 && flag; i++)
@@ -418,25 +372,12 @@ public class TestBotSC1 extends DefaultBWListener {
 				lowestUnitId = enemyUnit.getID();
 			}
 		}
-		// TODO como relacionar lowestUnitId & closestUnitId
-//		for (Unit enemyUnit : game.enemy().getUnits()) {
-//			if (lowestUnitId == enemyUnit.getID())
-//				myUnit.attack(enemyUnit);
-//		}
-		
-		
 		for (Unit enemyUnit : game.enemy().getUnits()) {
 			if (lowestUnitId == enemyUnit.getID())
 			{
 				myUnit.attack(enemyUnit.getPosition());
 			}
 		}
-		
-		/*
-		 * for (Unit enemyUnit : game.enemy().getUnits()) { if
-		 * (myUnit.isInWeaponRange(enemyUnit)) { myUnit.stop();
-		 * myUnit.attack(enemyUnit.getPosition()); break; } }
-		 */
 	}
 
 	private void attack(Unit myUnit) {
@@ -465,8 +406,6 @@ public class TestBotSC1 extends DefaultBWListener {
 			}
 		}
 		boolean flag = true;
-		// TODO como relacionar lowestUnitId & closestUnitId
-//		for (Unit enemyUnit : myUnit.getUnitsInRadius(320)) {
 		for (Unit enemyUnit : game.enemy().getUnits()) {
 			if (lowestUnitId == enemyUnit.getID()) {
 				System.out.println("Attack this unit");
@@ -484,14 +423,6 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 	}
 
-//	private void findEnemy(Unit myUnit) {
-//		for (Unit enemyUnit : discoveredEnemiesUnits) {
-//			
-//		}
-//		myUnit.attack(discoveredEnemiesUnits.iterator())
-//		
-//	}
-
 	private void kitting(Unit myUnit, Unit enemyUnit) {
 		System.out.println("kitting");
 		boolean flag = true;
@@ -499,12 +430,8 @@ public class TestBotSC1 extends DefaultBWListener {
 		{
 			log("While");
 			System.out.println("while");
-//			if(myUnit.canAttack(enemyUnit.getPosition()) && myUnit.getLastCommandFrame() <= game.getFrameCount())
 			if(myUnit.canAttack(enemyUnit.getPosition()) && myUnit.getLastCommandFrame() <= game.getFrameCount() && myUnit.isAttackFrame())
 			{
-				//				unit.isStartingAttack()
-				//				unit.isAttackFrame()
-				//				unit.isAttacking()
 				log("if");
 				System.out.println("if");
 				myUnit.attack(enemyUnit);
@@ -514,7 +441,6 @@ public class TestBotSC1 extends DefaultBWListener {
 			if (safePlace.isValid() && myUnit.exists() && myUnit.canMove() && myUnit.getLastCommandFrame() < game.getFrameCount()) {
 				log("if do While with SafePlace");
 				System.out.println("if do While with SafePlace");
-//				myUnit.move(safePlace, false);
 				myUnit.move(safePlace);
 				log("after move to safeplace");
 			}else
@@ -547,20 +473,10 @@ public class TestBotSC1 extends DefaultBWListener {
 
 		List<Unit> units = me.getUnitsInRadius(300);
 		for (Unit unit : units) {
-//			System.out.println("for (Unit unit : units)");
 			if (unit.getPlayer().isAlly(self)) {
 				contHpAlliesLife += unit.getHitPoints();
 				numberOfAlliesUnitsNearby++;
 			} else if (unit.getPlayer().isEnemy(self)) {
-//				if(!discoveredEnemiesUnits.contains(unit.id))
-//				{
-//					System.out.println("if do !discoveredEnemiesUnits.contains(unit)");
-//					discoveredEnemiesUnits.add(unit);
-//				}else
-//				{
-//					System.out.println("Else do !discoveredEnemiesUnits.contains(unit)");
-//				}
-					
 				contHpEnemyLife += unit.getHitPoints();
 				numberOfEnemiesUnitsNearby++;
 				distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit ? me.getDistance(unit)
@@ -578,9 +494,6 @@ public class TestBotSC1 extends DefaultBWListener {
 		if (numberOfAlliesUnitsNearby != 0)
 			mediumHpFromNearbyAllies = contHpAlliesLife / numberOfAlliesUnitsNearby;
 
-//		UnitState curState = new UnitState(me.getHitPoints(), mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby,
-//				mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
-		
 		UnitState curState = new UnitState(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby,
 				mediumHpFromNearbyAllies, numberOfAlliesUnitsNearby);
 
@@ -647,6 +560,65 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 	    
 	
+	}
+	
+	
+	private void printPolicy()
+	{
+		QTable qT;
+		try {
+			FileInputStream fis = new FileInputStream("marineTable.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			qT = (QTable) ois.readObject();
+			Map<Actions, Double> map;
+			for (UnitState state : qT.keySet()) {
+				PolicyDataStructure policyData;
+				double max = Double.NEGATIVE_INFINITY;
+				map = qT.get(state);
+				Actions bestAction = null;
+				for (Actions act : map.keySet()) {
+					if (map.get(act) > max) {
+						max = map.get(act);
+						bestAction = act;
+					}
+				}
+				policyData = new PolicyDataStructure(state, bestAction);
+				policyDataList.add(policyData);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try{
+		    PrintWriter qwriter = new PrintWriter("policy.txt", "UTF-8");
+		    qwriter.println(policyDataList.toString());
+		    qwriter.close();
+		} catch (IOException e) {
+		   // do something
+		}
+	}
+	
+	private void printQ()
+	{
+		
+		QTable qT;
+		try {
+			FileInputStream fis = new FileInputStream("marineTable.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			qT = (QTable) ois.readObject();
+			try{
+			    PrintWriter qwriter = new PrintWriter("qTable.txt", "UTF-8");
+			    qwriter.println(qT.toString());
+			    qwriter.close();
+			} catch (IOException e) {
+			   // do something
+			}
+			
+			ois.close();
+		} catch (Exception e) {
+			// System.out.println("File nao abriu");
+			e.printStackTrace();
+		}
 	}
 	
 

@@ -19,22 +19,23 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 	
 	private Random rand = new Random();
 	private double epsilon = 0.1;
-	//private double epsilon = 0.2;
-
+	/*private double epsilon = 0;*/
 	
 	// TABELA ORIGINAL
-	/*public QTable(Collection<UnitState> states, Collection<Actions> actions) {
-		super(states.size());
+	public QTable(Collection<UnitState> states, Collection<Actions> actions) {
+		// TODO
+		// oq isso faz? RODAR uma com e uma sem
+		super(states.size());		
 		for (UnitState state : states) {
 			Map<Actions, Double> actionValues = new ConcurrentHashMap<Actions, Double>();
 			for (Actions action : actions)
 				actionValues.put(action, 0.);
 			put(state, actionValues);
 		}
-	}*/
+	}
 	
 	// TABELA ideal	
-	public QTable(Collection<UnitState> states, Collection<Actions> actions) {
+	/*public QTable(Collection<UnitState> states, Collection<Actions> actions) {
 		TestBotSC1.log("Criou a tabela ideal");
 		
         String csvFile = "desiredQ.csv";
@@ -57,9 +58,9 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
                 
                 UnitState state = new UnitState(lineData[0], lineData[1], lineData[2], lineData[3]);
                 
-                /*System.out.println("state.toString()");
+                System.out.println("state.toString()");
                 System.out.println(state.toString());
-                System.out.println("**************************************************************************");*/
+                System.out.println("**************************************************************************");
                 Map<Actions, Double> actionValues = new ConcurrentHashMap<Actions, Double>();
                 EXPLORE = Double.parseDouble(lineData[6]);
                 FLEE = Double.parseDouble(lineData[5]);
@@ -74,14 +75,14 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
                 		actionValues.put(action, ATTACK);
                 }
                 
-                /*System.out.println("State");
+                System.out.println("State");
                 System.out.println(state.toString());
                 System.out.println("AactionValues");
-                System.out.println(actionValues.toString());*/
+                System.out.println(actionValues.toString());
 				put(state, actionValues);
             }
-            /*System.out.println("Qtable");
-            System.out.println(this.toString());*/
+            System.out.println("Qtable");
+            System.out.println(this.toString());
             
 
         } catch (FileNotFoundException e) {
@@ -97,7 +98,7 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
                 }
             }
         }
-	}
+	}*/
 
 	public Actions getMaxAction(UnitState pState) {
 		Map<Actions, Double> map = this.get(pState);

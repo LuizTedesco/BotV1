@@ -47,7 +47,7 @@ public class QLearning implements Serializable {
 				computedActionValue.put(action, newQValue);
 		}
 		q.put(state, computedActionValue);
-		TestBotSC1.log("computedActionValue: "+ computedActionValue);
+		/*TestBotSC1.log("computedActionValue: "+ computedActionValue);*/
 	}
 
 	private double computeQ(UnitState current, UnitState next, Actions action, double reward) {
@@ -59,7 +59,7 @@ public class QLearning implements Serializable {
 
 	protected double getMax(UnitState pState){
 		double max = Double.NEGATIVE_INFINITY;
-		TestBotSC1.log("estado novo: "+pState.toStringDebugStateReward());
+		/*TestBotSC1.log("estado novo: "+pState.toStringDebugStateReward());*/
 		for (Actions action : actions) {
 			double value = q.get(pState).get(action);
 			if (value > max) {
