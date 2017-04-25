@@ -23,17 +23,12 @@ public class SCRL implements Serializable {
 	}
 
 	public void init(int matchNumber) {
-		/*System.out.println("SCRL init, match: " + matchNumber);*/
 		File f = new File("marineTable.ser");
 		if(f.exists())
 			learning.deserialize();
-		//if(matchNumber!=0)
-			//learning.deserialize();
-
-		
 		learning.getQTable().setEpsilon((matchNumber / (TestBotSC1.MAX_GAMES * 1d)));
 		TestBotSC1.log("Epsilon: "+ learning.getQTable().getEpsilon());
-		System.out.println("Epsilon: "+ learning.getQTable().getEpsilon());
+//		System.out.println("Epsilon: "+ learning.getQTable().getEpsilon());
 	}
 	
 	public void initTeste(int match) {
@@ -45,7 +40,6 @@ public class SCRL implements Serializable {
 	}
 
 	public Actions getNextAction(UnitState pState) {
-		//System.out.println("getNextAction");
 		QTable table = learning.getQTable();
 		return table.chooseNextAction(pState);
 	}
@@ -54,5 +48,4 @@ public class SCRL implements Serializable {
 		learning.serialize();
 	}
 
-	
 }

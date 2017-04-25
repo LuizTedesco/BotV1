@@ -34,24 +34,20 @@ import scrl.model.range.RangeUnits;
 
 public class TestBotSC1 extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 15;
+	public static final int MAX_GAMES = 2;
 	private static final boolean DEBUG = true;
-	private static final boolean printer = true;
+	private static final boolean printer = false;
 
 	private Mirror mirror = new Mirror();
 	private Game game;
 	private Player self;
 	private SCRL rl;
 	static File outFile = new File("teste1.txt");
-	private int initCounter = 1;
-	private static int match = 0;
-	public int actionCounter = 0;
-	private int winCounter = 0;
-	private int lossCounter = 0;
 	private static BufferedWriter writer;
 	public CopyOnWriteArrayList<Unit> avaiableUnitsList;
 	private ConcurrentHashMap<Unit, SecondaryDataStructure> dataSet = new ConcurrentHashMap<>();
-	List<PolicyDataStructure> policyDataList = new ArrayList();
+	List<PolicyDataStructure> policyDataList = new ArrayList<PolicyDataStructure>();
+	private static int match = 0;
 	private int counter = 0;
 	private int atckOrderCounter = 0;
 	private int atckRWCounter = 0;
@@ -59,13 +55,21 @@ public class TestBotSC1 extends DefaultBWListener {
 	private int exploreRWCounter = 0;
 	private int fleeOrderCounter = 0;
 	private int fleeRWCounter = 0;
+	private int initCounter = 0;
+	private int actionCounter = 0;
+	private int winCounter = 0;
+	private int lossCounter = 0;
+	
 
 	public void run() {
-		avaiableUnitsList = new CopyOnWriteArrayList<Unit>();
-		try {
-			writer = new BufferedWriter(new FileWriter(outFile, true));
-		} catch (IOException e1) {
-			e1.printStackTrace();
+//		avaiableUnitsList = new CopyOnWriteArrayList<Unit>();
+		if(!outFile.exists())
+		{
+			try {
+				writer = new BufferedWriter(new FileWriter(outFile, true));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}			
 		}
 		mirror.getModule().setEventListener(this);
 		mirror.startGame();
@@ -86,12 +90,12 @@ public class TestBotSC1 extends DefaultBWListener {
 	}
 
 	private void init() {
+		setInitCounter(getInitCounter() + 1);
 		rl = new SCRL();
 		log("match N: " + match);
+		
 		rl.init(match);
 		/*rl.initTeste(match);*/
-		setInitCounter(getInitCounter() + 1);
-
 	}
 	
 
@@ -99,28 +103,33 @@ public class TestBotSC1 extends DefaultBWListener {
 	public void onFrame() {
 		for (Unit unit : self.getUnits()) {
 			if (unit.isIdle()) {
-				System.out.println("Idle Game Frame: "+ game.getFrameCount());
 				UnitState curState = getCurrentState(unit);
 				Actions actionToPerform = rl.getNextAction(curState);
 				
+				log("Unit: "+unit.getID()+ " is Idle on Frame: "+ game.getFrameCount());
 				if(dataSet.containsKey(unit)) // ta relacionada?
 				{
-					System.out.println("Contains");
+					log("DataSet Contains Unit Key");
+					
 					if(dataSet.get(unit).rewardedAction == true) // foi recompensada? próxima acao
 					{
-						System.out.println("Rewarded");
+						log("1 Ação foi Recompensada!");
+						log("2 Próxima ação!");
 						executeAction(actionToPerform, unit);	// AGIR
 						SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState, false);
 						dataSet.put(unit, info);
 					}else // caso contrário, recompense
 					{
-						System.out.println("Not Rewarded");
+						log("1 Ação ainda não teve recompensa!");
+						log("2 Veja se pode recompensar agora");
+//						System.out.println("Not Rewarded");
 						switch (dataSet.get(unit).choosenAction) {
 						case ATTACK:
 							if(dataSet.get(unit).givenOrderFrame + 35 <= game.getFrameCount())
 							{
+								log("Ação de Attack será recompensada agora");
 								atckRWCounter++;
-								System.out.println("Go RW F() 1");
+//								System.out.println("Go RW F() 1");
 								counter++;
 								UnitState newState = getCurrentState(unit);
 								rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
@@ -131,8 +140,9 @@ public class TestBotSC1 extends DefaultBWListener {
 						case FLEE:
 							if(dataSet.get(unit).givenOrderFrame + 30 <= game.getFrameCount())
 							{
+								log("Ação de Fuga será recompensada agora");
 								fleeRWCounter++;
-								System.out.println("Go RW F() 2");
+//								System.out.println("Go RW F() 2");
 								counter++;
 								UnitState newState = getCurrentState(unit);
 								rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
@@ -143,8 +153,9 @@ public class TestBotSC1 extends DefaultBWListener {
 						case EXPLORE:
 							if(dataSet.get(unit).givenOrderFrame + 85 <= game.getFrameCount())
 							{
+								log("Ação de Explorar será recompensada agora");
 								exploreRWCounter++;
-								System.out.println("Go RW F() 3 ");
+//								System.out.println("Go RW F() 3 ");
 								counter++;
 								UnitState newState = getCurrentState(unit);
 								rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
@@ -152,14 +163,16 @@ public class TestBotSC1 extends DefaultBWListener {
 							}
 							break;
 						default:
-							System.out.println("Chora");
+							log("Chora");
+//							System.out.println("Chora");
 							break;
 						}
 					}
 					
 				}else
 				{
-					System.out.println("No Contains");
+					log("DataSet não contem unidade, agir!!");
+//					System.out.println("No Contains");
 					executeAction(actionToPerform, unit);	// AGIR
 					SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState, false);
 					dataSet.put(unit, info);
@@ -168,6 +181,7 @@ public class TestBotSC1 extends DefaultBWListener {
 			{
 				
 			}*/
+			log("  ");
 		}
 	}
 
@@ -380,6 +394,7 @@ public class TestBotSC1 extends DefaultBWListener {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void attack(Unit myUnit) {
 		System.out.println("ATTACK");
 		int aux;
@@ -584,6 +599,7 @@ public class TestBotSC1 extends DefaultBWListener {
 				}
 				policyData = new PolicyDataStructure(state, bestAction);
 				policyDataList.add(policyData);
+				ois.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

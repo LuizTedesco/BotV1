@@ -12,9 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import scrl.model.Actions;
 import scrl.model.SCMDP;
 import scrl.model.UnitState;
-import scrl.model.range.RangeHP;
-import scrl.model.range.RangeUnits;
-import scrl.tests.TestBotSC1;
 
 public class QLearning implements Serializable {
 	private static final long serialVersionUID = -6943736143750359469L;
@@ -70,7 +67,7 @@ public class QLearning implements Serializable {
 	}
 	
 	public void deserialize() {
-		System.out.println("Deserialize");
+//		System.out.println("Deserialize");
 		try {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);

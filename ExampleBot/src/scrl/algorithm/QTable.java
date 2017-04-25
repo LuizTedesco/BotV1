@@ -1,17 +1,12 @@
 package scrl.algorithm;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-
 import scrl.model.Actions;
 import scrl.model.UnitState;
-import scrl.tests.TestBotSC1;
 
 public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 
@@ -19,12 +14,9 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 	
 	private Random rand = new Random();
 	private double epsilon = 0.1;
-	/*private double epsilon = 0;*/
 	
 	// TABELA ORIGINAL
 	public QTable(Collection<UnitState> states, Collection<Actions> actions) {
-		// TODO
-		// oq isso faz? RODAR uma com e uma sem
 		super(states.size());		
 		for (UnitState state : states) {
 			Map<Actions, Double> actionValues = new ConcurrentHashMap<Actions, Double>();
@@ -117,7 +109,6 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 		Actions action = null;
 		double rnd = rand.nextDouble();
 		if (rnd < epsilon) {
-			// select random
 			action = Actions.values()[rand.nextInt(Actions.values().length)];
 		} else {
 			action = getMaxAction(state);
@@ -128,7 +119,6 @@ public class QTable extends ConcurrentHashMap<UnitState, Map<Actions, Double>>{
 	public void setEpsilon(double epsilon) {
 		this.epsilon = epsilon;
 	}
-	
 	
 	public double getEpsilon() {
 		return epsilon;
