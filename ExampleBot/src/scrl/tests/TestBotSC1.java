@@ -35,7 +35,7 @@ import scrl.model.range.RangeUnits;
 public class TestBotSC1 extends DefaultBWListener {
 
 	public static final int MAX_GAMES = 2;
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	private static final boolean printer = false;
 
 	private Mirror mirror = new Mirror();
@@ -83,8 +83,8 @@ public class TestBotSC1 extends DefaultBWListener {
 		BWTA.readMap();
 		BWTA.analyze();
 		
-		game.setGUI(false);
-		game.setLocalSpeed(0);
+//		game.setGUI(false);
+//		game.setLocalSpeed(0);
 
 		init();
 	}
@@ -98,91 +98,15 @@ public class TestBotSC1 extends DefaultBWListener {
 		/*rl.initTeste(match);*/
 	}
 	
-
 	@Override
 	public void onFrame() {
 		for (Unit unit : self.getUnits()) {
-			if (unit.isIdle()) {
+			if ((!unit.isMoving() && !unit.isAttacking() && !unit.isStartingAttack())  || unit.isUnderAttack()) {
 				UnitState curState = getCurrentState(unit);
-				Actions actionToPerform = rl.getNextAction(curState);
-				
-				log("Unit: "+unit.getID()+ " is Idle on Frame: "+ game.getFrameCount());
-				if(dataSet.containsKey(unit)) // ta relacionada?
-				{
-					log("DataSet Contains Unit Key");
-					
-					if(dataSet.get(unit).rewardedAction == true) // foi recompensada? próxima acao
-					{
-						log("1 Ação foi Recompensada!");
-						log("2 Próxima ação!");
-						executeAction(actionToPerform, unit);	// AGIR
-						SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState, false);
-						dataSet.put(unit, info);
-					}else // caso contrário, recompense
-					{
-						log("1 Ação ainda não teve recompensa!");
-						log("2 Veja se pode recompensar agora");
-//						System.out.println("Not Rewarded");
-						switch (dataSet.get(unit).choosenAction) {
-						case ATTACK:
-							if(dataSet.get(unit).givenOrderFrame + 35 <= game.getFrameCount())
-							{
-								log("Ação de Attack será recompensada agora");
-								atckRWCounter++;
-//								System.out.println("Go RW F() 1");
-								counter++;
-								UnitState newState = getCurrentState(unit);
-								rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
-								dataSet.get(unit).rewardedAction = true;
-							}
-							
-							break;
-						case FLEE:
-							if(dataSet.get(unit).givenOrderFrame + 30 <= game.getFrameCount())
-							{
-								log("Ação de Fuga será recompensada agora");
-								fleeRWCounter++;
-//								System.out.println("Go RW F() 2");
-								counter++;
-								UnitState newState = getCurrentState(unit);
-								rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
-								dataSet.get(unit).rewardedAction = true;			
-							}
-							
-							break;
-						case EXPLORE:
-							if(dataSet.get(unit).givenOrderFrame + 85 <= game.getFrameCount())
-							{
-								log("Ação de Explorar será recompensada agora");
-								exploreRWCounter++;
-//								System.out.println("Go RW F() 3 ");
-								counter++;
-								UnitState newState = getCurrentState(unit);
-								rl.updateState(dataSet.get(unit).choosenAction,dataSet.get(unit).currentState, newState);
-								dataSet.get(unit).rewardedAction = true;					
-							}
-							break;
-						default:
-							log("Chora");
-//							System.out.println("Chora");
-							break;
-						}
-					}
-					
-				}else
-				{
-					log("DataSet não contem unidade, agir!!");
-//					System.out.println("No Contains");
-					executeAction(actionToPerform, unit);	// AGIR
-					SecondaryDataStructure info = new SecondaryDataStructure(actionToPerform,(double)(game.getFrameCount()),curState, false);
-					dataSet.put(unit, info);
-				}				
-			}/*else if(unit.isUnderAttack())
-			{
-				
-			}*/
-			log("  ");
-		}
+				Actions actionToPerform = rl.getNextAction(curState);				
+				executeAction(actionToPerform, unit);
+				}
+			}
 	}
 
 	@Override
