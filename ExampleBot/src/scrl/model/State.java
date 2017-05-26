@@ -8,7 +8,7 @@ import scrl.model.range.RangeHP;
 import scrl.model.range.RangeUnits;
 
 
-public class UnitState implements Serializable{
+public class State implements Serializable{
 	private static final long serialVersionUID = 7588180712283449263L;
 //	private RangeHP hp;
 	private RangeHP mediumHpFromNearbyEnemies;
@@ -19,7 +19,7 @@ public class UnitState implements Serializable{
 
 //	public UnitState(RangeHP hp, RangeHP mediumHpFromNearbyEnemies, RangeUnits numberOfEnemiesUnitsNearby,
 //					 RangeHP mediumHpFromNearbyAllies, RangeUnits numberOfAlliesUnitsNearby,RangeDistance distanceToClosestEnemyUnit) {
-	public UnitState(RangeHP mediumHpFromNearbyEnemies, RangeUnits numberOfEnemiesUnitsNearby,
+	public State(RangeHP mediumHpFromNearbyEnemies, RangeUnits numberOfEnemiesUnitsNearby,
 			 RangeHP mediumHpFromNearbyAllies, RangeUnits numberOfAlliesUnitsNearby) {	
 //		this.hp = hp;
 		this.mediumHpFromNearbyEnemies = mediumHpFromNearbyEnemies;
@@ -31,7 +31,7 @@ public class UnitState implements Serializable{
 
 //	public UnitState(double hp2, double mediumHpFromNearbyEnemies, int numberOfEnemiesUnitsNearby, double mediumHpFromNearbyAllies, 
 //			int numberOfAlliesUnitsNearby, int distanceToClosestEnemyUnit) {
-	public UnitState(double mediumHpFromNearbyEnemies, int numberOfEnemiesUnitsNearby, double mediumHpFromNearbyAllies, 
+	public State(double mediumHpFromNearbyEnemies, int numberOfEnemiesUnitsNearby, double mediumHpFromNearbyAllies, 
 			int numberOfAlliesUnitsNearby) {
 //		this.hp = RangeHP.get(hp2);
 		this.mediumHpFromNearbyEnemies = RangeHP.get(mediumHpFromNearbyEnemies);
@@ -76,9 +76,9 @@ public class UnitState implements Serializable{
 	@Override
 	public boolean equals(Object o){
 		if(o == this) return true;
-		if(!(o instanceof UnitState)) return false;
+		if(!(o instanceof State)) return false;
 		
-		UnitState unit = (UnitState) o;
+		State unit = (State) o;
 //		return hp == unit.hp &&
 //				Objects.equals(mediumHpFromNearbyEnemies, unit.mediumHpFromNearbyEnemies) &&
 //				Objects.equals(numberOfEnemiesUnitsNearby, unit.numberOfEnemiesUnitsNearby) &&
@@ -128,7 +128,7 @@ public class UnitState implements Serializable{
 //	}
 	
 	
-	public UnitState(String HpEnem, String NumEenm, String HpAlly, String NumAly) {
+	public State(String HpEnem, String NumEenm, String HpAlly, String NumAly) {
 		
 		
 /*		if(HpEnem.equalsIgnoreCase(RangeHP.HIGH.toString()) )

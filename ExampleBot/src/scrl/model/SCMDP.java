@@ -5,27 +5,31 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static scrl.model.Actions.*;
-
+import scrl.model.actions.Action;
+import scrl.model.actions.Attack;
+import scrl.model.actions.Explore;
+import scrl.model.actions.Flee;
 import scrl.model.range.RangeHP;
 import scrl.model.range.RangeUnits;
 
 public class SCMDP {
-	List<Actions> actions = Arrays.asList(EXPLORE, FLEE, ATTACK);
-	Set<UnitState> states;
+	List<Action> actions;
+	Set<State> states;
 
 	public SCMDP() {
+		actions = (List<Action>) getValidActions();
 		states = creatStates();
 	}
 
-	private final Set<UnitState> creatStates() {
-		final Set<UnitState> sts = new HashSet<UnitState>();
-			for (RangeHP mediumHpFromNearbyEnemies : RangeHP.values()) {
-				for (RangeUnits numberOfEnemiesUnitsNearby : RangeUnits.values() ) {
-					for (RangeHP hpFromNearbyAllies : RangeHP.values() ) {
-						for (RangeUnits numberOfAlliesUnitsNearby : RangeUnits.values() ) {
-								UnitState newUnit = new UnitState(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, hpFromNearbyAllies, numberOfAlliesUnitsNearby);
-								sts.add(newUnit);
+	private final Set<State> creatStates() {
+		final Set<State> sts = new HashSet<State>();
+		for (RangeHP mediumHpFromNearbyEnemies : RangeHP.values()) {
+			for (RangeUnits numberOfEnemiesUnitsNearby : RangeUnits.values()) {
+				for (RangeHP hpFromNearbyAllies : RangeHP.values()) {
+					for (RangeUnits numberOfAlliesUnitsNearby : RangeUnits.values()) {
+						State newUnit = new State(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby,
+								hpFromNearbyAllies, numberOfAlliesUnitsNearby);
+						sts.add(newUnit);
 					}
 				}
 			}
@@ -33,11 +37,15 @@ public class SCMDP {
 		return sts;
 	}
 
-	public Set<UnitState> getStates() {
+	public static final List<? extends Action> getValidActions() {
+		return Arrays.asList(new Explore(), new Flee(), new Attack());
+	}
+
+	public Set<State> getStates() {
 		return states;
 	}
 
-	public List<Actions> getActions() {
+	public List<Action> getActions() {
 		return actions;
 	}
 }

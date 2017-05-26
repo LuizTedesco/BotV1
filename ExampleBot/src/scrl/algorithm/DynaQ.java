@@ -4,11 +4,11 @@ import scrl.model.SCMDP;
 import scrl.model.State;
 import scrl.model.actions.Action;
 
-public class QLearning extends AbstractLearning {
+public class DynaQ extends AbstractLearning {
 
 	private static final long serialVersionUID = 1L;
 
-	public QLearning(SCMDP model) {
+	public DynaQ(SCMDP model) {
 		super(model);
 	}
 
@@ -17,4 +17,5 @@ public class QLearning extends AbstractLearning {
 		double bracedValue = reward + (GAMA * getMax(next)) - oldQ;
 		return oldQ + ALPHA * bracedValue;
 	}
+
 }
