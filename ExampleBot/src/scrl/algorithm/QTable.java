@@ -41,6 +41,7 @@ public class QTable extends ConcurrentHashMap<State, Map<Action, Double>> {
 		return ret;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Action chooseNextAction(State state) {
 		Action action = null;
 		double rnd = rand.nextDouble();

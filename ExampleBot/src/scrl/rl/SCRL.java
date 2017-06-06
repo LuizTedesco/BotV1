@@ -3,7 +3,7 @@ package scrl.rl;
 import java.io.File;
 import java.io.Serializable;
 
-import scrl.algorithm.QLearning;
+import scrl.algorithm.DynaQ;
 import scrl.model.SCMDP;
 import scrl.model.State;
 import scrl.model.actions.Action;
@@ -15,11 +15,12 @@ public class SCRL implements Serializable {
 	private static final long serialVersionUID = 7537131060045100702L;
 
 	private SCMDP model;
-	private QLearning learning;
+	private DynaQ learning;
 
 	public SCRL() {
 		model = new SCMDP();
-		learning = new QLearning(model);
+		//learning = new QLearning(model);
+		learning = new DynaQ(model);
 	}
 
 	public void init(int matchNumber) {

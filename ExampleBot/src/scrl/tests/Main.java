@@ -20,7 +20,7 @@ import scrl.utils.Log;
 public class Main extends DefaultBWListener {
 
 	private static final int PIXELS_UNIT_RADIUS = 300;
-	public static final int MAX_GAMES = 1;
+	public static final int MAX_GAMES = 1000;
 
 	private static int match = 0;
 
@@ -31,6 +31,8 @@ public class Main extends DefaultBWListener {
 
 	private Map<Unit, StateAction> units_running = new ConcurrentHashMap<>();
 	private Map<String, Integer> counters = new HashMap<>();
+	public static  Map<State, Integer> statesCounter = new HashMap<>();
+
 
 	public void run() {
 		mirror.getModule().setEventListener(this);
@@ -68,6 +70,18 @@ public class Main extends DefaultBWListener {
 				}
 				// buscar estado corrente e executar acao
 				State curState = getCurrentState(unit);
+				Integer auxCounter = 0;
+				auxCounter = statesCounter.get(curState);
+				if(auxCounter==null)
+				{
+					statesCounter.put(curState, 1);
+					System.out.println(statesCounter);
+				}else{
+					statesCounter.put(curState, auxCounter+1);
+					System.out.println(statesCounter);
+				}
+				
+				
 				Action actionToPerform = rl.getNextAction(curState);
 
 				log(unit, "state: " + curState + " - frame: " + game.getFrameCount());
@@ -108,6 +122,7 @@ public class Main extends DefaultBWListener {
 				}
 				Log.getInstance().endGame();
 			}
+			System.out.println(counters);
 			System.exit(0);
 		}
 	}
@@ -156,6 +171,7 @@ public class Main extends DefaultBWListener {
 
 		State curState = new State(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, mediumHpFromNearbyAllies,
 				numberOfAlliesUnitsNearby);
+		
 		return curState;
 	}
 

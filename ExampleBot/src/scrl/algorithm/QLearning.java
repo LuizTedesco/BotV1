@@ -17,4 +17,10 @@ public class QLearning extends AbstractLearning {
 		double bracedValue = reward + (GAMA * getMax(next)) - oldQ;
 		return oldQ + ALPHA * bracedValue;
 	}
+
+	@Override
+	protected void updateQTable(State current, State next, Action action, double reward, QTable q2) {
+		// TODO Auto-generated method stub
+	}
+	
 }

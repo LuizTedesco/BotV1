@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Map;
 
 import scrl.model.RewardFunction;
 import scrl.model.SCMDP;
@@ -28,19 +27,22 @@ public abstract class AbstractLearning implements Serializable {
 
 	public void updateQ(State state, State next, Action action) {
 		double reward = RewardFunction.getValue(state, next, action);
+		updateQTable(state, next, action, reward, q);
 
-		double newQValue = computeQ(state, next, action, reward);
-		Map<Action, Double> computedActionValue = q.get(state);
-		computedActionValue.put(action, newQValue);
-		q.put(state, computedActionValue);
+		//		double newQValue = computeQ(state, next, action, reward);
+		//		Map<Action, Double> computedActionValue = q.get(state);
+		//		computedActionValue.put(action, newQValue);
+		//		q.put(state, computedActionValue);
+		
+		
 	}
 
-	protected abstract double computeQ(State current, State next, Action action, double reward);
+	protected abstract void updateQTable(State current, State next, Action action, double reward, QTable q2);
 
 	protected double getMax(State pState) {
 		double max = Double.NEGATIVE_INFINITY;
 		for (Action action : model.getActions()) {
-			double value = q.get(pState).get(action);
+			double value = q.get(pState).get(action.toString());
 			if (value > max) {
 				max = value;
 			}
