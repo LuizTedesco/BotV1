@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -70,11 +71,11 @@ public abstract class FileUtils {
 	public static void policyToFile() {
 		List<StateAction> policyDataList = new ArrayList<>();
 		QTable qT;
+		Map<Action, Double> map;
 		try {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			qT = (QTable) ois.readObject();
-			Map<Action, Double> map;
 			for (State state : qT.keySet()) {
 				double max = Double.NEGATIVE_INFINITY;
 				map = qT.get(state);
@@ -95,10 +96,31 @@ public abstract class FileUtils {
 
 		try {
 			PrintWriter qwriter = new PrintWriter("policy.txt", "UTF-8");
-			qwriter.println(policyDataList.toString());
+			for (StateAction stateAction : policyDataList) {
+				qwriter.println(stateAction.getState().toString2() + " : "+ stateAction.getAction().getClass().getSimpleName());				
+			}
 			qwriter.close();
 		} catch (IOException e) {
 			// do something
+		}
+	}
+
+	public static void statesCounterToFile(Map<State, Integer> statesCounter) {
+		PrintWriter scwriter;
+		Iterator<?> it = statesCounter.entrySet().iterator();
+		try {
+			scwriter = new PrintWriter("statesCounter.txt", "UTF-8");
+			while (it.hasNext()) {
+		        @SuppressWarnings("rawtypes")
+				Map.Entry pair = (Map.Entry)it.next();
+		        scwriter.println(pair.getKey() + " = " + pair.getValue());
+		        it.remove();
+			}
+			scwriter.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -4,6 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
+
+import scrl.model.State;
 
 public class Log {
 	private static Log instance = null;
@@ -13,17 +16,17 @@ public class Log {
 	private File outFile;
 	private BufferedWriter writer;
 
-	protected Log() {
-		outFile = new File("teste1.txt");
-
-		if (!outFile.exists()) {
-			try {
-				writer = new BufferedWriter(new FileWriter(outFile, true));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-	}
+//	protected Log() {
+//		outFile = new File("teste1.txt");
+//
+//		if (!outFile.exists()) {
+//			try {
+//				writer = new BufferedWriter(new FileWriter(outFile, true));
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//		}
+//	}
 
 	public static Log getInstance() {
 		if (instance == null) {
@@ -56,10 +59,11 @@ public class Log {
 		}
 	}
 
-	public void endGame() {
+	public void endGame(Map<State, Integer> statesCounter) {
 		if (printer) {
 			FileUtils.policyToFile();
 			FileUtils.qTableToFile();
+			FileUtils.statesCounterToFile(statesCounter);
 		}
 	}
 }

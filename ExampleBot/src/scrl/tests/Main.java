@@ -20,7 +20,7 @@ import scrl.utils.Log;
 public class Main extends DefaultBWListener {
 
 	private static final int PIXELS_UNIT_RADIUS = 300;
-	public static final int MAX_GAMES = 1000;
+	public static final int MAX_GAMES = 5000;
 
 	private static int match = 0;
 
@@ -64,7 +64,7 @@ public class Main extends DefaultBWListener {
 				if (units_running.containsKey(unit)) {
 					State newState = getCurrentState(unit);
 					StateAction sd = units_running.remove(unit);
-					rl.updateState(sd.action, sd.state, newState);
+					rl.updateState(sd.action, sd.state, newState);// ação cur new
 
 					log(unit, "finished: " + sd.action);
 				}
@@ -120,7 +120,7 @@ public class Main extends DefaultBWListener {
 				for (String counterName : counters.keySet()) {
 					log(counterName + ": " + counters.get(counterName));
 				}
-				Log.getInstance().endGame();
+				Log.getInstance().endGame(statesCounter);
 			}
 			System.out.println(counters);
 			System.exit(0);

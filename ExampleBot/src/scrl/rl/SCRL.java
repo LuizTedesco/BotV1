@@ -43,6 +43,7 @@ public class SCRL implements Serializable {
 	}
 
 	public void end() {
+		System.out.println("learning.serialize()");
 		learning.serialize();
 	}
 

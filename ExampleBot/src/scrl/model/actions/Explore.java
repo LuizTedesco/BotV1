@@ -1,5 +1,6 @@
 package scrl.model.actions;
 
+import java.util.Objects;
 import java.util.Random;
 
 import bwapi.Color;
@@ -30,5 +31,18 @@ public class Explore extends Action implements java.io.Serializable {
 				System.out.println("exploreLocation is NOT Valid");
 			}
 		} while (!exploreLocation.isValid());
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if(other == this) return true;
+		if(!(other instanceof Explore)) return false;
+		return 
+				Objects.equals(this.getClass().getSimpleName(), other.getClass().getSimpleName());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getClass().getSimpleName());
 	}
 }

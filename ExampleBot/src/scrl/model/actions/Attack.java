@@ -1,5 +1,7 @@
 package scrl.model.actions;
 
+import java.util.Objects;
+
 import bwapi.Game;
 import bwapi.Unit;
 
@@ -26,5 +28,17 @@ public class Attack extends Action implements java.io.Serializable {
 				unit.attack(enemyUnit.getPosition());
 			}
 		}
+	}
+	@Override
+	public boolean equals(Object other) {
+		if(other == this) return true;
+		if(!(other instanceof Attack)) return false;
+		return 
+				Objects.equals(this.getClass().getSimpleName(), other.getClass().getSimpleName());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getClass().getSimpleName());
 	}
 }

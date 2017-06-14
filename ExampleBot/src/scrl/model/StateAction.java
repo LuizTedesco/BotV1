@@ -11,4 +11,14 @@ public class StateAction {
 		this.state = state;
 	}
 
+	public Action getAction() {
+		return action;
+	}
+
+	public State getState() {
+		return state;
+	}
+	
+	
+
 }

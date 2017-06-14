@@ -42,7 +42,7 @@ public abstract class AbstractLearning implements Serializable {
 	protected double getMax(State pState) {
 		double max = Double.NEGATIVE_INFINITY;
 		for (Action action : model.getActions()) {
-			double value = q.get(pState).get(action.toString());
+			double value = q.get(pState).get(action);
 			if (value > max) {
 				max = value;
 			}

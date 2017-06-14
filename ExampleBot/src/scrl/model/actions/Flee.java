@@ -1,5 +1,6 @@
 package scrl.model.actions;
 
+import java.util.Objects;
 import java.util.Random;
 
 import bwapi.Game;
@@ -94,5 +95,18 @@ public class Flee extends Action implements java.io.Serializable {
 		}
 		// System.out.println("return do getSaferPlace");
 		return safePlace;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other == this) return true;
+		if(!(other instanceof Flee)) return false;
+		return 
+				Objects.equals(this.getClass().getSimpleName(), other.getClass().getSimpleName());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getClass().getSimpleName());
 	}
 }

@@ -2,6 +2,7 @@ package scrl.model;
 
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Objects;
 
 import scrl.model.range.RangeHP;
@@ -69,7 +70,7 @@ public class State implements Serializable{
 	public Object toString2() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(mediumHpFromNearbyEnemies).append(",").append(numberOfEnemiesUnitsNearby)
-		.append(",").append(mediumHpFromNearbyAllies).append(",").append(numberOfAlliesUnitsNearby).append(",");
+		.append(",").append(mediumHpFromNearbyAllies).append(",").append(numberOfAlliesUnitsNearby).append(": ");
 		return builder.toString();
 	}
 	
@@ -98,8 +99,14 @@ public class State implements Serializable{
 	{
 //		return Objects.hash(hp,mediumHpFromNearbyEnemies,numberOfEnemiesUnitsNearby,mediumHpFromNearbyAllies,
 //							numberOfAlliesUnitsNearby,distanceToClosestEnemyUnit);
-		return Objects.hash(mediumHpFromNearbyEnemies,numberOfEnemiesUnitsNearby,mediumHpFromNearbyAllies,
-				numberOfAlliesUnitsNearby);
+		return Arrays.hashCode(new Object[] {
+				mediumHpFromNearbyEnemies,    //auto-boxed
+				numberOfEnemiesUnitsNearby, //auto-boxed
+				mediumHpFromNearbyAllies,
+				numberOfAlliesUnitsNearby,
+		    });
+//		return Objects.hash(mediumHpFromNearbyEnemies,numberOfEnemiesUnitsNearby,mediumHpFromNearbyAllies,
+//				numberOfAlliesUnitsNearby);
 	}
 		
 	

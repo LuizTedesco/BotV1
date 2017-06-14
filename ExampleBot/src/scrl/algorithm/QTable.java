@@ -41,11 +41,11 @@ public class QTable extends ConcurrentHashMap<State, Map<Action, Double>> {
 		return ret;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Action chooseNextAction(State state) {
 		Action action = null;
 		double rnd = rand.nextDouble();
 		if (rnd < epsilon) {
+			@SuppressWarnings("unchecked")
 			List<Action> actions = (List<Action>) SCMDP.getValidActions();
 			action = actions.get(rand.nextInt(actions.size()));
 		} else {
@@ -66,12 +66,20 @@ public class QTable extends ConcurrentHashMap<State, Map<Action, Double>> {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		for (State state : this.keySet()) {
-			builder.append("   ");
-			// builder.append(state.toString());
-			builder.append(state.toString2());
-			builder.append(this.get(state));
-			builder.append("\n");
+			Collection<Double> vet = this.get(state).values();
+			if(vet.toArray()[0].equals(0.0) && vet.toArray()[1].equals(0.0) && vet.toArray()[2].equals(0.0))
+			{
+				// do not add them
+			}else{
+				builder.append("   ");
+				builder.append(state.toString2());
+				builder.append(" =  Explore: "+ vet.toArray()[0]);
+				builder.append(" - Flee: "+ vet.toArray()[1]);
+				builder.append(" - Atack: "+ vet.toArray()[2]);
+				builder.append("\n");
+			}
 		}
 		return builder.toString();
 	}
 }
+
