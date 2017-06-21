@@ -14,15 +14,15 @@ import bwta.BWTA;
 import scrl.model.State;
 import scrl.model.StateAction;
 import scrl.model.actions.Action;
+import scrl.model.range.RangeDistance;
 import scrl.rl.SCRL;
 import scrl.utils.Log;
 
 public class Main extends DefaultBWListener {
 
-	private static final int PIXELS_UNIT_RADIUS = 300;
-	public static final int MAX_GAMES = 5000;
+	public static final int MAX_GAMES = 500;
 
-	private static int match = 0;
+	public static int match = 0;
 
 	private Mirror mirror = new Mirror();
 	private Game game;
@@ -31,8 +31,7 @@ public class Main extends DefaultBWListener {
 
 	private Map<Unit, StateAction> units_running = new ConcurrentHashMap<>();
 	private Map<String, Integer> counters = new HashMap<>();
-	public static  Map<State, Integer> statesCounter = new HashMap<>();
-
+	public static Map<State, Integer> statesCounter = new HashMap<>();
 
 	public void run() {
 		mirror.getModule().setEventListener(this);
@@ -64,7 +63,7 @@ public class Main extends DefaultBWListener {
 				if (units_running.containsKey(unit)) {
 					State newState = getCurrentState(unit);
 					StateAction sd = units_running.remove(unit);
-					rl.updateState(sd.action, sd.state, newState);// ação cur new
+					rl.updateState(sd.action, sd.state, newState);
 
 					log(unit, "finished: " + sd.action);
 				}
@@ -72,16 +71,14 @@ public class Main extends DefaultBWListener {
 				State curState = getCurrentState(unit);
 				Integer auxCounter = 0;
 				auxCounter = statesCounter.get(curState);
-				if(auxCounter==null)
-				{
+
+				if (auxCounter == null) {
 					statesCounter.put(curState, 1);
-					System.out.println(statesCounter);
-				}else{
-					statesCounter.put(curState, auxCounter+1);
-					System.out.println(statesCounter);
+				} else {
+					statesCounter.put(curState, auxCounter + 1);
 				}
-				
-				
+				// log(statesCounter);
+
 				Action actionToPerform = rl.getNextAction(curState);
 
 				log(unit, "state: " + curState + " - frame: " + game.getFrameCount());
@@ -116,13 +113,14 @@ public class Main extends DefaultBWListener {
 		}
 
 		if (match == MAX_GAMES) {
+			System.out.println(rl.getLearning().getQTable().getPolicy().toString());
+
 			if (Log.DEBUG) {
 				for (String counterName : counters.keySet()) {
 					log(counterName + ": " + counters.get(counterName));
 				}
-				Log.getInstance().endGame(statesCounter);
 			}
-			System.out.println(counters);
+			Log.getInstance().endGame(statesCounter);
 			System.exit(0);
 		}
 	}
@@ -150,7 +148,7 @@ public class Main extends DefaultBWListener {
 		int numberOfAlliesUnitsNearby = 0;
 		int distanceToClosestEnemyUnit = 400000;
 
-		List<Unit> units = me.getUnitsInRadius(PIXELS_UNIT_RADIUS);
+		List<Unit> units = me.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE);
 		for (Unit unit : units) {
 			if (unit.getPlayer().isAlly(self)) {
 				contHpAlliesLife += unit.getHitPoints();
@@ -162,16 +160,18 @@ public class Main extends DefaultBWListener {
 						: distanceToClosestEnemyUnit;
 			}
 		}
+
 		contHpAlliesLife += me.getHitPoints();
 		numberOfAlliesUnitsNearby++;
+
 		if (numberOfEnemiesUnitsNearby != 0)
 			mediumHpFromNearbyEnemies = contHpEnemyLife / numberOfEnemiesUnitsNearby;
 		if (numberOfAlliesUnitsNearby != 0)
 			mediumHpFromNearbyAllies = contHpAlliesLife / numberOfAlliesUnitsNearby;
 
 		State curState = new State(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, mediumHpFromNearbyAllies,
-				numberOfAlliesUnitsNearby);
-		
+				numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
+
 		return curState;
 	}
 

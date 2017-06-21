@@ -6,18 +6,16 @@ import java.util.Random;
 import bwapi.Game;
 import bwapi.Position;
 import bwapi.Unit;
+import scrl.model.range.RangeDistance;
 
 public class Flee extends Action implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Random generator = new Random();
-	private static final int SAFER_PLACE_RADIUS = 320;
 
 	public void execute(Game game, Unit unit) {
 		Position safePlace = getSaferPlace(game, unit);
 		if (safePlace.isValid() && unit.exists()) {
 			unit.move(safePlace);
-		} else {
-			System.out.println("SafePlace Is Not Valid, DO NOTHING");
 		}
 	}
 
@@ -33,7 +31,7 @@ public class Flee extends Action implements java.io.Serializable {
 		double dist = 0.0;
 		int numberOfEnemyUnits = game.enemy().getUnits().size();
 
-		for (Unit enemyUnit : unit.getUnitsInRadius(SAFER_PLACE_RADIUS)) {
+		for (Unit enemyUnit : unit.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE)) {
 			enemyX = enemyUnit.getPosition().getX();
 			enemyY = enemyUnit.getPosition().getY();
 			dist += unit.getDistance(enemyUnit);
@@ -60,49 +58,43 @@ public class Flee extends Action implements java.io.Serializable {
 		Position safePlace = new bwapi.Position(myUnitX + aux1, myUnitY + aux2);
 		if (numberofEnemiesOnUpperRight > numberofEnemiesOnUpperLeft
 				|| numberofEnemiesOnLowerRight > numberofEnemiesOnLowerLeft) {
-			System.out.println("Esquerda");
 			// esquerda
 			if (numberofEnemiesOnLowerLeft > numberofEnemiesOnUpperLeft
 					|| numberofEnemiesOnLowerRight > numberofEnemiesOnUpperRight) {
 				// cima
-				System.out.println("Cima");
 				safePlace = new bwapi.Position(myUnitX - (int) (dist / numberOfEnemyUnits),
 						myUnitY + (int) (dist / numberOfEnemyUnits));
 			} else if (numberofEnemiesOnUpperLeft > numberofEnemiesOnLowerLeft
 					|| numberofEnemiesOnUpperRight > numberofEnemiesOnLowerRight) {
 				// baixo
-				System.out.println("Baixo");
 				safePlace = new bwapi.Position(myUnitX - (int) (dist / numberOfEnemyUnits),
 						myUnitY - (int) (dist / numberOfEnemyUnits));
 			}
 		} else if (numberofEnemiesOnUpperLeft > numberofEnemiesOnUpperRight
 				|| numberofEnemiesOnLowerLeft > numberofEnemiesOnLowerRight) {
-			System.out.println("Direita");
 			// direita
 			if (numberofEnemiesOnLowerLeft > numberofEnemiesOnUpperLeft
 					|| numberofEnemiesOnLowerRight > numberofEnemiesOnUpperRight) {
 				// cima
-				System.out.println("Cima");
 				safePlace = new bwapi.Position(myUnitX + (int) (dist / numberOfEnemyUnits),
 						myUnitY + (int) (dist / numberOfEnemyUnits));
 			} else if (numberofEnemiesOnUpperLeft > numberofEnemiesOnLowerLeft
 					|| numberofEnemiesOnUpperRight > numberofEnemiesOnLowerRight) {
 				// baixo
-				System.out.println("Baixo");
 				safePlace = new bwapi.Position(myUnitX + (int) (dist / numberOfEnemyUnits),
 						myUnitY - (int) (dist / numberOfEnemyUnits));
 			}
 		}
-		// System.out.println("return do getSaferPlace");
 		return safePlace;
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
-		if(other == this) return true;
-		if(!(other instanceof Flee)) return false;
-		return 
-				Objects.equals(this.getClass().getSimpleName(), other.getClass().getSimpleName());
+		if (other == this)
+			return true;
+		if (!(other instanceof Flee))
+			return false;
+		return Objects.equals(this.getClass().getSimpleName(), other.getClass().getSimpleName());
 	}
 
 	@Override

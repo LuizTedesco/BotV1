@@ -18,7 +18,10 @@ public class StateAction {
 	public State getState() {
 		return state;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "[" + action + ", " + state + "]";
+	}
 
 }

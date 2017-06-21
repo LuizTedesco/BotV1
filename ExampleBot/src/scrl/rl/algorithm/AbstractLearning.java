@@ -1,4 +1,4 @@
-package scrl.algorithm;
+package scrl.rl.algorithm;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -6,10 +6,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Map;
 
+import scrl.model.QTable;
 import scrl.model.SCMDP;
 import scrl.model.State;
 import scrl.model.actions.Action;
+import scrl.model.function.RewardFunction;
 
 public abstract class AbstractLearning implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,28 +28,19 @@ public abstract class AbstractLearning implements Serializable {
 	}
 
 	public void updateQ(State state, State next, Action action) {
-		double reward = scrl.model.function.RewardFunction.getValue(state, next, action);
-		updateQTable(state, next, action, reward, q);
+		double reward = RewardFunction.getValue(state, next, action);
+		
+		double newQValue = computeQ(state, next, action, reward);
 
-		//		double newQValue = computeQ(state, next, action, reward);
-		//		Map<Action, Double> computedActionValue = q.get(state);
-		//		computedActionValue.put(action, newQValue);
-		//		q.put(state, computedActionValue);
-		
-		
+		updateQTable(state, next, action, newQValue);
 	}
 
-	protected abstract void updateQTable(State current, State next, Action action, double reward, QTable q2);
+	protected abstract double computeQ(State current, State next, Action action, double reward);
 
-	protected double getMax(State pState) {
-		double max = Double.NEGATIVE_INFINITY;
-		for (Action action : model.getActions()) {
-			double value = q.get(pState).get(action);
-			if (value > max) {
-				max = value;
-			}
-		}
-		return max;
+	protected void updateQTable(State state, State next, Action action, double newQValue) {
+		Map<Action, Double> computedActionValue = q.get(state);
+		computedActionValue.put(action, newQValue);
+		q.put(state, computedActionValue);
 	}
 
 	public QTable getQTable() {
@@ -56,7 +50,7 @@ public abstract class AbstractLearning implements Serializable {
 	public SCMDP getModel() {
 		return model;
 	}
-	
+
 	public void deserialize() {
 		try {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
@@ -69,7 +63,6 @@ public abstract class AbstractLearning implements Serializable {
 	}
 
 	public void serialize() {
-		System.out.println("Serialize");
 		try {
 			FileOutputStream fos = new FileOutputStream("marineTable.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);

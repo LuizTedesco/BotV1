@@ -1,10 +1,8 @@
 package scrl.model;
 
-import java.util.HashMap;
+import java.util.LinkedList;
 
-import scrl.model.actions.Action;
-
-public class Policy extends HashMap<State, Action> {
+public class Policy extends LinkedList<StateAction> {
 
 	private static final long serialVersionUID = 1L;
 }

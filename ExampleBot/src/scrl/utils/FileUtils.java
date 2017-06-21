@@ -7,32 +7,21 @@ import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import scrl.algorithm.QTable;
+import scrl.model.QTable;
+import scrl.model.SCMDP;
 import scrl.model.State;
 import scrl.model.StateAction;
 import scrl.model.actions.Action;
-import scrl.model.range.RangeHP;
-import scrl.model.range.RangeUnits;
 
 public abstract class FileUtils {
 
 	public static void printOrganizedStateList() {
-		List<State> stado = new ArrayList<>();
-		for (RangeHP mediumHpFromNearbyEnemies : RangeHP.values()) {
-			for (RangeUnits numberOfEnemiesUnitsNearby : RangeUnits.values()) {
-				for (RangeHP hpFromNearbyAllies : RangeHP.values()) {
-					for (RangeUnits numberOfAlliesUnitsNearby : RangeUnits.values()) {
-						State newUnit = new State(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby,
-								hpFromNearbyAllies, numberOfAlliesUnitsNearby);
-						stado.add(newUnit);
-					}
-				}
-			}
-		}
+		Collection<State> stado = SCMDP.creatStates();
 		PrintWriter qwriter;
 		try {
 			qwriter = new PrintWriter("states.txt", "UTF-8");
@@ -58,12 +47,11 @@ public abstract class FileUtils {
 				qwriter.println(qT.toString());
 				qwriter.close();
 			} catch (IOException e) {
-				// do something
+				e.printStackTrace();
 			}
 
 			ois.close();
 		} catch (Exception e) {
-			// System.out.println("File nao abriu");
 			e.printStackTrace();
 		}
 	}
@@ -71,21 +59,12 @@ public abstract class FileUtils {
 	public static void policyToFile() {
 		List<StateAction> policyDataList = new ArrayList<>();
 		QTable qT;
-		Map<Action, Double> map;
 		try {
 			FileInputStream fis = new FileInputStream("marineTable.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			qT = (QTable) ois.readObject();
 			for (State state : qT.keySet()) {
-				double max = Double.NEGATIVE_INFINITY;
-				map = qT.get(state);
-				Action bestAction = null;
-				for (Action act : map.keySet()) {
-					if (map.get(act) > max) {
-						max = map.get(act);
-						bestAction = act;
-					}
-				}
+				Action bestAction = qT.getMaxAction(state);
 				StateAction policyData = new StateAction(state, bestAction);
 				policyDataList.add(policyData);
 				ois.close();
@@ -97,11 +76,12 @@ public abstract class FileUtils {
 		try {
 			PrintWriter qwriter = new PrintWriter("policy.txt", "UTF-8");
 			for (StateAction stateAction : policyDataList) {
-				qwriter.println(stateAction.getState().toString2() + " : "+ stateAction.getAction().getClass().getSimpleName());				
+				qwriter.println(stateAction.getState().toString2() + " : "
+						+ stateAction.getAction().getClass().getSimpleName());
 			}
 			qwriter.close();
 		} catch (IOException e) {
-			// do something
+			e.printStackTrace();
 		}
 	}
 
@@ -111,10 +91,10 @@ public abstract class FileUtils {
 		try {
 			scwriter = new PrintWriter("statesCounter.txt", "UTF-8");
 			while (it.hasNext()) {
-		        @SuppressWarnings("rawtypes")
-				Map.Entry pair = (Map.Entry)it.next();
-		        scwriter.println(pair.getKey() + " = " + pair.getValue());
-		        it.remove();
+				@SuppressWarnings("rawtypes")
+				Map.Entry pair = (Map.Entry) it.next();
+				scwriter.println(pair.getKey() + " = " + pair.getValue());
+				it.remove();
 			}
 			scwriter.close();
 		} catch (FileNotFoundException e) {

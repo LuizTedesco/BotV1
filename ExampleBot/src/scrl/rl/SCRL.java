@@ -3,10 +3,13 @@ package scrl.rl;
 import java.io.File;
 import java.io.Serializable;
 
-import scrl.algorithm.DynaQ;
 import scrl.model.SCMDP;
 import scrl.model.State;
 import scrl.model.actions.Action;
+import scrl.model.actions.EGreedyActionChooser;
+import scrl.rl.algorithm.AbstractLearning;
+import scrl.rl.algorithm.DynaQ;
+import scrl.rl.algorithm.QLearning;
 import scrl.tests.Main;
 import scrl.utils.Log;
 
@@ -15,12 +18,14 @@ public class SCRL implements Serializable {
 	private static final long serialVersionUID = 7537131060045100702L;
 
 	private SCMDP model;
-	private DynaQ learning;
+	private AbstractLearning learning;
+	private EGreedyActionChooser actionChooser;
 
 	public SCRL() {
 		model = new SCMDP();
 		//learning = new QLearning(model);
 		learning = new DynaQ(model);
+		actionChooser = new EGreedyActionChooser(learning.getQTable());
 	}
 
 	public void init(int matchNumber) {
@@ -28,8 +33,8 @@ public class SCRL implements Serializable {
 		if (f.exists())
 			learning.deserialize();
 
-		double epsilon = (matchNumber / (Main.MAX_GAMES * 1d));
-		learning.getQTable().setEpsilon(epsilon);
+		double epsilon = 1 - (matchNumber / (Main.MAX_GAMES * 1d));
+		actionChooser.setEpsilon(epsilon);
 
 		Log.log("Epsilon: " + epsilon);
 	}
@@ -39,12 +44,27 @@ public class SCRL implements Serializable {
 	}
 
 	public Action getNextAction(State pState) {
-		return learning.getQTable().chooseNextAction(pState);
+		return actionChooser.getAction(pState);
 	}
 
 	public void end() {
-		System.out.println("learning.serialize()");
 		learning.serialize();
+	}
+
+	public SCMDP getModel() {
+		return model;
+	}
+
+	public void setModel(SCMDP model) {
+		this.model = model;
+	}
+
+	public AbstractLearning getLearning() {
+		return learning;
+	}
+
+	public void setLearning(DynaQ learning) {
+		this.learning = learning;
 	}
 
 }
