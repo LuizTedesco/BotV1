@@ -33,7 +33,8 @@ public class SCRL implements Serializable {
 		if (f.exists())
 			learning.deserialize();
 
-		double epsilon = 1 - (matchNumber / (Main.MAX_GAMES * 1d));
+//		double epsilon = 1 - (matchNumber / (Main.MAX_GAMES * 1d));
+		double epsilon = 1 - (matchNumber / (Math.log10(Main.MAX_GAMES) * 1d));
 		actionChooser.setEpsilon(epsilon);
 
 		Log.log("Epsilon: " + epsilon);

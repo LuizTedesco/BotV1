@@ -5,12 +5,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import scrl.model.SCMDP;
 import scrl.model.State;
 
 public class Log {
 	private static Log instance = null;
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	private static final boolean printer = true;
 	private File outFile;
 	private BufferedWriter writer;

@@ -1,31 +1,72 @@
 package scrl.model.actions;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import bwapi.Game;
 import bwapi.Unit;
+import scrl.model.range.RangeDistance;
 
 public class Attack extends Action implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	public void execute(Game game, Unit unit) {
+		int aux2;
 		int closest = 99999;
-		int lowestLife = 99999;
-		int lowestUnitId = 0;
-
-		for (Unit enemyUnit : game.enemy().getUnits()) {
-			int aux = unit.getDistance(enemyUnit);
-			if (aux < closest) {
-				closest = aux;
+		int lowestLifeClose = 99999;
+		int lowestLifeMedium = 99999;
+		int lowestLifeDar = 99999;
+		int lowestUnitIdClose = 0;
+		int lowestUnitIdMedium = 0;
+		int lowestUnitIdFar = 0;
+		java.util.List<Unit> closeList = new ArrayList<Unit>();
+		java.util.List<Unit> mediumList = new ArrayList<Unit>();
+		java.util.List<Unit> farList = new ArrayList<Unit>();
+		
+		for (Unit enemyUnit : unit.getUnitsInRadius(3*RangeDistance.MARINE_ATTACK_RANGE)) {
+			aux2 = enemyUnit.getHitPoints();
+			
+			if(unit.getDistance(enemyUnit) <= 2*RangeDistance.MARINE_ATTACK_RANGE){
+				if (aux2 < lowestLifeMedium) {
+					lowestLifeMedium = aux2;
+					lowestUnitIdMedium = enemyUnit.getID();}
+				mediumList.add(enemyUnit);
+			}else if(unit.getDistance(enemyUnit) <=RangeDistance.MARINE_ATTACK_RANGE){
+				if (aux2 < lowestLifeClose) {
+					lowestLifeClose = aux2;
+					lowestUnitIdClose = enemyUnit.getID();}
+				closeList.add(enemyUnit);
 			}
-			int aux2 = enemyUnit.getHitPoints();
-			if (aux2 < lowestLife) {
-				lowestLife = aux2;
-				lowestUnitId = enemyUnit.getID();
-			}
+			if (aux2 < lowestLifeDar) {
+				lowestLifeDar = aux2;
+				lowestUnitIdFar = enemyUnit.getID();}
+			farList.add(enemyUnit);
 		}
-		for (Unit enemyUnit : game.enemy().getUnits()) {
-			if (lowestUnitId == enemyUnit.getID()) {
-				unit.attack(enemyUnit.getPosition());
+		
+		if(!closeList.isEmpty())
+		{
+			for (Unit enemyUnit : closeList) {
+				if (lowestUnitIdClose == enemyUnit.getID()) {
+					unit.attack(enemyUnit.getPosition());
+					break;
+				}
+			}
+			
+		}else if(!mediumList.isEmpty())
+		{
+			for (Unit enemyUnit : closeList) {
+				if (lowestUnitIdMedium == enemyUnit.getID()) {
+					unit.attack(enemyUnit.getPosition());
+					break;
+				}
+			}
+			
+		}else if(!farList.isEmpty())
+		{
+			for (Unit enemyUnit : closeList) {
+				if (lowestUnitIdFar == enemyUnit.getID()) {
+					unit.attack(enemyUnit.getPosition());
+					break;
+				}
 			}
 		}
 	}
