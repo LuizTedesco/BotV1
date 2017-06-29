@@ -20,7 +20,7 @@ import scrl.utils.Log;
 
 public class Main extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 1;
+	public static final int MAX_GAMES = 50;
 
 	public static int match = 0;
 
@@ -32,8 +32,6 @@ public class Main extends DefaultBWListener {
 	private Map<Unit, StateAction> units_running = new ConcurrentHashMap<>();
 	private Map<String, Integer> counters = new HashMap<>();
 	public static Map<State, Integer> statesCounter = new HashMap<>();
-	
-	public long startTime;
 
 	public void run() {
 		mirror.getModule().setEventListener(this);
@@ -42,15 +40,14 @@ public class Main extends DefaultBWListener {
 
 	@Override
 	public void onStart() {
-		startTime = System.nanoTime();
 		game = mirror.getGame();
 		self = game.self();
 
 		BWTA.readMap();
 		BWTA.analyze();
 
-//		game.setGUI(false);
-//		game.setLocalSpeed(0);
+		game.setGUI(false);
+		game.setLocalSpeed(0);
 
 		rl = new SCRL();
 		log("match N: " + match);
@@ -122,10 +119,8 @@ public class Main extends DefaultBWListener {
 				for (String counterName : counters.keySet()) {
 					log(counterName + ": " + counters.get(counterName));
 				}
+				Log.getInstance().endGame(statesCounter);
 			}
-			Log.getInstance().endGame(statesCounter);
-			long endTime = System.nanoTime();
-			System.out.println("Took "+(endTime - startTime) + " ns"); 
 			System.exit(0);
 		}
 	}

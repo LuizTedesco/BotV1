@@ -34,7 +34,6 @@ public class DynaQ extends QLearning {
 		return super.computeQ(state, next, action, reward);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void updateQTable(State state, State next, Action action, double newQValue) {
 		super.updateQTable(state, next, action, newQValue);
 

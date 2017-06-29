@@ -24,7 +24,6 @@ public class EGreedyActionChooser implements ActionChooser {
 		return epsilon;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Action getAction(State state) {
 		Action action = null;

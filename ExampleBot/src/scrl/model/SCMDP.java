@@ -17,7 +17,6 @@ public class SCMDP {
 	List<Action> actions;
 	Set<State> states;
 
-	@SuppressWarnings("unchecked")
 	public SCMDP() {
 		actions = (List<Action>) getValidActions();
 		states = creatStates();
