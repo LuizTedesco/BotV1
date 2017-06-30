@@ -1,6 +1,7 @@
-package scrl.tests;
+package scrl;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +19,8 @@ import scrl.model.range.RangeDistance;
 import scrl.rl.SCRL;
 import scrl.utils.Log;
 
+//javadocs
+//vjurenka.github.io/BWMirror/javadoc/
 public class Main extends DefaultBWListener {
 
 	public static final int MAX_GAMES = 5;
@@ -58,7 +61,7 @@ public class Main extends DefaultBWListener {
 	@Override
 	public void onFrame() {
 		for (Unit unit : self.getUnits()) {
-			if (isAlive_Idle(unit)) {
+			if (isAliveAndIdle(unit)) {
 				// acabou de terminar de executar --> atualizar estado
 				if (units_running.containsKey(unit)) {
 					State newState = getCurrentState(unit);
@@ -69,14 +72,8 @@ public class Main extends DefaultBWListener {
 				}
 				// buscar estado corrente e executar acao
 				State curState = getCurrentState(unit);
-				Integer auxCounter = 0;
-				auxCounter = statesCounter.get(curState);
-
-				if (auxCounter == null) {
-					statesCounter.put(curState, 1);
-				} else {
-					statesCounter.put(curState, auxCounter + 1);
-				}
+				int auxCounter = statesCounter.getOrDefault(curState, 1);
+				statesCounter.put(curState, auxCounter + 1);
 				// log(statesCounter);
 
 				Action actionToPerform = rl.getNextAction(curState);
@@ -97,7 +94,7 @@ public class Main extends DefaultBWListener {
 		Log.log(msg);
 	}
 
-	private boolean isAlive_Idle(Unit unit) {
+	private boolean isAliveAndIdle(Unit unit) {
 		return unit.exists() && !unit.isMoving() && !unit.isStartingAttack() && !unit.isAttacking();
 	}
 
@@ -138,38 +135,32 @@ public class Main extends DefaultBWListener {
 		actionToPerform.execute(game, me);
 	}
 
-	private State getCurrentState(Unit givenUnit) {
-		Unit me = givenUnit;
-		double contHpEnemyLife = 0.d;
-		double contHpAlliesLife = 0.d;
-		double mediumHpFromNearbyEnemies = 0.d;
+	private State getCurrentState(Unit me) {
+		double hpFromNearbyEnemies = 0.d;
 		int numberOfEnemiesUnitsNearby = 0;
-		double mediumHpFromNearbyAllies = 0.d;
+		double hpFromNearbyAllies = 0.d;
 		int numberOfAlliesUnitsNearby = 0;
-		int distanceToClosestEnemyUnit = 400000;
+		int distanceToClosestEnemyUnit = Integer.MAX_VALUE;
 
 		List<Unit> units = me.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE);
 		for (Unit unit : units) {
 			if (unit.getPlayer().isAlly(self)) {
-				contHpAlliesLife += unit.getHitPoints();
-				numberOfAlliesUnitsNearby++;
+				hpFromNearbyAllies += unit.getHitPoints();
+				if (unit.exists())
+					numberOfAlliesUnitsNearby++;
 			} else if (unit.getPlayer().isEnemy(self)) {
-				contHpEnemyLife += unit.getHitPoints();
-				numberOfEnemiesUnitsNearby++;
-				distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit ? me.getDistance(unit)
-						: distanceToClosestEnemyUnit;
+				hpFromNearbyEnemies += unit.getHitPoints();
+				if (unit.exists())
+					numberOfEnemiesUnitsNearby++;
+				distanceToClosestEnemyUnit = unit.exists() && me.getDistance(unit) < distanceToClosestEnemyUnit
+						? me.getDistance(unit) : distanceToClosestEnemyUnit;
 			}
 		}
 
-		contHpAlliesLife += me.getHitPoints();
+		hpFromNearbyAllies += me.getHitPoints();
 		numberOfAlliesUnitsNearby++;
 
-		if (numberOfEnemiesUnitsNearby != 0)
-			mediumHpFromNearbyEnemies = contHpEnemyLife / numberOfEnemiesUnitsNearby;
-		if (numberOfAlliesUnitsNearby != 0)
-			mediumHpFromNearbyAllies = contHpAlliesLife / numberOfAlliesUnitsNearby;
-
-		State curState = new State(mediumHpFromNearbyEnemies, numberOfEnemiesUnitsNearby, mediumHpFromNearbyAllies,
+		State curState = new State(hpFromNearbyEnemies, numberOfEnemiesUnitsNearby, hpFromNearbyAllies,
 				numberOfAlliesUnitsNearby, distanceToClosestEnemyUnit);
 
 		return curState;

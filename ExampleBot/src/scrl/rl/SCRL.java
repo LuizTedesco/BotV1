@@ -10,8 +10,6 @@ import scrl.model.actions.EGreedyActionChooser;
 import scrl.rl.algorithm.AbstractLearning;
 import scrl.rl.algorithm.DynaQ;
 import scrl.rl.algorithm.QLearning;
-import scrl.tests.Main;
-import scrl.utils.Log;
 
 public class SCRL implements Serializable {
 
@@ -23,8 +21,8 @@ public class SCRL implements Serializable {
 
 	public SCRL() {
 		model = new SCMDP();
-		//learning = new QLearning(model);
-		learning = new DynaQ(model);
+		learning = new QLearning(model);
+		// learning = new DynaQ(model);
 		actionChooser = new EGreedyActionChooser(learning.getQTable());
 	}
 
@@ -32,12 +30,6 @@ public class SCRL implements Serializable {
 		File f = new File("marineTable.ser");
 		if (f.exists())
 			learning.deserialize();
-
-//		double epsilon = 1 - (matchNumber / (Main.MAX_GAMES * 1d));
-		double epsilon = 1 - (matchNumber / (Math.log10(Main.MAX_GAMES) * 1d));
-		actionChooser.setEpsilon(epsilon);
-
-		Log.log("Epsilon: " + epsilon);
 	}
 
 	public void updateState(Action action, State curState, State newState) {

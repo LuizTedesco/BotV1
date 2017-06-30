@@ -65,7 +65,7 @@ public class QTable extends ConcurrentHashMap<State, Map<Action, Double>> {
 				// do not add them
 			} else {
 				builder.append("   ");
-				builder.append(state.toString2());
+				builder.append(state.toCSV());
 				builder.append(" =  Explore: " + vet.toArray()[0]);
 				builder.append(" - Flee: " + vet.toArray()[1]);
 				builder.append(" - Atack: " + vet.toArray()[2]);

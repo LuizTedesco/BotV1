@@ -21,12 +21,12 @@ import scrl.model.actions.Action;
 public abstract class FileUtils {
 
 	public static void printOrganizedStateList() {
-		Collection<State> stado = SCMDP.creatStates();
+		Collection<State> stado = SCMDP.createStates();
 		PrintWriter qwriter;
 		try {
 			qwriter = new PrintWriter("states.txt", "UTF-8");
 			for (State unitState : stado) {
-				qwriter.println(unitState.toString2());
+				qwriter.println(unitState.toCSV());
 			}
 			qwriter.close();
 		} catch (FileNotFoundException e) {
@@ -76,7 +76,7 @@ public abstract class FileUtils {
 		try {
 			PrintWriter qwriter = new PrintWriter("policy.txt", "UTF-8");
 			for (StateAction stateAction : policyDataList) {
-				qwriter.println(stateAction.getState().toString2() + " : "
+				qwriter.println(stateAction.getState().toCSV() + " : "
 						+ stateAction.getAction().getClass().getSimpleName());
 			}
 			qwriter.close();

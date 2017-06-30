@@ -13,18 +13,20 @@ public class RewardFunction {
 	public static double getValue(final State state, State next, final Action action) {
 		boolean isFar = state.getDistanceFromClosestEnemy().equals(RangeDistance.FAR);
 		if (action instanceof Attack) {
-			if (isFar) {
+			if (state.getHpFromNearbyEnemies().getValue() == 0) {
 				return -DEFAULT_REWARD;
 			} else {
-				int diffAllies = (state.getHpFromNearbyAllies().ordinal() - next.getHpFromNearbyAllies().ordinal());
-				int diffEnemy = (state.getHpFromNearbyEnemies().ordinal() - next.getHpFromNearbyEnemies().ordinal());
+				double diffAllies = (state.getHpFromNearbyAllies().getValue()
+						- next.getHpFromNearbyAllies().getValue());
+				double diffEnemy = (state.getHpFromNearbyEnemies().getValue()
+						- next.getHpFromNearbyEnemies().getValue());
 				return (diffAllies - diffEnemy) * DEFAULT_REWARD;
 			}
 		} else if (action instanceof Explore) {
 			return isFar ? DEFAULT_REWARD : -DEFAULT_REWARD / 10;
 		} else if (action instanceof Flee) {
-			int diffAllies = (state.getHpFromNearbyAllies().ordinal() - next.getHpFromNearbyAllies().ordinal());
-			int diffEnemy = (state.getHpFromNearbyEnemies().ordinal() - next.getHpFromNearbyEnemies().ordinal());
+			double diffAllies = (state.getHpFromNearbyAllies().getValue() - next.getHpFromNearbyAllies().getValue());
+			double diffEnemy = (state.getHpFromNearbyEnemies().getValue() - next.getHpFromNearbyEnemies().getValue());
 			return (diffEnemy - diffAllies) * DEFAULT_REWARD;
 		}
 		return -DEFAULT_REWARD;

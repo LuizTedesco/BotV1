@@ -19,10 +19,10 @@ public class SCMDP {
 
 	public SCMDP() {
 		actions = (List<Action>) getValidActions();
-		states = creatStates();
+		states = createStates();
 	}
 
-	public static final Set<State> creatStates() {
+	public static final Set<State> createStates() {
 		final Set<State> sts = new HashSet<State>();
 		for (RangeHP mediumHpFromNearbyEnemies : RangeHP.values()) {
 			for (RangeUnits numberOfEnemiesUnitsNearby : RangeUnits.values()) {

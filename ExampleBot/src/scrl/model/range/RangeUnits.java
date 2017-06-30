@@ -1,7 +1,7 @@
 package scrl.model.range;
 
-public enum RangeUnits implements Range {
-	SMALL(1, 2), MEDIUM(3, 5), LARGE(6, 200);
+public enum RangeUnits {
+	SMALL(0, 2), MEDIUM(2, 6), LARGE(6, 200);
 	double min;
 	double max;
 
@@ -10,29 +10,15 @@ public enum RangeUnits implements Range {
 		this.max = max;
 	}
 
-	public static RangeUnits get(int value) {
-		if (value <= 2)
-			return SMALL;
-		else if (value <= 5)
-			return MEDIUM;
-		else
-			return LARGE;
-	}
-
-	public boolean isLower(RangeUnits next) {
-		return ordinal() < next.ordinal();
-	}
-
-	public boolean isEqual(RangeUnits next) {
-		return ordinal() == next.ordinal();
-	}
-
-	public boolean isHigher(RangeUnits other) {
-		return ordinal() > other.ordinal();
+	public static RangeUnits get(double value) {
+		for (RangeUnits hp : values()) {
+			if (hp.in(value))
+				return hp;
+		}
+		return SMALL;
 	}
 
 	public boolean in(double v) {
-		return min <= v && v < max;
+		return v > min && v <= max;
 	}
-
 }

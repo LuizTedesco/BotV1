@@ -10,7 +10,7 @@ import scrl.model.State;
 public class Log {
 	private static Log instance = null;
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	private static final boolean printer = true;
 	private File outFile;
 	private BufferedWriter writer;

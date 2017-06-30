@@ -9,19 +9,11 @@ import scrl.model.State;
 
 public class EGreedyActionChooser implements ActionChooser {
 	private Random rand = new Random();
-	private double epsilon = 0.1;
+	private double epsilon = 0.2;
 	private QTable qTable;
 
 	public EGreedyActionChooser(QTable qTable) {
 		this.qTable = qTable;
-	}
-
-	public void setEpsilon(double epsilon) {
-		this.epsilon = epsilon;
-	}
-
-	public double getEpsilon() {
-		return epsilon;
 	}
 
 	@Override
