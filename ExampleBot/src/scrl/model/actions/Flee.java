@@ -29,23 +29,27 @@ public class Flee extends Action implements java.io.Serializable {
 		int enemyX = 0;
 		int enemyY = 0;
 		double dist = 0.0;
-		int numberOfEnemyUnits = game.enemy().getUnits().size();
+		int numberOfEnemyUnits;
+		numberOfEnemyUnits = 0;
 
 		for (Unit enemyUnit : unit.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE)) {
-			enemyX = enemyUnit.getPosition().getX();
-			enemyY = enemyUnit.getPosition().getY();
-			dist += unit.getDistance(enemyUnit);
-			if (enemyX > myUnitX) {
-				if (enemyY > myUnitY) {
-					numberofEnemiesOnUpperRight++;
+			if(enemyUnit.exists()){
+				numberOfEnemyUnits++;
+				enemyX = enemyUnit.getPosition().getX();
+				enemyY = enemyUnit.getPosition().getY();
+				dist += unit.getDistance(enemyUnit);
+				if (enemyX > myUnitX) {
+					if (enemyY > myUnitY) {
+						numberofEnemiesOnUpperRight++;
+					} else {
+						numberofEnemiesOnLowerRight++;
+					}
 				} else {
-					numberofEnemiesOnLowerRight++;
-				}
-			} else {
-				if (enemyY > myUnitY) {
-					numberofEnemiesOnUpperLeft++;
-				} else {
-					numberofEnemiesOnLowerLeft++;
+					if (enemyY > myUnitY) {
+						numberofEnemiesOnUpperLeft++;
+					} else {
+						numberofEnemiesOnLowerLeft++;
+					}
 				}
 			}
 		}

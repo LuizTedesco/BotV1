@@ -10,7 +10,6 @@ public class QTable extends ConcurrentHashMap<State, Map<Action, Double>> {
 
 	private static final long serialVersionUID = 3826717973754083254L;
 
-	// TABELA ORIGINAL
 	public QTable(Collection<State> states, Collection<Action> Action) {
 		super(states.size());
 		for (State state : states) {

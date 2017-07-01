@@ -20,7 +20,7 @@ import scrl.utils.Log;
 
 public class Main extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 5;
+	public static final int MAX_GAMES = 1000;
 
 	public static int match = 0;
 
@@ -150,14 +150,16 @@ public class Main extends DefaultBWListener {
 
 		List<Unit> units = me.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE);
 		for (Unit unit : units) {
-			if (unit.getPlayer().isAlly(self)) {
-				contHpAlliesLife += unit.getHitPoints();
-				numberOfAlliesUnitsNearby++;
-			} else if (unit.getPlayer().isEnemy(self)) {
-				contHpEnemyLife += unit.getHitPoints();
-				numberOfEnemiesUnitsNearby++;
-				distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit ? me.getDistance(unit)
-						: distanceToClosestEnemyUnit;
+			if(unit.exists()){
+				if (unit.getPlayer().isAlly(self)) {
+					contHpAlliesLife += unit.getHitPoints();
+					numberOfAlliesUnitsNearby++;
+				} else if (unit.getPlayer().isEnemy(self)) {
+					contHpEnemyLife += unit.getHitPoints();
+					numberOfEnemiesUnitsNearby++;
+					distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit ? me.getDistance(unit)
+							: distanceToClosestEnemyUnit;
+				}
 			}
 		}
 

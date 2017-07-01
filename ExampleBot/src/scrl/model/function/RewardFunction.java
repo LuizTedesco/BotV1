@@ -5,30 +5,51 @@ import scrl.model.actions.Action;
 import scrl.model.actions.Attack;
 import scrl.model.actions.Explore;
 import scrl.model.actions.Flee;
-import scrl.model.range.RangeDistance;
 
 public class RewardFunction {
 	private static final double DEFAULT_REWARD = 100d;
 
 	public static double getValue(final State state, State next, final Action action) {
-		boolean isFar = state.getDistanceFromClosestEnemy().equals(RangeDistance.FAR);
+		double diffAlliesUnits;
+		double diffEnemyUnits;
+		boolean noEnemiesNearby;
+		noEnemiesNearby = state.getHpFromNearbyEnemies().getValue() == 0;
+		
 		if (action instanceof Attack) {
-			if (state.getHpFromNearbyEnemies().getValue() == 0) {
+			if (noEnemiesNearby) {
 				return -DEFAULT_REWARD;
 			} else {
-				double diffAllies = (state.getHpFromNearbyAllies().getValue()
-						- next.getHpFromNearbyAllies().getValue());
-				double diffEnemy = (state.getHpFromNearbyEnemies().getValue()
-						- next.getHpFromNearbyEnemies().getValue());
-				return (diffAllies - diffEnemy) * DEFAULT_REWARD;
+				diffAlliesUnits = (state.getNumberOfAlliesUnitsNearby().getValue() - next.getNumberOfAlliesUnitsNearby().getValue());
+				diffEnemyUnits = (state.getNumberOfEnemiesUnitsNearby().getValue() - next.getNumberOfEnemiesUnitsNearby().getValue());
+				if(diffAlliesUnits>0 || diffEnemyUnits<0)
+				{ // Bad RW
+					return -hpDiff(state, next);
+				}else{
+					return hpDiff(state, next);
+				}
 			}
 		} else if (action instanceof Explore) {
-			return isFar ? DEFAULT_REWARD : -DEFAULT_REWARD / 10;
+			return noEnemiesNearby ? DEFAULT_REWARD : -DEFAULT_REWARD ;
 		} else if (action instanceof Flee) {
-			double diffAllies = (state.getHpFromNearbyAllies().getValue() - next.getHpFromNearbyAllies().getValue());
-			double diffEnemy = (state.getHpFromNearbyEnemies().getValue() - next.getHpFromNearbyEnemies().getValue());
-			return (diffEnemy - diffAllies) * DEFAULT_REWARD;
+			if (noEnemiesNearby) {
+				return -DEFAULT_REWARD;
+			} else {
+				diffAlliesUnits = (state.getNumberOfAlliesUnitsNearby().getValue() - next.getNumberOfAlliesUnitsNearby().getValue());
+				diffEnemyUnits = (state.getNumberOfEnemiesUnitsNearby().getValue() - next.getNumberOfEnemiesUnitsNearby().getValue());
+				if(diffAlliesUnits>0 || diffEnemyUnits<0)
+				{ 
+					return hpDiff(state, next);
+				}else{
+					return -hpDiff(state, next);
+				}
+			}
 		}
 		return -DEFAULT_REWARD;
+	}
+
+	private static double hpDiff(final State state, State next) {
+		double diffAllies = (state.getHpFromNearbyAllies().getValue() - next.getHpFromNearbyAllies().getValue());
+		double diffEnemy = (state.getHpFromNearbyEnemies().getValue() - next.getHpFromNearbyEnemies().getValue());
+		return (diffEnemy - diffAllies) * DEFAULT_REWARD;
 	}
 }

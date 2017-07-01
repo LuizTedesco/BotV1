@@ -9,11 +9,12 @@ import java.util.Set;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
-import scrl.Main;
+
 import scrl.model.Model;
 import scrl.model.SCMDP;
 import scrl.model.State;
 import scrl.model.actions.Action;
+import scrl.tests.Main;
 
 public class DynaQ extends QLearning {
 
