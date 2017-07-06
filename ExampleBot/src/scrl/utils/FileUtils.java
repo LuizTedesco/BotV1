@@ -85,7 +85,7 @@ public abstract class FileUtils {
 		}
 	}
 
-	public static void statesCounterToFile(Map<State, Integer> statesCounter) {
+	public static void statesCounterToFile(Map<State, Long> statesCounter) {
 		PrintWriter scwriter;
 		Iterator<?> it = statesCounter.entrySet().iterator();
 		try {

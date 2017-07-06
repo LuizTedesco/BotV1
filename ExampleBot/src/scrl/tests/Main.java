@@ -25,7 +25,7 @@ import scrl.utils.Log;
 
 public class Main extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 1;
+	public static final int MAX_GAMES = 1000;
 
 	public static int match = 0;
 
@@ -36,7 +36,7 @@ public class Main extends DefaultBWListener {
 
 	private Map<Unit, StateAction> units_running = new ConcurrentHashMap<>();
 	private Map<String, Integer> counters = new HashMap<>();
-	public static Map<State, Integer> statesCounter;
+	public static Map<State, Long> statesCounter;
 
 	public void run() {
 		mirror.getModule().setEventListener(this);
@@ -62,8 +62,8 @@ public class Main extends DefaultBWListener {
 		rl.init(match);
 	}
 
-	private Map<State, Integer> deserializeStates() {
-		Map<State, Integer> map = null;
+	private Map<State, Long> deserializeStates() {
+		Map<State, Long> map = null;
 		try {
 			FileInputStream fis = new FileInputStream("states.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -90,13 +90,13 @@ public class Main extends DefaultBWListener {
 				}
 				// buscar estado corrente e executar acao
 				State curState = getCurrentState(unit);
-				Integer auxCounter = 0;
+				Long auxCounter = (long) 0;
 				auxCounter = statesCounter.get(curState);
 
 				if (auxCounter == null) {
-					statesCounter.put(curState, 1);
+					statesCounter.put(curState, (long) 1);
 				} else {
-					statesCounter.put(curState, auxCounter + 1);
+					statesCounter.put(curState, (long) (auxCounter + 1));
 				}
 				// log(statesCounter);
 

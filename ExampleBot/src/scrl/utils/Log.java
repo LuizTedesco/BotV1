@@ -47,7 +47,7 @@ public class Log {
 		}
 	}
 
-	public void endGame(Map<State, Integer> statesCounter) {
+	public void endGame(Map<State, Long> statesCounter) {
 		if (printer) {
 			FileUtils.policyToFile();
 			FileUtils.qTableToFile();
