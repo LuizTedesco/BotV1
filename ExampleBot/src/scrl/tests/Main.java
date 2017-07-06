@@ -1,5 +1,10 @@
 package scrl.tests;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +25,7 @@ import scrl.utils.Log;
 
 public class Main extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 1000;
+	public static final int MAX_GAMES = 1;
 
 	public static int match = 0;
 
@@ -31,7 +36,7 @@ public class Main extends DefaultBWListener {
 
 	private Map<Unit, StateAction> units_running = new ConcurrentHashMap<>();
 	private Map<String, Integer> counters = new HashMap<>();
-	public static Map<State, Integer> statesCounter = new HashMap<>();
+	public static Map<State, Integer> statesCounter;
 
 	public void run() {
 		mirror.getModule().setEventListener(this);
@@ -49,10 +54,26 @@ public class Main extends DefaultBWListener {
 		game.setGUI(false);
 		game.setLocalSpeed(0);
 
+		statesCounter = deserializeStates();
+
 		rl = new SCRL();
 		log("match N: " + match);
 
 		rl.init(match);
+	}
+
+	private Map<State, Integer> deserializeStates() {
+		Map<State, Integer> map = null;
+		try {
+			FileInputStream fis = new FileInputStream("states.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			map = (HashMap) ois.readObject();
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException ioe) {
+			map = new HashMap<>();
+		}
+		return map;
 	}
 
 	@Override
@@ -103,6 +124,7 @@ public class Main extends DefaultBWListener {
 
 	@Override
 	public void onEnd(boolean isWinner) {
+		statesSerialize();
 		rl.end();
 		match++;
 
@@ -119,9 +141,21 @@ public class Main extends DefaultBWListener {
 				for (String counterName : counters.keySet()) {
 					log(counterName + ": " + counters.get(counterName));
 				}
-				Log.getInstance().endGame(statesCounter);
 			}
+			Log.getInstance().endGame(statesCounter);
 			System.exit(0);
+		}
+	}
+
+	private void statesSerialize() {
+		try {
+			FileOutputStream fos = new FileOutputStream("states.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(statesCounter);
+			oos.close();
+			fos.close();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
 	}
 
@@ -150,15 +184,15 @@ public class Main extends DefaultBWListener {
 
 		List<Unit> units = me.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE);
 		for (Unit unit : units) {
-			if(unit.exists()){
+			if (unit.exists()) {
 				if (unit.getPlayer().isAlly(self)) {
 					contHpAlliesLife += unit.getHitPoints();
 					numberOfAlliesUnitsNearby++;
 				} else if (unit.getPlayer().isEnemy(self)) {
 					contHpEnemyLife += unit.getHitPoints();
 					numberOfEnemiesUnitsNearby++;
-					distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit ? me.getDistance(unit)
-							: distanceToClosestEnemyUnit;
+					distanceToClosestEnemyUnit = me.getDistance(unit) < distanceToClosestEnemyUnit
+							? me.getDistance(unit) : distanceToClosestEnemyUnit;
 				}
 			}
 		}

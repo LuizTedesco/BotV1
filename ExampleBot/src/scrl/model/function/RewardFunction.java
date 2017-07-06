@@ -34,14 +34,15 @@ public class RewardFunction {
 			if (noEnemiesNearby) {
 				return -DEFAULT_REWARD;
 			} else {
-				diffAlliesUnits = (state.getNumberOfAlliesUnitsNearby().getValue() - next.getNumberOfAlliesUnitsNearby().getValue());
-				diffEnemyUnits = (state.getNumberOfEnemiesUnitsNearby().getValue() - next.getNumberOfEnemiesUnitsNearby().getValue());
-				if(diffAlliesUnits>0 || diffEnemyUnits<0)
-				{ 
-					return hpDiff(state, next);
-				}else{
-					return -hpDiff(state, next);
+				if(state.getHpFromNearbyEnemies().getValue() > (1.5*state.getHpFromNearbyAllies().getValue()))
+				{
+					return -DEFAULT_REWARD;
 				}
+				else
+				{
+					return DEFAULT_REWARD;
+				}
+
 			}
 		}
 		return -DEFAULT_REWARD;
