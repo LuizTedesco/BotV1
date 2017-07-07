@@ -1,5 +1,6 @@
 package scrl.model.actions;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -26,10 +27,29 @@ public class Explore extends Action implements java.io.Serializable {
 
 			exploreLocation = new bwapi.Position(unit.getPosition().getX() + (aux1),
 					unit.getPosition().getY() + (aux2));
-			if (exploreLocation.isValid()) {
+			if (exploreLocation.isValid() && willUnitsBeKeptClose(game, unit, exploreLocation)) {
 				unit.move(exploreLocation, false);
 			}
-		} while (!exploreLocation.isValid());
+		} while (!exploreLocation.isValid() && !willUnitsBeKeptClose(game, unit, exploreLocation) );
+	}
+	
+	Boolean willUnitsBeKeptClose(Game game, Unit unit, Position exploreLocation){
+		 List<Unit> myUnits = unit.getUnitsInRadius(2*RangeDistance.MARINE_ATTACK_RANGE);
+		 for (Unit unit2 : myUnits) {
+			if(unit2.getID()!=unit.getID())
+			{
+				if(unit2.getDistance(exploreLocation) > RangeDistance.MARINE_ATTACK_RANGE)
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+		}
+		return null;
+		
 	}
 
 	@Override
