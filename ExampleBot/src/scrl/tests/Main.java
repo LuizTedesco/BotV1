@@ -25,7 +25,7 @@ import scrl.utils.Log;
 
 public class Main extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 1;
+	public static final int MAX_GAMES = 1000;
 
 	public static int match = 0;
 
@@ -127,7 +127,6 @@ public class Main extends DefaultBWListener {
 		statesSerialize();
 		rl.end();
 		match++;
-
 		if (isWinner) {
 			inc("winCounter");
 		} else {
@@ -136,7 +135,6 @@ public class Main extends DefaultBWListener {
 
 		if (match == MAX_GAMES) {
 			System.out.println(rl.getLearning().getQTable().getPolicy().toString());
-
 			if (Log.DEBUG) {
 				for (String counterName : counters.keySet()) {
 					log(counterName + ": " + counters.get(counterName));

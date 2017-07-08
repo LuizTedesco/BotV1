@@ -17,39 +17,37 @@ public class Explore extends Action implements java.io.Serializable {
 	@Override
 	public void execute(Game game, Unit unit) {
 		Position exploreLocation;
-		do {
-			int low = -2 * RangeDistance.MARINE_ATTACK_RANGE;
-			int high = 2 * RangeDistance.MARINE_ATTACK_RANGE;
-			int aux1 = generator.nextInt(high - low) + low;
-			int aux2 = generator.nextInt(high - low) + low;
-			game.drawCircleMap(unit.getPosition().getX() + (aux1), unit.getPosition().getY() + (aux2), 15, Color.Blue);
-			game.drawTextMap(unit.getPosition().getX(), unit.getPosition().getY(), "EXPLORE");
-
+		int low;
+		int high;
+		int aux1;
+		int aux2;
+		boolean flag = true;
+		for(int cont = 0; cont<11 && flag; cont++)
+		{
+			low = -2 * RangeDistance.MARINE_ATTACK_RANGE;
+			high = 2 * RangeDistance.MARINE_ATTACK_RANGE;
+			aux1 = generator.nextInt(high - low) + low;
+			aux2 = generator.nextInt(high - low) + low;
 			exploreLocation = new bwapi.Position(unit.getPosition().getX() + (aux1),
 					unit.getPosition().getY() + (aux2));
 			if (exploreLocation.isValid() && willUnitsBeKeptClose(game, unit, exploreLocation)) {
 				unit.move(exploreLocation, false);
+				flag = false;
 			}
-		} while (!exploreLocation.isValid() && !willUnitsBeKeptClose(game, unit, exploreLocation) );
+		}
 	}
 	
 	Boolean willUnitsBeKeptClose(Game game, Unit unit, Position exploreLocation){
 		 List<Unit> myUnits = unit.getUnitsInRadius(2*RangeDistance.MARINE_ATTACK_RANGE);
+		 game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 2*RangeDistance.MARINE_ATTACK_RANGE, Color.Blue);
 		 for (Unit unit2 : myUnits) {
 			if(unit2.getID()!=unit.getID())
 			{
-				if(unit2.getDistance(exploreLocation) > RangeDistance.MARINE_ATTACK_RANGE)
-				{
-					return false;
-				}
-				else
-				{
-					return true;
-				}
+				if(unit2.getDistance(exploreLocation) > RangeDistance.MARINE_ATTACK_RANGE){return false;}
+				else{return true;}
 			}
 		}
-		return null;
-		
+		return true; // no nearbyAlliedUnits
 	}
 
 	@Override
