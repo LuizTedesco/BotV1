@@ -21,8 +21,8 @@ public class SCRL implements Serializable {
 
 	public SCRL() {
 		model = new SCMDP();
-		learning = new QLearning(model);
-		//learning = new DynaQ(model);
+		//learning = new QLearning(model);
+		learning = new DynaQ(model);
 		actionChooser = new EGreedyActionChooser(learning.getQTable());
 	}
 

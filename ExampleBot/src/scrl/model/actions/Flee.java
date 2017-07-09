@@ -16,9 +16,7 @@ public class Flee extends Action implements java.io.Serializable {
 
 	public void execute(Game game, Unit unit) {
 		Position safePlace = getSaferPlace(game, unit);
-		if (safePlace.isValid() && unit.exists()) {
-			unit.move(safePlace);
-		}
+		if (unit.exists()) {unit.move(safePlace);}
 	}
 
 	private Position getSaferPlace(Game game, Unit unit) {
@@ -56,8 +54,8 @@ public class Flee extends Action implements java.io.Serializable {
 			}
 		}
 
-		int low = -RangeDistance.MARINE_ATTACK_RANGE;
-		int high = RangeDistance.MARINE_ATTACK_RANGE;
+		int low = -2*RangeDistance.MARINE_ATTACK_RANGE;
+		int high = 2*RangeDistance.MARINE_ATTACK_RANGE;
 		int aux1;
 		int aux2;
 		Position safePlace = null;
@@ -67,6 +65,7 @@ public class Flee extends Action implements java.io.Serializable {
 			aux2 = generator.nextInt(high - low) + low;
 
 			safePlace = new bwapi.Position(myUnitX + aux1, myUnitY + aux2);
+			
 			if (numberofEnemiesOnUpperRight > numberofEnemiesOnUpperLeft
 					|| numberofEnemiesOnLowerRight > numberofEnemiesOnLowerLeft) {
 				// esquerda
@@ -96,10 +95,10 @@ public class Flee extends Action implements java.io.Serializable {
 							myUnitY - (int) (dist / numberOfEnemyUnits));
 				}
 			}
-			if(willUnitsBeKeptClose(game, unit, safePlace))
+			
+			if(willUnitsBeKeptClose(game, unit, safePlace) && safePlace.isValid())
 				return safePlace;
 		}
-		System.out.println("Não entra aqui com Null por favor: "+ safePlace);
 		return safePlace;
 	}
 
