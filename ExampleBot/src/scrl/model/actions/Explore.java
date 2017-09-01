@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import bwapi.Color;
 import bwapi.Game;
 import bwapi.Position;
 import bwapi.Unit;
@@ -16,38 +15,113 @@ public class Explore extends Action implements java.io.Serializable {
 
 	@Override
 	public void execute(Game game, Unit unit) {
-		Position exploreLocation;
-		int low;
-		int high;
-		int aux1;
-		int aux2;
-		boolean flag = true;
-		for(int cont = 0; cont<11 && flag; cont++)
-		{
-			low = -2 * RangeDistance.MARINE_ATTACK_RANGE;
-			high = 2 * RangeDistance.MARINE_ATTACK_RANGE;
-			aux1 = generator.nextInt(high - low) + low;
-			aux2 = generator.nextInt(high - low) + low;
-			exploreLocation = new bwapi.Position(unit.getPosition().getX() + (aux1),
-					unit.getPosition().getY() + (aux2));
-			if (exploreLocation.isValid() && willUnitsBeKeptClose(game, unit, exploreLocation)) {
-				unit.move(exploreLocation, false);
-				flag = false;
-			}
+		Position exploreLocation = getExploreLocation(game, unit);
+		if (unit.exists()) {
+			unit.move(exploreLocation, false);
 		}
 	}
-	
-	Boolean willUnitsBeKeptClose(Game game, Unit unit, Position exploreLocation){
-		 List<Unit> myUnits = unit.getUnitsInRadius(2*RangeDistance.MARINE_ATTACK_RANGE);
-		 game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 2*RangeDistance.MARINE_ATTACK_RANGE, Color.Blue);
-		 for (Unit unit2 : myUnits) {
-			if(unit2.getID()!=unit.getID())
-			{
-				if(unit2.getDistance(exploreLocation) > RangeDistance.MARINE_ATTACK_RANGE){return false;}
-				else{return true;}
+
+	private Position getExploreLocation(Game game, Unit unit) {
+		Position exploreLocation = null;
+		int myUnitX = unit.getPosition().getX();
+		int myUnitY = unit.getPosition().getY();
+		int numberofAlliedUnitsOnUpperRight = 0;
+		int numberofAlliedUnitsOnLowerRight = 0;
+		int numberofAlliedUnitsOnUpperLeft = 0;
+		int numberofAlliedUnitsOnLowerLeft = 0;
+		int numberOfAlliedUnits = 0;
+		int alliedUnitX = 0;
+		int alliedUnitY = 0;
+		double dist = 0.0;
+
+		for (Unit unitToVerify : unit.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE)) {
+			if (unitToVerify.exists()) {
+				if (unitToVerify.getPlayer().isAlly(game.self())) {
+					numberOfAlliedUnits++;
+					alliedUnitX = unitToVerify.getPosition().getX();
+					alliedUnitY = unitToVerify.getPosition().getY();
+					dist += unit.getDistance(unitToVerify);
+					if (alliedUnitX > myUnitX) {
+						if (alliedUnitY > myUnitY) {
+							numberofAlliedUnitsOnUpperRight++;
+						} else {
+							numberofAlliedUnitsOnLowerRight++;
+						}
+					} else {
+						if (alliedUnitY > myUnitY) {
+							numberofAlliedUnitsOnUpperLeft++;
+						} else {
+							numberofAlliedUnitsOnLowerLeft++;
+						}
+					}
+				}
 			}
 		}
-		return true; // no nearbyAlliedUnits
+
+		int low = - RangeDistance.MARINE_ATTACK_RANGE;
+		int high =  RangeDistance.MARINE_ATTACK_RANGE;
+		int aux1;
+		int aux2;
+		for(int cont = 0; cont<11; cont++)
+		{
+			aux1 = generator.nextInt(high - low) + low;
+			aux2 = generator.nextInt(high - low) + low;
+
+			exploreLocation = new bwapi.Position(myUnitX + aux1, myUnitY + aux2);
+			
+			if (numberofAlliedUnitsOnUpperRight > numberofAlliedUnitsOnUpperLeft || numberofAlliedUnitsOnLowerRight > numberofAlliedUnitsOnLowerLeft) {
+				// Direita
+				if (numberofAlliedUnitsOnLowerLeft > numberofAlliedUnitsOnUpperLeft || numberofAlliedUnitsOnLowerRight > numberofAlliedUnitsOnUpperRight) {
+					// Baixo
+//					exploreLocation = new bwapi.Position(myUnitX + (int) (dist / numberOfAlliedUnits), myUnitY - (int) (dist / numberOfAlliedUnits));
+					exploreLocation = new bwapi.Position(myUnitX + (int) (aux1), myUnitY - (int) (aux2));
+				} else if (numberofAlliedUnitsOnUpperLeft > numberofAlliedUnitsOnLowerLeft || numberofAlliedUnitsOnUpperRight > numberofAlliedUnitsOnLowerRight) {
+					// Cima
+//					exploreLocation = new bwapi.Position(myUnitX + (int) (dist / numberOfAlliedUnits), myUnitY + (int) (dist / numberOfAlliedUnits));
+					exploreLocation = new bwapi.Position(myUnitX + (int) (aux1), myUnitY + (int) (aux2));
+				}
+				
+				
+			} else if (numberofAlliedUnitsOnUpperLeft > numberofAlliedUnitsOnUpperRight || numberofAlliedUnitsOnLowerLeft > numberofAlliedUnitsOnLowerRight) {
+				// esquerda
+				if (numberofAlliedUnitsOnLowerLeft > numberofAlliedUnitsOnUpperLeft || numberofAlliedUnitsOnLowerRight > numberofAlliedUnitsOnUpperRight) {
+					// baixo
+//					exploreLocation = new bwapi.Position(myUnitX - (int) (dist / numberOfAlliedUnits), myUnitY - (int) (dist / numberOfAlliedUnits));
+					exploreLocation = new bwapi.Position(myUnitX - (int) (aux1), myUnitY - (int) (aux2));
+				} else if (numberofAlliedUnitsOnUpperLeft > numberofAlliedUnitsOnLowerLeft || numberofAlliedUnitsOnUpperRight > numberofAlliedUnitsOnLowerRight) {
+					// cima
+//					exploreLocation = new bwapi.Position(myUnitX - (int) (dist / numberOfAlliedUnits), myUnitY + (int) (dist / numberOfAlliedUnits));
+					exploreLocation = new bwapi.Position(myUnitX - (int) (aux1), myUnitY + (int) (aux2));
+				}
+			}
+			
+			if(exploreLocation.isValid())
+				return exploreLocation;
+		}
+		return exploreLocation;
+	}
+
+	Boolean willUnitsBeKeptClose(Game game, Unit unit, Position exploreLocation) {
+		List<Unit> unitsIn3Range = unit.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE);
+		int cont = 0;
+		Integer distSum = 0;
+		for (Unit unit2 : unitsIn3Range) {
+			if (unit2.exists()) {
+				if (unit2.getPlayer().isAlly(game.self())) {
+					if (unit2.getID() != unit.getID()) {
+						if (unit2.getDistance(exploreLocation) <= 3 * RangeDistance.MARINE_ATTACK_RANGE) {
+							cont++;
+							distSum += unit2.getDistance(exploreLocation);
+						}
+					}
+				}
+
+			}
+		}
+		if (distSum / cont <= 3 * RangeDistance.MARINE_ATTACK_RANGE) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import bwapi.Color;
 import bwapi.Game;
 import bwapi.Position;
 import bwapi.Unit;
@@ -16,7 +15,7 @@ public class Flee extends Action implements java.io.Serializable {
 
 	public void execute(Game game, Unit unit) {
 		Position safePlace = getSaferPlace(game, unit);
-		if (unit.exists()) {unit.move(safePlace);}
+		if (unit.exists()) {unit.move(safePlace,false);}
 	}
 
 	private Position getSaferPlace(Game game, Unit unit) {
@@ -32,30 +31,32 @@ public class Flee extends Action implements java.io.Serializable {
 		int numberOfEnemyUnits;
 		numberOfEnemyUnits = 0;
 
-		for (Unit enemyUnit : unit.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE)) {
-			if (enemyUnit.exists()) {
-				numberOfEnemyUnits++;
-				enemyX = enemyUnit.getPosition().getX();
-				enemyY = enemyUnit.getPosition().getY();
-				dist += unit.getDistance(enemyUnit);
-				if (enemyX > myUnitX) {
-					if (enemyY > myUnitY) {
-						numberofEnemiesOnUpperRight++;
-					} else {
-						numberofEnemiesOnLowerRight++;
+		for (Unit unitToVerify : unit.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE)) {
+				if (unitToVerify.exists()) {
+					if (!unitToVerify.getPlayer().isAlly(game.self())) {
+						numberOfEnemyUnits++;
+						enemyX = unitToVerify.getPosition().getX();
+						enemyY = unitToVerify.getPosition().getY();
+						dist += unit.getDistance(unitToVerify);
+						if (enemyX > myUnitX) {
+							if (enemyY > myUnitY) {
+								numberofEnemiesOnUpperRight++;
+							} else {
+								numberofEnemiesOnLowerRight++;
+							}
+						} else {
+							if (enemyY > myUnitY) {
+								numberofEnemiesOnUpperLeft++;
+							} else {
+								numberofEnemiesOnLowerLeft++;
+							}
+						}
 					}
-				} else {
-					if (enemyY > myUnitY) {
-						numberofEnemiesOnUpperLeft++;
-					} else {
-						numberofEnemiesOnLowerLeft++;
-					}
-				}
 			}
 		}
 
-		int low = -2*RangeDistance.MARINE_ATTACK_RANGE;
-		int high = 2*RangeDistance.MARINE_ATTACK_RANGE;
+		int low = -4 *RangeDistance.MARINE_ATTACK_RANGE;
+		int high = 4 *RangeDistance.MARINE_ATTACK_RANGE;
 		int aux1;
 		int aux2;
 		Position safePlace = null;
@@ -96,26 +97,38 @@ public class Flee extends Action implements java.io.Serializable {
 				}
 			}
 			
-			if(willUnitsBeKeptClose(game, unit, safePlace) && safePlace.isValid())
+//			if(willUnitsBeKeptClose(game, unit, safePlace) && safePlace.isValid())
+			if(safePlace.isValid())
 				return safePlace;
 		}
 		return safePlace;
 	}
 
 	Boolean willUnitsBeKeptClose(Game game, Unit unit, Position safePlace) {
-		List<Unit> myUnits = unit.getUnitsInRadius(2 * RangeDistance.MARINE_ATTACK_RANGE);
-		game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 2 * RangeDistance.MARINE_ATTACK_RANGE,
-				Color.Blue);
-		for (Unit unit2 : myUnits) {
-			if (unit2.getID() != unit.getID()) {
-				if (unit2.getDistance(safePlace) > RangeDistance.MARINE_ATTACK_RANGE) {
-					return false;
-				} else {
-					return true;
+		List<Unit> unitsIn3Range = unit.getUnitsInRadius(3*RangeDistance.MARINE_ATTACK_RANGE);
+		//List<Unit> myUnits = unit.getUnitsInRadius(2 * RangeDistance.MARINE_ATTACK_RANGE);
+//		game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 2 * RangeDistance.MARINE_ATTACK_RANGE,
+//				Color.Blue);
+		int cont = 0;
+		int distSum = 0;
+		for (Unit unit2 : unitsIn3Range) {
+			if (unit2.exists()) {
+				if (unit2.getPlayer().isAlly(game.self())) {
+					if (unit2.getID() != unit.getID()) {
+						if(unit2.getDistance(safePlace) <= 3 *RangeDistance.MARINE_ATTACK_RANGE)
+						{
+							cont++;
+							distSum+=unit2.getDistance(safePlace);
+						}
+					}
 				}
 			}
 		}
-		return true; // no nearbyAlliedUnits
+		if(distSum / cont <= 3*RangeDistance.MARINE_ATTACK_RANGE)
+		 {
+			 return true;
+		 }
+		return false;
 	}
 
 	@Override

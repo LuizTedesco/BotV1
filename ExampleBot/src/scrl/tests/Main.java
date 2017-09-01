@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import bwapi.Color;
 import bwapi.DefaultBWListener;
 import bwapi.Game;
 import bwapi.Mirror;
@@ -25,7 +26,7 @@ import scrl.utils.Log;
 
 public class Main extends DefaultBWListener {
 
-	public static final int MAX_GAMES = 500; //2500 + 1000
+	public static final int MAX_GAMES = 1; 
 
 	public static int match = 0;
 
@@ -51,8 +52,8 @@ public class Main extends DefaultBWListener {
 		BWTA.readMap();
 		BWTA.analyze();
 
-		game.setGUI(false);
-		game.setLocalSpeed(0);
+//		game.setGUI(false);
+		game.setLocalSpeed(18);
 
 		statesCounter = deserializeStates();
 
@@ -79,6 +80,9 @@ public class Main extends DefaultBWListener {
 	@Override
 	public void onFrame() {
 		for (Unit unit : self.getUnits()) {
+			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), RangeDistance.MARINE_ATTACK_RANGE, Color.Red);
+			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 2 * RangeDistance.MARINE_ATTACK_RANGE, Color.Yellow);
+			game.drawCircleMap(unit.getPosition().getX(), unit.getPosition().getY(), 3 * RangeDistance.MARINE_ATTACK_RANGE, Color.Blue);
 			if (isAlive_Idle(unit)) {
 				// acabou de terminar de executar --> atualizar estado
 				if (units_running.containsKey(unit)) {
@@ -134,11 +138,8 @@ public class Main extends DefaultBWListener {
 		}
 
 		if (match == MAX_GAMES) {
-			System.out.println(rl.getLearning().getQTable().getPolicy().toString());
-			if (Log.DEBUG) {
-				for (String counterName : counters.keySet()) {
-					log(counterName + ": " + counters.get(counterName));
-				}
+			for (String counterName : counters.keySet()) {
+				System.out.println(counterName + ": " + counters.get(counterName));
 			}
 			Log.getInstance().endGame(statesCounter);
 			System.exit(0);
