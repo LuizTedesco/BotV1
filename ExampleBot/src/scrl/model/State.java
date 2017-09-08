@@ -9,14 +9,16 @@ import scrl.model.range.RangeHP;
 import scrl.model.range.RangeUnits;
 import scrl.model.range.Units;
 
+// representacao do estado do ambiente
 public class State implements Serializable {
 	private static final long serialVersionUID = 7588180712283449263L;
-	private HP hpFromNearbyEnemies;
+	private HP hpFromNearbyEnemies; 
 	private Units numberOfEnemiesUnitsNearby;
 	private HP hpFromNearbyAllies;
 	private Units numberOfAlliesUnitsNearby;
 	private Distance distanceFromClosestEnemy;
 
+	// construtor para quando a informacao vem em Objetos ja certos
 	public State(HP hpFromNearbyEnemies, Units numberOfEnemiesUnitsNearby, HP hpFromNearbyAllies,
 			Units numberOfAlliesUnitsNearby, Distance minDistanceFromEnemy) {
 		this.hpFromNearbyEnemies = hpFromNearbyEnemies;
@@ -26,6 +28,7 @@ public class State implements Serializable {
 		this.distanceFromClosestEnemy = minDistanceFromEnemy;
 	}
 
+	// construtor para quando a informacao vem em valores inteiros e doubles
 	public State(double hpFromNearbyEnemies, int numberOfEnemiesUnitsNearby, double hpFromNearbyAllies,
 			int numberOfAlliesUnitsNearby, int minDistanceFromEnemy) {
 		this.hpFromNearbyEnemies = new HP(hpFromNearbyEnemies);
@@ -35,6 +38,7 @@ public class State implements Serializable {
 		this.distanceFromClosestEnemy = new Distance(minDistanceFromEnemy);
 	}
 
+	// construtor para quando a informacao vem em RANGES
 	public State(RangeHP hpFromNearbyEnemies, RangeUnits numberOfEnemiesUnitsNearby, RangeHP hpFromNearbyAllies,
 			RangeUnits numberOfAlliesUnitsNearby, RangeDistance minDistanceFromEnemy) {
 		this.hpFromNearbyEnemies = new HP(hpFromNearbyEnemies);

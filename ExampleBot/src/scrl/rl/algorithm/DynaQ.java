@@ -49,7 +49,9 @@ public class DynaQ extends QLearning {
 				// https://stackoverflow.com/questions/929554/is-there-a-way-to-get-the-value-of-a-hashmap-randomly-in-java
 				j = generator.nextInt(statesList.size());
 
+				// Lista os estados que já foram visitados durante a execucao
 				State randomObservedState = statesList.get(j);
+				// lista as acões já realizada
 				List<Action> usedActions = getUsedActions(validActions, q.get(randomObservedState));
 
 				int var = generator.nextInt(usedActions.size());
@@ -60,6 +62,7 @@ public class DynaQ extends QLearning {
 				double rewardH = model.getReward();
 
 				double newQValueH = super.computeQ(randomObservedState, nextH, randomUsedAction, rewardH);
+				// atualiza a tabela baseada na alucinacao
 				super.updateQTable(randomObservedState, nextH, randomUsedAction, newQValueH);
 			}
 		}

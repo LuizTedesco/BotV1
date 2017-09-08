@@ -13,14 +13,17 @@ public class Explore extends Action implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Random generator = new Random();
 
+	
+	// Executor da acao
 	@Override
 	public void execute(Game game, Unit unit) {
-		Position exploreLocation = getExploreLocation(game, unit);
+		Position exploreLocation = getExploreLocation(game, unit); // escolhe lugar para exploração
 		if (unit.exists()) {
 			unit.move(exploreLocation, false);
 		}
 	}
 
+	//( OBJETIVA-SE MANTER CLUSTERS de UNIDADES ALIADAS)
 	private Position getExploreLocation(Game game, Unit unit) {
 		Position exploreLocation = null;
 		int myUnitX = unit.getPosition().getX();
@@ -34,13 +37,20 @@ public class Explore extends Action implements java.io.Serializable {
 		int alliedUnitY = 0;
 		double dist = 0.0;
 
+		// lista as unidades em 3 Range
 		for (Unit unitToVerify : unit.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE)) {
 			if (unitToVerify.exists()) {
+				// verifica se a unidade é aliada 
 				if (unitToVerify.getPlayer().isAlly(game.self())) {
 					numberOfAlliedUnits++;
+					// pego X e Y da unidade aliada
 					alliedUnitX = unitToVerify.getPosition().getX();
 					alliedUnitY = unitToVerify.getPosition().getY();
 					dist += unit.getDistance(unitToVerify);
+					
+					// Cria 4 quadrantes, tendo a unidade como centro,
+					// Quadrantes são: 
+					// Direito Cima, Direito Baixo e espelho
 					if (alliedUnitX > myUnitX) {
 						if (alliedUnitY > myUnitY) {
 							numberofAlliedUnitsOnUpperRight++;
@@ -62,21 +72,32 @@ public class Explore extends Action implements java.io.Serializable {
 		int high =  RangeDistance.MARINE_ATTACK_RANGE;
 		int aux1;
 		int aux2;
+		
+		// Faço até 10 tentativas de encontrar um bom lugar para explorar
 		for(int cont = 0; cont<11; cont++)
 		{
+
+			// gera valores aleatórios entre o high e low
 			aux1 = generator.nextInt(high - low) + low;
 			aux2 = generator.nextInt(high - low) + low;
 
+
+			// cria a variavel de posicao do mapa com esses valores aleatórios
 			exploreLocation = new bwapi.Position(myUnitX + aux1, myUnitY + aux2);
 			
+			// tenta criar a variavel de posicao do mapa com valores baseados na quantidade de unidades nos quadrantes criados anteriormente
+			// Verifica onde tem mais unidades aliadas, na direita ou na esquerda
 			if (numberofAlliedUnitsOnUpperRight > numberofAlliedUnitsOnUpperLeft || numberofAlliedUnitsOnLowerRight > numberofAlliedUnitsOnLowerLeft) {
 				// Direita
+				// verifica se tem mais unidades aliadas para cima ou para baixo
 				if (numberofAlliedUnitsOnLowerLeft > numberofAlliedUnitsOnUpperLeft || numberofAlliedUnitsOnLowerRight > numberofAlliedUnitsOnUpperRight) {
 					// Baixo
 //					exploreLocation = new bwapi.Position(myUnitX + (int) (dist / numberOfAlliedUnits), myUnitY - (int) (dist / numberOfAlliedUnits));
+					// desloca a unidade em valores aleatórios em até 1 RANGE
 					exploreLocation = new bwapi.Position(myUnitX + (int) (aux1), myUnitY - (int) (aux2));
 				} else if (numberofAlliedUnitsOnUpperLeft > numberofAlliedUnitsOnLowerLeft || numberofAlliedUnitsOnUpperRight > numberofAlliedUnitsOnLowerRight) {
 					// Cima
+					// desloca a unidade em valores aleatórios em até 1 RANGE
 //					exploreLocation = new bwapi.Position(myUnitX + (int) (dist / numberOfAlliedUnits), myUnitY + (int) (dist / numberOfAlliedUnits));
 					exploreLocation = new bwapi.Position(myUnitX + (int) (aux1), myUnitY + (int) (aux2));
 				}
@@ -87,20 +108,27 @@ public class Explore extends Action implements java.io.Serializable {
 				if (numberofAlliedUnitsOnLowerLeft > numberofAlliedUnitsOnUpperLeft || numberofAlliedUnitsOnLowerRight > numberofAlliedUnitsOnUpperRight) {
 					// baixo
 //					exploreLocation = new bwapi.Position(myUnitX - (int) (dist / numberOfAlliedUnits), myUnitY - (int) (dist / numberOfAlliedUnits));
+					// desloca a unidade em valores aleatórios em até 1 RANGE
 					exploreLocation = new bwapi.Position(myUnitX - (int) (aux1), myUnitY - (int) (aux2));
 				} else if (numberofAlliedUnitsOnUpperLeft > numberofAlliedUnitsOnLowerLeft || numberofAlliedUnitsOnUpperRight > numberofAlliedUnitsOnLowerRight) {
 					// cima
 //					exploreLocation = new bwapi.Position(myUnitX - (int) (dist / numberOfAlliedUnits), myUnitY + (int) (dist / numberOfAlliedUnits));
+					// desloca a unidade em valores aleatórios em até 1 RANGE
 					exploreLocation = new bwapi.Position(myUnitX - (int) (aux1), myUnitY + (int) (aux2));
 				}
 			}
 			
+			// verifica se o local é um local valido na visao do analisador de terreno do jogo.
 			if(exploreLocation.isValid())
 				return exploreLocation;
 		}
+		// se cair aqui, retorna NULL
+		//TODO
+		// AVALIAR
 		return exploreLocation;
 	}
 
+	// fora de uso, Objetivo Clusterizar a acao de explorar
 	Boolean willUnitsBeKeptClose(Game game, Unit unit, Position exploreLocation) {
 		List<Unit> unitsIn3Range = unit.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE);
 		int cont = 0;

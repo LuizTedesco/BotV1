@@ -20,6 +20,7 @@ public class EGreedyActionChooser implements ActionChooser {
 	public Action getAction(State state) {
 		Action action = null;
 		double rnd = rand.nextDouble();
+		// escolhe de forma randomica entre tentar nova acao ou usar a melhor acao atualmente conhecida
 		if (rnd < epsilon) {
 			List<Action> actions = (List<Action>) SCMDP.getValidActions();
 			action = actions.get(rand.nextInt(actions.size()));

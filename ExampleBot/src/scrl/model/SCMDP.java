@@ -18,10 +18,11 @@ public class SCMDP {
 	Set<State> states;
 
 	public SCMDP() {
-		actions = (List<Action>) getValidActions();
+		actions = (List<Action>) getValidActions(); // invoca a criacao das acoes possiveis
 		states = createStates();
 	}
 
+	// cria o conjunto de estados da representacao do mundo
 	public static final Set<State> createStates() {
 		final Set<State> sts = new HashSet<State>();
 		for (RangeHP mediumHpFromNearbyEnemies : RangeHP.values()) {
@@ -40,6 +41,7 @@ public class SCMDP {
 		return sts;
 	}
 
+	// cria a relacao de acoes possiveis
 	public static final List<? extends Action> getValidActions() {
 		return Arrays.asList(new Explore(), new Flee(), new Attack());
 	}

@@ -2,11 +2,8 @@ package scrl.model.range;
 
 public enum RangeDistance {
 	CLOSE, MEDIUM, FAR;
-	public static final int MARINE_ATTACK_RANGE = 75;
+	public static final int MARINE_ATTACK_RANGE = 75; // VALOR Avaliado por olho
 
-	// http://vjurenka.github.io/BWMirror/javadoc/bwapi/UnitType.html#seekRange()
-	// http://wiki.teamliquid.net/starcraft/Distance#Range
-	// 128 (32*4)
 	public static RangeDistance get(int distanceToClosestEnemyUnit) {
 		if (distanceToClosestEnemyUnit <= MARINE_ATTACK_RANGE)
 			return CLOSE;

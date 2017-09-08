@@ -6,6 +6,7 @@ public class Model {
 	private Double reward;
 	
 	
+	// estrutura de dados utilizada para calculo 
 	public Model(State nextState, Double reward) {
 		super();
 		this.nextState = nextState;

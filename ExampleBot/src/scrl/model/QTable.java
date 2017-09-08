@@ -10,6 +10,7 @@ public class QTable extends ConcurrentHashMap<State, Map<Action, Double>> {
 
 	private static final long serialVersionUID = 3826717973754083254L;
 
+	// cria a tabela Q
 	public QTable(Collection<State> states, Collection<Action> Action) {
 		super(states.size());
 		for (State state : states) {
@@ -20,6 +21,7 @@ public class QTable extends ConcurrentHashMap<State, Map<Action, Double>> {
 		}
 	}
 
+	// recupera qual a melhor acao na tabela para um dado estado
 	public Action getMaxAction(State pState) {
 		Map<Action, Double> map = this.get(pState);
 		double max = Double.NEGATIVE_INFINITY;
@@ -32,7 +34,7 @@ public class QTable extends ConcurrentHashMap<State, Map<Action, Double>> {
 		}
 		return ret;
 	}
-
+	// recupera qual o maior valor na tabela para um dado estado
 	public double getMax(State pState) {
 		Map<Action, Double> map = this.get(pState);
 		double max = Double.NEGATIVE_INFINITY;
@@ -45,6 +47,7 @@ public class QTable extends ConcurrentHashMap<State, Map<Action, Double>> {
 		return max;
 	}
 
+	// cria uma estrutura contendo a politica otima baseado na tabela atual
 	public Policy getPolicy() {
 		Policy p = new Policy();
 		for (State state : keySet()) {

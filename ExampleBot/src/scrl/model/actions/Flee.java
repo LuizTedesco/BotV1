@@ -14,7 +14,7 @@ public class Flee extends Action implements java.io.Serializable {
 	private Random generator = new Random();
 
 	public void execute(Game game, Unit unit) {
-		Position safePlace = getSaferPlace(game, unit);
+		Position safePlace = getSaferPlace(game, unit); // busca qual seria o local mais seguro para fugir
 		if (unit.exists()) {unit.move(safePlace,false);}
 	}
 
@@ -31,13 +31,19 @@ public class Flee extends Action implements java.io.Serializable {
 		int numberOfEnemyUnits;
 		numberOfEnemyUnits = 0;
 
+		// lista as unidades em 3 Range
 		for (Unit unitToVerify : unit.getUnitsInRadius(3 * RangeDistance.MARINE_ATTACK_RANGE)) {
 				if (unitToVerify.exists()) {
+					// verifica se a unidade é inimiga
 					if (!unitToVerify.getPlayer().isAlly(game.self())) {
 						numberOfEnemyUnits++;
+						// pega X e y da unidade inimiga
 						enemyX = unitToVerify.getPosition().getX();
 						enemyY = unitToVerify.getPosition().getY();
 						dist += unit.getDistance(unitToVerify);
+						// Cria 4 quadrantes, tendo a unidade como centro,
+						// Quadrantes são: 
+						// Direito Cima, Direito Baixo e espelho
 						if (enemyX > myUnitX) {
 							if (enemyY > myUnitY) {
 								numberofEnemiesOnUpperRight++;
@@ -60,21 +66,26 @@ public class Flee extends Action implements java.io.Serializable {
 		int aux1;
 		int aux2;
 		Position safePlace = null;
+		// Faço até 10 tentativas de encontrar um bom lugar para explorar
 		for(int cont = 0; cont<11; cont++)
 		{
+			// gera valores aleatórios entre o high e low
 			aux1 = generator.nextInt(high - low) + low;
 			aux2 = generator.nextInt(high - low) + low;
 
 			safePlace = new bwapi.Position(myUnitX + aux1, myUnitY + aux2);
 			
+			// Verifica onde tem mais unidades Inimigas, na direita ou na esquerda
 			if (numberofEnemiesOnUpperRight > numberofEnemiesOnUpperLeft
 					|| numberofEnemiesOnLowerRight > numberofEnemiesOnLowerLeft) {
 				// esquerda
+				// verifica se tem mais unidades aliadas para cima ou para baixo
 				if (numberofEnemiesOnLowerLeft > numberofEnemiesOnUpperLeft
 						|| numberofEnemiesOnLowerRight > numberofEnemiesOnUpperRight) {
 					// cima
 					safePlace = new bwapi.Position(myUnitX - (int) (dist / numberOfEnemyUnits),
 							myUnitY + (int) (dist / numberOfEnemyUnits));
+					// verifica se tem mais unidades aliadas para cima ou para baixo
 				} else if (numberofEnemiesOnUpperLeft > numberofEnemiesOnLowerLeft
 						|| numberofEnemiesOnUpperRight > numberofEnemiesOnLowerRight) {
 					// baixo
@@ -97,13 +108,14 @@ public class Flee extends Action implements java.io.Serializable {
 				}
 			}
 			
-//			if(willUnitsBeKeptClose(game, unit, safePlace) && safePlace.isValid())
+			// verifica se o local é um local valido na visao do analisador de terreno do jogo.
 			if(safePlace.isValid())
 				return safePlace;
 		}
 		return safePlace;
 	}
 
+	// fora de uso, Objetivo Clusterizar a acao de explorar
 	Boolean willUnitsBeKeptClose(Game game, Unit unit, Position safePlace) {
 		List<Unit> unitsIn3Range = unit.getUnitsInRadius(3*RangeDistance.MARINE_ATTACK_RANGE);
 		//List<Unit> myUnits = unit.getUnitsInRadius(2 * RangeDistance.MARINE_ATTACK_RANGE);

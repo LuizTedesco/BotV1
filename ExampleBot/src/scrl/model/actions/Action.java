@@ -12,7 +12,7 @@ public abstract class Action {
 	public abstract int hashCode();
 
 	@Override
-	public String toString() {
+	public String toString() { // Usado para obter apenas o nome simples da acao, ATTACK, FLEE, EXPLORE
 		return getClass().getSimpleName();
 	}
 

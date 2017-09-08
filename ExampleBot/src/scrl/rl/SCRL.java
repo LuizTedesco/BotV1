@@ -21,23 +21,28 @@ public class SCRL implements Serializable {
 
 	public SCRL() {
 		model = new SCMDP();
+		
+		// duas opcoes de aprendizado dispniveis no momento
 		learning = new QLearning(model);
 		//learning = new DynaQ(model);
-		actionChooser = new EGreedyActionChooser(learning.getQTable());
+		actionChooser = new EGreedyActionChooser(learning.getQTable()); // instancia o objeto que busca a nova acao
 	}
 
+	// deserializa a Q tabela para Marine
 	public void init(int matchNumber) {
 		File f = new File("marineTable.ser");
 		if (f.exists())
 			learning.deserialize();
 	}
 
+	// atualiza a tabela Q
 	public void updateState(Action action, State curState, State newState) {
 		learning.updateQ(curState, newState, action);
 	}
 
+	// seleciona a proxima acao
 	public Action getNextAction(State pState) {
-		return actionChooser.getAction(pState);
+		return actionChooser.getAction(pState); // seleciona a proxima acao
 	}
 
 	public void end() {
